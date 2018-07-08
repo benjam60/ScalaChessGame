@@ -15,8 +15,11 @@ class StepDefinitions extends ScalaDsl with EN {
   }
   //read it in as a datatable b/c the pipes are already there
   Then("^the board should look like$"){ (datatable : DataTable) =>
-    val x = datatable.asMaps(classOf[String], classOf[Any]).asScala.map(_.asScala.toMap).toList
-    println(x.head.get("col1"))
+    //val x = datatable.asMaps(classOf[String], classOf[Any]).asScala.map(_.asScala.toMap).toList
+   // val x = datatable.asList(classOf[String]).asScala.toList
+    val board = CucumberHelperFunctions.convert(datatable)
+    println(board.toString)
+    //println(x.map(row =>row.mkString("")).mkString("\n"))
 
 
 
