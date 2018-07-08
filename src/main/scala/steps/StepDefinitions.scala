@@ -3,7 +3,7 @@ import cucumber.api.scala.{EN, ScalaDsl}
 import java.util.List;
 import cucumber.api.DataTable;
 import org.slf4j.LoggerFactory
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 
 class StepDefinitions extends ScalaDsl with EN {
@@ -15,7 +15,11 @@ class StepDefinitions extends ScalaDsl with EN {
   }
   //read it in as a datatable b/c the pipes are already there
   Then("^the board should look like$"){ (datatable : DataTable) =>
-    val x = datatable.
+    val x = datatable.asMaps(classOf[String], classOf[Any]).asScala.map(_.asScala.toMap).toList
+    println(x.head.get("col1"))
+
+
+
    // val y = x.toList
     //val z = y.map(tr => tr.toString())
  //   println(z.mkString("\n"))
