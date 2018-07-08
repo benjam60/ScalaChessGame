@@ -1,0 +1,25 @@
+Feature: Ensure proper piece movement
+
+  @ExampleFeature
+  Scenario: A piece can be moved on the board and the board's state will update
+    Given a new chess game
+    When a piece is moved and the board looks like
+      | Roo | Kni | Bis | Que | Kin | Bis | Kni | Roo |
+      | Paw |     | Paw | Paw | Paw | Paw | Paw | Paw |
+      |     | Paw |     |     |     |     |     |     |
+      |     |     |     |     |     |     |     |     |
+      |     |     |     |     |     |     |     |     |
+      |     |     |     |     |     |     |     |     |
+      | Paw | Paw | Paw | Paw | Paw | Paw | Paw | Paw |
+      | Roo | Kni | Bis | Kin | Que | Bis | Kni | Roo |
+    Then the board should look like
+      | Roo | Kni | Bis | Que | Kin | Bis | Kni | Roo |
+      | Paw |     | Paw | Paw | Paw | Paw | Paw | Paw |
+      |     | Paw |     |     |     |     |     |     |
+      |     |     |     |     |     |     |     |     |
+      |     |     |     |     |     |     |     |     |
+      |     |     |     |     |     |     |     |     |
+      | Paw | Paw | Paw | Paw | Paw | Paw | Paw | Paw |
+      | Roo | Kni | Bis | Kin | Que | Bis | Kni | Roo |
+
+
