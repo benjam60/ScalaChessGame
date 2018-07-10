@@ -13,6 +13,7 @@ class StepDefinitions extends ScalaDsl with EN {
   }
   Then("^the board should look like$"){ dataTable : DataTable =>
     val board = CucumberHelperFunctions.convert(dataTable)
+    println(runner.chessBoard.toString)
     assert(board.toString == runner.chessBoard.toString)
   }
 

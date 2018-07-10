@@ -19,7 +19,7 @@ import ChessBoardUtilityFunctions.replaceOnBoard
       val pieceName = board(srcX)(srcY)
      // val boardPickedUpPiece = board.take(srcX) ++ List(board(srcX).patch[String, List[String]](srcY, Seq(Space), 1)) ++ board.drop(srcX + 1) //not correct must fix, what srcx - 1 is -1
       //val placedPiece = boardPickedUpPiece.take(destX) ++ List(boardPickedUpPiece(destX).patch[String, List[String]](destY, Seq(pieceName), 1)) ++ boardPickedUpPiece.drop(destX + 1)
-      new ChessBoard(replaceOnBoard(replaceOnBoard(board, srcX, srcY, Space), destX, destY, pieceName))
+      new ChessBoard(replaceOnBoard(replaceOnBoard(board, srcX, srcY, srcX + "," + srcY), destX, destY, pieceName))
     }
 
   }
@@ -34,10 +34,10 @@ object ChessBoardUtilityFunctions {
     val board: List[List[String]] = List(
       List(Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook),
       List.fill(8)(Pawn),
-      List.fill(8)(Space),
-      List.fill(8)(Space),
-      List.fill(8)(Space),
-      List.fill(8)(Space),
+      List.fill(8)(Space).zipWithIndex.map{case(_,i) => 2 + "," + i.toString},
+      List.fill(8)(Space).zipWithIndex.map{case(_,i) => 3 + "," + i.toString},
+      List.fill(8)(Space).zipWithIndex.map{case(_,i) => 4 + "," + i.toString},
+      List.fill(8)(Space).zipWithIndex.map{case(_,i) => 5 + "," + i.toString},
       List.fill(8)(Pawn),
       List(Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook)
     )
