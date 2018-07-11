@@ -7,7 +7,6 @@ Feature: Ensure proper piece movement
       | srcX | srcY | destX | destY |
       | 1    | 1    | 2     | 1     |
       | 6    | 7    | 4     | 7     |
-
     Then the board should look like
       | Roo | Kni | Bis | Que | Kin | Bis | Kni | Roo |
       | Paw | 1,1 | Paw | Paw | Paw | Paw | Paw | Paw |

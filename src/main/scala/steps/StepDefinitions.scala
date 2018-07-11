@@ -1,11 +1,9 @@
 package steps
-import ChessGame.boardPositionShortHands
 import ChessGame.boardPositionShortHands.{destinationCol, destinationRow, sourceCol, sourceRow}
 import cucumber.api.DataTable
 import cucumber.api.scala.{EN, ScalaDsl}
 import org.slf4j.LoggerFactory
-import scala.collection.JavaConverters._
-import CucumberHelperFunctions.convertMoves
+import steps.CucumberHelperFunctions.convertMoves
 
 class StepDefinitions extends ScalaDsl with EN {
   private val log = LoggerFactory.getLogger(classOf[StepDefinitions])
@@ -30,10 +28,6 @@ class StepDefinitions extends ScalaDsl with EN {
       destX = move(destinationRow)
       destY = move(destinationCol)
     } runner.chessBoard = runner.chessBoard.movePiece(srcX, srcY, destX, destY)
-
-    println("New Board-----")
-    println(runner.chessBoard.toString)
-    println("End of new Board ---")
   }
 
 }
