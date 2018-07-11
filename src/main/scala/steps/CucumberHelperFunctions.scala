@@ -1,30 +1,26 @@
 package steps
 
 import ChessGame.ChessBoard
-import ChessGame.ChessPieceDisplayNames.Space
 import cucumber.api.DataTable
-
 import scala.collection.JavaConverters._
-
 object CucumberHelperFunctions {
 
 
   def convert(datatable: DataTable): ChessBoard = {
-    val pieces: List[String] = datatable.asList(classOf[String]).asScala.toList
-    val rowSize = 8
+    val boardCucumberStructure: List[String] = datatable.asList(classOf[String]).asScala.toList
 
-    def formatForBoardConstructor(list: List[String]): List[List[String]] = list match {
-      case Nil => Nil
-      case _ => list.take(rowSize) :: formatForBoardConstructor(list.drop(rowSize))
+    def restructureBoardImpl(list: List[String]): List[List[String]] = {
+      val rowSize = 8
+      list match {
+        case Nil => Nil
+        case _ => list.take(rowSize) :: restructureBoardImpl(list.drop(rowSize))
+      }
     }
 
-    val piecesWithCorrectSpacing: List[String] = pieces.map { piece =>
-      if (piece == "" || piece == " ") Space else piece
-    }
-    new ChessBoard(formatForBoardConstructor(piecesWithCorrectSpacing))
+    new ChessBoard(restructureBoardImpl(boardCucumberStructure))
   }
 
-  def convertMoves(dataTable: DataTable) : List[Map[String, Int]] = {
+  def convertMoves(dataTable: DataTable): List[Map[String, Int]] = {
     dataTable.asMaps(classOf[String], classOf[Int]).asScala.map(_.asScala.toMap).toList
   }
 

@@ -7,16 +7,15 @@ import ChessBoardUtilityFunctions.writeToBoardCell
 
     override def toString: String = boardState.map("| " + _.mkString("|") + " |").mkString("\n")
 
-    def movePiece(srcX : Int, srcY : Int, destX : Int, destY : Int) : ChessBoard = {
-      val pieceValue = board(srcX)(srcY)
-      val erasedLocationName =  srcX + "," + srcY
-      val boardWithErasedSource = writeToBoardCell(board, srcX, srcY, erasedLocationName)
-      new ChessBoard(writeToBoardCell(boardWithErasedSource, destX, destY, pieceValue))
+    def movePiece(sourceXCoordinate : Int, sourceYCoordinate : Int, destXCoord : Int, destYCoord : Int) : ChessBoard = {
+      val pieceValue = board(sourceXCoordinate)(sourceYCoordinate)
+      val erasedLocationName = s"$sourceXCoordinate,$sourceYCoordinate"
+      val boardWithErasedSource = writeToBoardCell(board, sourceXCoordinate, sourceYCoordinate, erasedLocationName)
+      new ChessBoard(writeToBoardCell(boardWithErasedSource, destXCoord, destYCoord, pieceValue))
     }
   }
 
 object ChessBoardUtilityFunctions {
-  val BoardSize = 8
   def writeToBoardCell(board : List[List[String]], xCoord : Int, yCoord : Int, piece : String) : List[List[String]] = {
     val numberOfRowsBeforeEditedRow = xCoord
     val indexOfRowAfterEditedRow = xCoord + 1
@@ -29,10 +28,10 @@ object ChessBoardUtilityFunctions {
     val board: List[List[String]] = List(
       List(Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook),
       List.fill(8)(Pawn),
-      List.fill(8)(Space).zipWithIndex.map{case(_,i) => "2," + i.toString},
-      List.fill(8)(Space).zipWithIndex.map{case(_,i) => "3," + i.toString},
-      List.fill(8)(Space).zipWithIndex.map{case(_,i) => "4," + i.toString},
-      List.fill(8)(Space).zipWithIndex.map{case(_,i) => "5," + i.toString},
+      List.fill(8)(Space).zipWithIndex.map{case(_,i) => s"2,${i.toString}"},
+      List.fill(8)(Space).zipWithIndex.map{case(_,i) => s"3,${i.toString}"},
+      List.fill(8)(Space).zipWithIndex.map{case(_,i) => s"4,${i.toString}"},
+      List.fill(8)(Space).zipWithIndex.map{case(_,i) => s"5,${i.toString}"},
       List.fill(8)(Pawn),
       List(Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook)
     )
