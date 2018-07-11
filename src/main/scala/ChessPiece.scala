@@ -10,4 +10,10 @@ object ChessPieceDisplayNames {
   val Space = "   "
 }
 
+object boardPositionShortHands {
+  val sourceRow = "srcX"
+  val sourceCol = "srcY"
+  val destinationRow = "destX"
+  val destinationCol = "destY"
+}
 

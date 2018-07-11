@@ -24,5 +24,8 @@ object CucumberHelperFunctions {
     new ChessBoard(formatForBoardConstructor(piecesWithCorrectSpacing))
   }
 
+  def convertMoves(dataTable: DataTable) : List[Map[String, Int]] = {
+    dataTable.asMaps(classOf[String], classOf[Int]).asScala.map(_.asScala.toMap).toList
+  }
 
 }

@@ -17,8 +17,6 @@ import ChessBoardUtilityFunctions.replaceOnBoard
       val y = board(srcX).patch[String, List[String]](srcY, Seq(Space), 1)
       val z = board.drop(srcX)
       val pieceName = board(srcX)(srcY)
-     // val boardPickedUpPiece = board.take(srcX) ++ List(board(srcX).patch[String, List[String]](srcY, Seq(Space), 1)) ++ board.drop(srcX + 1) //not correct must fix, what srcx - 1 is -1
-      //val placedPiece = boardPickedUpPiece.take(destX) ++ List(boardPickedUpPiece(destX).patch[String, List[String]](destY, Seq(pieceName), 1)) ++ boardPickedUpPiece.drop(destX + 1)
       new ChessBoard(replaceOnBoard(replaceOnBoard(board, srcX, srcY, srcX + "," + srcY), destX, destY, pieceName))
     }
 
