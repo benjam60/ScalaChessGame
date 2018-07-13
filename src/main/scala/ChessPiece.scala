@@ -11,9 +11,9 @@ object ChessPieceDisplayNames {
 }
 
 object boardPositionShortHands {
-  val sourceRow = "srcX"
-  val sourceCol = "srcY"
-  val destinationRow = "destX"
-  val destinationCol = "destY"
+  val sourceRank = "srcRank"
+  val sourceFile = "srcFile"
+  val destinationRank = "destRank"
+  val destinationFile = "destFile"
 }
 

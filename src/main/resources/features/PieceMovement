@@ -4,9 +4,9 @@ Feature: Ensure proper piece movement
   Scenario: A piece can be moved on the board and the board's state will update
     Given a new chess game
     When the following moves are made
-      | srcX | srcY | destX | destY |
-      | 1    | 1    | 2     | 1     |
-      | 6    | 7    | 4     | 7     |
+      | srcRank | srcFile | destRank | destFile |
+      | 1       | 1       | 2        | 1        |
+      | 6       | 7       | 4        | 7        |
     Then the board should look like
       | Roo | Kni | Bis | Que | Kin | Bis | Kni | Roo |
       | Paw | 1,1 | Paw | Paw | Paw | Paw | Paw | Paw |

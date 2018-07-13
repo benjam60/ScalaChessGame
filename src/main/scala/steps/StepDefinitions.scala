@@ -1,33 +1,32 @@
 package steps
-import ChessGame.boardPositionShortHands.{destinationCol, destinationRow, sourceCol, sourceRow}
+import ChessGame.boardPositionShortHands.{destinationFile, destinationRank, sourceFile, sourceRank}
 import cucumber.api.DataTable
 import cucumber.api.scala.{EN, ScalaDsl}
-import org.slf4j.LoggerFactory
-import steps.CucumberHelperFunctions.convertMoves
+import steps.CucumberHelperFunctions.{convert, convertMoves}
+import ChessGame.{ChessBoard, InitialChessBoardState}
 
 class StepDefinitions extends ScalaDsl with EN {
-  private val log = LoggerFactory.getLogger(classOf[StepDefinitions])
+  //private val log = LoggerFactory.getLogger(classOf[StepDefinitions])
   private val runner = new Runner
 
-  //ChessBoard.feature
   Given("""^a new chess game$"""){ () =>
+    runner.chessBoard = new ChessBoard(InitialChessBoardState.get)
   }
+
   Then("^the board should look like$"){ dataTable : DataTable =>
-    val board = CucumberHelperFunctions.convert(dataTable)
-    println(runner.chessBoard.toString)
+    val board : ChessBoard = convert(dataTable)
     assert(board.toString == runner.chessBoard.toString)
   }
 
-  //PieceMovement.feature
   When("""^the following moves are made$"""){ (moves: DataTable) =>
     val playerMoves : List[Map[String, Int]] = convertMoves(moves)
     for {
       move <- playerMoves
-      srcX = move(sourceRow)
-      srcY = move(sourceCol)
-      destX = move(destinationRow)
-      destY = move(destinationCol)
-    } runner.chessBoard = runner.chessBoard.movePiece(srcX, srcY, destX, destY)
+      srcRank = move(sourceRank)
+      srcFile = move(sourceFile)
+      destRank = move(destinationRank)
+      destFile = move(destinationFile)
+    } runner.chessBoard = runner.chessBoard.movePiece(srcRank, srcFile, destRank, destFile) //TODO: Make monadic and put in for comprehension
   }
 
 }
