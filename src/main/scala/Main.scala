@@ -9,6 +9,11 @@ object Main extends App {
   println("Game Over")
   }
 
+
+object ben extends App {
+  println('A'.toInt)
+}
+
 object gameControlFunctions {
 
   def getPlayerInputAndUpdateBoard(chessboard : ChessBoard, playerNumber : Int) : Unit = {
@@ -27,10 +32,10 @@ object gameControlFunctions {
     }
   }
 
-  def readPieces(input : String) : (Int, Int) = {
+  def readPieces(input : String) : (Int, Char) = {
     val indexOfRankCoordinateInString = 0
     val indexOfFileCoordinateInString = 2
-    (input(indexOfRankCoordinateInString).asDigit, input(indexOfFileCoordinateInString).asDigit)
+    (input(indexOfRankCoordinateInString).asDigit, input(indexOfFileCoordinateInString))
   }
   def askWhichPieceShouldMove(playerNumber : Int) = {
     println("Player " + playerNumber + ", what piece would you like to move?")

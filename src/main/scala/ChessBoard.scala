@@ -14,7 +14,7 @@ import ChessBoardUtilityFunctions.{writeToBoardCell, addSpacing, formatRow}
       }.mkString("")
     }
 
-    def movePiece(sourceFile : Int, sourceRank : Int, destFile : Int, destRank : Int) : ChessBoard = {
+    def movePiece(sourceRank : Int, sourceFile : Char, destRank : Int, destFile : Char) : ChessBoard = {
       val pieceValue = board(sourceFile)(sourceRank)
       val erasedLocationName = s"$sourceFile,$sourceRank"
       val boardWithErasedSource = writeToBoardCell(board, sourceFile, sourceRank, erasedLocationName)
@@ -23,15 +23,17 @@ import ChessBoardUtilityFunctions.{writeToBoardCell, addSpacing, formatRow}
   }
 
 object ChessBoardUtilityFunctions {
-  def writeToBoardCell(board : List[List[String]], file : Int, rank : Int, piece : String) : List[List[String]] = {
-    val numberOfRowsBeforeEditedRow = file
-    val indexOfRowAfterEditedRow = file + 1
+  def writeToBoardCell(board : List[List[String]], file : Char, rank : Int, piece : String) : List[List[String]] = {
+    val fileInt = convertFileToIndex(file)
+    val numberOfRowsBeforeEditedRow = fileInt
+    val indexOfRowAfterEditedRow = fileInt + 1
     board.take(numberOfRowsBeforeEditedRow) ++
       List(board(file).patch[String, List[String]](rank, Seq(piece), replaced = 1)) ++
       board.drop(indexOfRowAfterEditedRow)
   }
   def addSpacing(boardCell : String) = if (boardCell.size != 3) { " " + boardCell + " "} else boardCell
-  implicit def formatRow(row : List[String]) =  "|" + row.map(addSpacing).mkString("|") + "|\n"
+  def formatRow(row : List[String]) =  "|" + row.map(addSpacing).mkString("|") + "|\n"
+  private def convertFileToIndex(file : Char) : Int = file.toInt - 65
 }
 
   object InitialChessBoardState {

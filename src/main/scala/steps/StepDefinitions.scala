@@ -15,13 +15,13 @@ class StepDefinitions extends ScalaDsl with EN {
   }
 
   When("""^the following moves are made$"""){ (moves: DataTable) =>
-    val playerMoves : List[Map[String, Int]] = convertMoves(moves)
+    val playerMoves : List[Map[String, Any]] = convertMoves(moves)
     val latestBoard =
       runner.chessBoard =
-        playerMoves.foldLeft(runner.chessBoard)((acc, move) => acc.movePiece(move(sourceRank),
-                                                                             move(sourceFile),
-                                                                             move(destinationRank),
-                                                                             move(destinationFile)))
+        playerMoves.foldLeft(runner.chessBoard)((acc, move) => acc.movePiece(move(sourceRank).asInstanceOf[Int],
+                                                                             move(sourceFile).asInstanceOf[Char],
+                                                                             move(destinationRank).asInstanceOf[Int],
+                                                                             move(destinationFile).asInstanceOf[Char]))
   }
 
   Then("^the board should look like$"){ dataTable : DataTable =>

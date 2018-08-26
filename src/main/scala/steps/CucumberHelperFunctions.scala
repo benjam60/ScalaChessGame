@@ -17,7 +17,6 @@ object CucumberHelperFunctions {
         case _ => list.slice(1, rowSize).map(emptyStringToEmptyCell) :: removeRankNumbersAndChangeType(list.drop(rowSize))
       }
     }
-    //.map(q => if (q.size == 2) {q + " "})
     val chessBoardState = removeRankNumbersAndChangeType(boardWithoutFileLetters)
     new ChessBoard(chessBoardState)
   }
