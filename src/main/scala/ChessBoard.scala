@@ -1,11 +1,18 @@
 package ChessGame
 import ChessPieceDisplayNames._
-import ChessBoardUtilityFunctions.writeToBoardCell
+import ChessBoardUtilityFunctions.{writeToBoardCell, addSpacing, formatRow}
 
   class ChessBoard(boardState: List[List[String]]) {
     val board: List[List[String]] = boardState
 
-    override def toString: String = boardState.map("| " + _.mkString("|") + " |").mkString("\n")
+    override def toString: String = {
+      val topLeftCorner = Space
+      val fileLettersRow = List(topLeftCorner, "A", "B", "C", "D", "E", "F", "G", "H").map(addSpacing)
+      val getRowsWithRank = boardState.zipWithIndex
+      formatRow(fileLettersRow) + getRowsWithRank.map {
+        case (row: List[String], rank: Int) => "|" + addSpacing(rank.toString) + formatRow(row)                        //"| " + rank + " | " + row.mkString("|") + " |"
+      }.mkString("")
+    }
 
     def movePiece(sourceFile : Int, sourceRank : Int, destFile : Int, destRank : Int) : ChessBoard = {
       val pieceValue = board(sourceFile)(sourceRank)
@@ -23,17 +30,20 @@ object ChessBoardUtilityFunctions {
       List(board(file).patch[String, List[String]](rank, Seq(piece), replaced = 1)) ++
       board.drop(indexOfRowAfterEditedRow)
   }
+  def addSpacing(boardCell : String) = if (boardCell.size != 3) { " " + boardCell + " "} else boardCell
+  implicit def formatRow(row : List[String]) =  "|" + row.map(addSpacing).mkString("|") + "|\n"
 }
 
   object InitialChessBoardState {
     val rowSize = 8
+    val firstRowIndex = 1
     val get: List[List[String]] = List(
       List(Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook),
       List.fill(rowSize)(Pawn),
-      List.fill(rowSize)(Space).zipWithIndex.map{case(_,i) => s"2,$i"},
-      List.fill(rowSize)(Space).zipWithIndex.map{case(_,i) => s"3,$i"},
-      List.fill(rowSize)(Space).zipWithIndex.map{case(_,i) => s"4,$i"},
-      List.fill(rowSize)(Space).zipWithIndex.map{case(_,i) => s"5,$i"},
+      List.fill(rowSize)(Space),
+      List.fill(rowSize)(Space),
+      List.fill(rowSize)(Space),
+      List.fill(rowSize)(Space),
       List.fill(rowSize)(Pawn),
       List(Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook)
     )

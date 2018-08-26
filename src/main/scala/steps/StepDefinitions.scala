@@ -7,26 +7,28 @@ import ChessGame.{ChessBoard, InitialChessBoardState}
 
 class StepDefinitions extends ScalaDsl with EN {
   //private val log = LoggerFactory.getLogger(classOf[StepDefinitions])
-  private val runner = new Runner
+
+  private var runner = new Runner
 
   Given("""^a new chess game$"""){ () =>
-    runner.chessBoard = new ChessBoard(InitialChessBoardState.get)
-  }
-
-  Then("^the board should look like$"){ dataTable : DataTable =>
-    val board : ChessBoard = convert(dataTable)
-    assert(board.toString == runner.chessBoard.toString)
+    runner = new Runner //move to before hook until we figure this out
   }
 
   When("""^the following moves are made$"""){ (moves: DataTable) =>
     val playerMoves : List[Map[String, Int]] = convertMoves(moves)
-    for {
-      move <- playerMoves
-      srcRank = move(sourceRank)
-      srcFile = move(sourceFile)
-      destRank = move(destinationRank)
-      destFile = move(destinationFile)
-    } runner.chessBoard = runner.chessBoard.movePiece(srcRank, srcFile, destRank, destFile) //TODO: Make monadic and put in for comprehension
+    val latestBoard =
+      runner.chessBoard =
+        playerMoves.foldLeft(runner.chessBoard)((acc, move) => acc.movePiece(move(sourceRank),
+                                                                             move(sourceFile),
+                                                                             move(destinationRank),
+                                                                             move(destinationFile)))
+  }
+
+  Then("^the board should look like$"){ dataTable : DataTable =>
+    val board : ChessBoard = convert(dataTable)
+    println("My class' chessboard is\n" + runner.chessBoard.toString)
+    println("and the expected board is \n" + board.toString)
+    assert(board.toString == runner.chessBoard.toString)
   }
 
 }

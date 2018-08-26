@@ -7,7 +7,7 @@ object ChessPieceDisplayNames {
   val Rook = "Roo"
   val Queen = "Que"
   val Bishop = "Bis"
-  val Space = "   "
+  val Space = " "
 }
 
 object boardPositionShortHands {
