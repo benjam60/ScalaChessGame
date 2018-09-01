@@ -1,10 +1,18 @@
 package ChessGame
 
 import ChessPieceDisplayNames._
-import ChessBoardUtilityFunctions.{writeCell, addSpacing, formatRow, convertFileToIndex}
+import ChessBoardUtilityFunctions._
 
 class ChessBoard(boardState: List[List[String]]) {
-  val board: List[List[String]] = boardState
+  val state: List[List[String]] = boardState
+
+  def movePiece(sourceRank: Int, sourceFile: Char, destRank: Int, destFile: Char): ChessBoard = {
+    val zeroIndexSourceRank = sourceRank - 1
+    val zeroIndexDestRank = destRank - 1
+    val pieceToMove = state(zeroIndexSourceRank)(convertFileToIndex(sourceFile))
+    val boardWithDeletedPiece: ChessBoard = deletePiece(this, sourceRank, sourceFile)
+    setPiece(boardWithDeletedPiece, pieceToMove, destRank, destFile)
+  }
 
   override def toString: String = {
     val topLeftCorner = Space
@@ -15,24 +23,27 @@ class ChessBoard(boardState: List[List[String]]) {
     }.mkString("")
   }
 
-  def movePiece(sourceRank: Int, sourceFile: Char, destRank: Int, destFile: Char): ChessBoard = {
-    val zeroIndexSourceRank = sourceRank - 1
-    val zeroIndexDestRank = destRank - 1
-    val pieceToMove = board(zeroIndexSourceRank)(convertFileToIndex(sourceFile))
-    val boardWithSpaceAtSource: List[List[String]] =
-      writeCell(board, zeroIndexSourceRank, convertFileToIndex(sourceFile), Space)
-    new ChessBoard(writeCell(boardWithSpaceAtSource, zeroIndexDestRank, convertFileToIndex(destFile), pieceToMove))
+  private def setPiece(board: ChessBoard, piece : String, rank : Int, file : Char) : ChessBoard = {
+    val zeroIndexedRank = rank - 1
+    val fileAsInt = convertFileToIndex(file)
+    val numberOfRowsBeforeEditedRow = zeroIndexedRank
+    val indexOfRowAfterEditedRow = zeroIndexedRank + 1
+    new ChessBoard(board.state.take(numberOfRowsBeforeEditedRow) ++
+      List(board.state(zeroIndexedRank).patch[String, List[String]](fileAsInt, Seq(piece), replaced = 1)) ++
+      board.state.drop(indexOfRowAfterEditedRow))
   }
+
+  private def getPiece(rank : Int, file : Char) : String = {
+    val zeroIndexedRank = rank - 1
+    val fileAsInt = convertFileToIndex(file)
+    state(zeroIndexedRank)(fileAsInt)
+  }
+
+  private def deletePiece(board: ChessBoard, rank : Int, file : Char) : ChessBoard =
+    setPiece(board, Space, rank, file)
 }
 
 object ChessBoardUtilityFunctions {
-  def writeCell(board: List[List[String]], rank: Int, file: Int, piece: String): List[List[String]] = {
-    val numberOfRowsBeforeEditedRow = rank
-    val indexOfRowAfterEditedRow = rank + 1
-    board.take(numberOfRowsBeforeEditedRow) ++
-      List(board(rank).patch[String, List[String]](file, Seq(piece), replaced = 1)) ++
-      board.drop(indexOfRowAfterEditedRow)
-  }
 
   def addSpacing(boardCell: String) = if (boardCell.size != 3) {
     " " + boardCell + " "
