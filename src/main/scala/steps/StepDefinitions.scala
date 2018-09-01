@@ -2,7 +2,7 @@ package steps
 import ChessGame.boardPositionShortHands.{destinationFile, destinationRank, sourceFile, sourceRank}
 import cucumber.api.DataTable
 import cucumber.api.scala.{EN, ScalaDsl}
-import steps.CucumberHelperFunctions.{convert, convertMoves}
+import steps.CucumberHelperFunctions.{convert, convertMovesToList}
 import ChessGame.{ChessBoard, InitialChessBoardState}
 
 class StepDefinitions extends ScalaDsl with EN {
@@ -15,14 +15,12 @@ class StepDefinitions extends ScalaDsl with EN {
   }
 
   When("""^the following moves are made$"""){ (moves: DataTable) =>
-    val playerMoves : List[Map[String, Any]] = convertMoves(moves)
+    val playerMoves : List[String] = convertMovesToList(moves)
       runner.chessBoard =
-        playerMoves.foldLeft(runner.chessBoard)((acc, move) => { acc.movePiece(move(sourceRank).asInstanceOf[String](0).asDigit,
-                                                                               move(sourceFile).asInstanceOf[String](0),
-                                                                               move(destinationRank).asInstanceOf[String](0).asDigit,
-                                                                               move(destinationFile).asInstanceOf[String](0))
-        })
-
+        playerMoves.foldLeft(runner.chessBoard)((acc, move) => { acc.movePiece(move(0).asDigit,
+                                                                               move(1),
+                                                                               move(4).asDigit,
+                                                                               move(5)) })
   }
 
   Then("^the board should look like$"){ dataTable : DataTable =>

@@ -26,6 +26,10 @@ object CucumberHelperFunctions {
     dataTable.asMaps(classOf[String], classOf[Any]).asScala.map(_.asScala.toMap).toList
   }
 
+  def convertMovesToList(dataTable: DataTable) : List[String] = {
+    dataTable.asList(classOf[String]).asScala.map(x => x).toList
+  }
+
   private val rowSize = 9
 
 }
