@@ -21,14 +21,6 @@ class ChessBoard(boardState: List[List[String]]) {
     }.mkString("")
   }
 
-  private def setPiece(board: ChessBoard, piece : String, rankIn : Int, fileIn : Char) : ChessBoard = {
-    val(rank, file) = boardStateIndexes(rankIn, fileIn)
-    val numberOfRowsBeforeEditedRow = rank
-    val indexOfRowAfterEditedRow = rank + 1
-    new ChessBoard(board.state.take(numberOfRowsBeforeEditedRow) ++
-      List(board.state(rank).patch[String, List[String]](file, Seq(piece), replaced = 1)) ++
-      board.state.drop(indexOfRowAfterEditedRow))
-  }
 
   private def getPiece(rankIn : Int, fileIn : Char) : String = {
     val(rank, file) = boardStateIndexes(rankIn, fileIn)
@@ -37,6 +29,18 @@ class ChessBoard(boardState: List[List[String]]) {
 
   private def deletePiece(board: ChessBoard, rank : Int, file : Char) : ChessBoard =
     setPiece(board, Space, rank, file)
+
+  private def setPiece(board: ChessBoard, piece : String, rankIn : Int, fileIn : Char) : ChessBoard = {
+    val(rank, file) = boardStateIndexes(rankIn, fileIn)
+    new ChessBoard(overwriteCell(board.state, piece, rank, file))
+  }
+  
+  private def overwriteCell(boardState: List[List[String]], piece : String, row : Int, col : Int) : List[List[String]] = {
+    val numberOfRowsBeforeEditedRow = row
+    val indexOfRowAfterEditedRow = row + 1
+    state.take(numberOfRowsBeforeEditedRow) ++ List(state(row).patch[String, List[String]](col, Seq(piece), replaced = 1)) ++
+      state.drop(indexOfRowAfterEditedRow)
+  }
 }
 
 object ChessBoardUtilityFunctions {
