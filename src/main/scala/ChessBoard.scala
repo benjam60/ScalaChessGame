@@ -44,8 +44,8 @@ class ChessBoard(boardState: List[List[String]]) {
 }
 
 object ChessBoardUtilityFunctions {
-
-  def addSpacing(boardCell: String) = if (boardCell.size != 3) {
+  private val StandardPieceSize = 3
+  def addSpacing(boardCell: String) = if (boardCell.size != StandardPieceSize) {
     " " + boardCell + " "
   } else boardCell
 

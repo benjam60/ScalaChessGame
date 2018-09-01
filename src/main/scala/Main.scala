@@ -9,11 +9,6 @@ object Main extends App {
   println("Game Over")
   }
 
-
-object ben extends App {
-  println('A'.toInt)
-}
-
 object gameControlFunctions {
 
   def getPlayerInputAndUpdateBoard(chessboard : ChessBoard, playerNumber : Int) : Unit = {
