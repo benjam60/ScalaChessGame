@@ -7,9 +7,7 @@ class ChessBoard(boardState: List[List[String]]) {
   val state: List[List[String]] = boardState
 
   def movePiece(sourceRank: Int, sourceFile: Char, destRank: Int, destFile: Char): ChessBoard = {
-    val zeroIndexSourceRank = sourceRank - 1
-    val zeroIndexDestRank = destRank - 1
-    val pieceToMove = state(zeroIndexSourceRank)(convertFileToIndex(sourceFile))
+    val pieceToMove = getPiece(sourceRank, sourceFile)
     val boardWithDeletedPiece: ChessBoard = deletePiece(this, sourceRank, sourceFile)
     setPiece(boardWithDeletedPiece, pieceToMove, destRank, destFile)
   }
@@ -23,20 +21,18 @@ class ChessBoard(boardState: List[List[String]]) {
     }.mkString("")
   }
 
-  private def setPiece(board: ChessBoard, piece : String, rank : Int, file : Char) : ChessBoard = {
-    val zeroIndexedRank = rank - 1
-    val fileAsInt = convertFileToIndex(file)
-    val numberOfRowsBeforeEditedRow = zeroIndexedRank
-    val indexOfRowAfterEditedRow = zeroIndexedRank + 1
+  private def setPiece(board: ChessBoard, piece : String, rankIn : Int, fileIn : Char) : ChessBoard = {
+    val(rank, file) = boardStateIndexes(rankIn, fileIn)
+    val numberOfRowsBeforeEditedRow = rank
+    val indexOfRowAfterEditedRow = rank + 1
     new ChessBoard(board.state.take(numberOfRowsBeforeEditedRow) ++
-      List(board.state(zeroIndexedRank).patch[String, List[String]](fileAsInt, Seq(piece), replaced = 1)) ++
+      List(board.state(rank).patch[String, List[String]](file, Seq(piece), replaced = 1)) ++
       board.state.drop(indexOfRowAfterEditedRow))
   }
 
-  private def getPiece(rank : Int, file : Char) : String = {
-    val zeroIndexedRank = rank - 1
-    val fileAsInt = convertFileToIndex(file)
-    state(zeroIndexedRank)(fileAsInt)
+  private def getPiece(rankIn : Int, fileIn : Char) : String = {
+    val(rank, file) = boardStateIndexes(rankIn, fileIn)
+    state(rank)(file)
   }
 
   private def deletePiece(board: ChessBoard, rank : Int, file : Char) : ChessBoard =
@@ -49,6 +45,8 @@ object ChessBoardUtilityFunctions {
     " " + boardCell + " "
   } else boardCell
 
+  def boardStateIndexes(rank : Int, file : Char) : (Int, Int) = (rank - 1, convertFileToIndex(file))
+
   def formatRow(row: List[String]) = "|" + row.map(addSpacing).mkString("|") + "|\n"
 
   def convertFileToIndex(file: Char): Int = file.toInt - 65
@@ -56,7 +54,6 @@ object ChessBoardUtilityFunctions {
 
 object InitialChessBoardState {
   val rowSize = 8
-  val firstRowIndex = 1
   val get: List[List[String]] = List(
     List(Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook),
     List.fill(rowSize)(Pawn),
