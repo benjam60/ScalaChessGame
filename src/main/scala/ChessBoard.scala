@@ -9,8 +9,7 @@ class ChessBoard(boardState: List[List[String]]) {
   def movePiece(sourceRank: Int, sourceFile: Char, destRank: Int, destFile: Char): ChessBoard = {
     val pieceToMove = getPiece(sourceRank, sourceFile)
     val boardWithDeletedPiece: ChessBoard = deletePiece(this, sourceRank, sourceFile)
-    val x = setPiece(boardWithDeletedPiece, pieceToMove, destRank, destFile)
-    x
+    setPiece(boardWithDeletedPiece, pieceToMove, destRank, destFile)
   }
 
   override def toString: String = {
