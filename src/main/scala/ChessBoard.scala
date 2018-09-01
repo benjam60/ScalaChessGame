@@ -9,7 +9,7 @@ class ChessBoard(boardState: List[List[String]]) {
   override def toString: String = {
     val topLeftCorner = Space
     val fileLettersRow = List(topLeftCorner, "A", "B", "C", "D", "E", "F", "G", "H").map(addSpacing)
-    val getRowsWithRank = boardState.zipWithIndex
+    val getRowsWithRank = boardState.zip(Stream from 1)
     formatRow(fileLettersRow) + getRowsWithRank.map {
       case (row: List[String], rank: Int) => "|" + addSpacing(rank.toString) + formatRow(row)
     }.mkString("")
