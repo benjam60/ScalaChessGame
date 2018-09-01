@@ -5,8 +5,8 @@ Feature: Ensure proper piece movement
     Given a new chess game
     When the following moves are made
       | srcRank | srcFile | destRank | destFile |
-      | 1       | 1       | 2        | 1        |
-      | 6       | 7       | 4        | 7        |
+      | 2       | B       | 3        | B        |
+      | 7       | H       | 5        | H        |
     Then the board should look like
       |   | A   | B   | C   | D   | E   | F   | G   | H   |
       | 1 | Roo | Kni | Bis | Que | Kin | Bis | Kni | Roo |
@@ -19,3 +19,19 @@ Feature: Ensure proper piece movement
       | 8 | Roo | Kni | Bis | Kin | Que | Bis | Kni | Roo |
 
 
+#  Scenario: A pawn can move two spaces only once
+#    Given a new chess game
+#    When the following moves are made
+#      | srcRank | srcFile | destRank | destFile |
+#      | 1       | 1       | 2        | 1        |
+#      | 6       | 7       | 4        | 7        |
+#    Then the board should look like
+#      |   | A   | B   | C   | D   | E   | F   | G   | H   |
+#      | 1 | Roo | Kni | Bis | Que | Kin | Bis | Kni | Roo |
+#      | 2 | Paw |     | Paw | Paw | Paw | Paw | Paw | Paw |
+#      | 3 |     |     |     |     |     |     |     |     |
+#      | 4 |     |     |     |     |     |     |     |     |
+#      | 5 |     | Paw |     |     |     |     |     |     |
+#      | 6 |     |     |     |     |     |     |     |     |
+#      | 7 | Paw | Paw | Paw | Paw | Paw | Paw | Paw | Paw |
+#      | 8 | Roo | Kni | Bis | Kin | Que | Bis | Kni | Roo |

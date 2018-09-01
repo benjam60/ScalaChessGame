@@ -22,8 +22,8 @@ object CucumberHelperFunctions {
   }
   private def emptyStringToEmptyCell(str : String) = if (str == "") addSpacing(Space) else str
 
-  def convertMoves(dataTable: DataTable): List[Map[String, Int]] = {
-    dataTable.asMaps(classOf[String], classOf[Int]).asScala.map(_.asScala.toMap).toList
+  def convertMoves(dataTable: DataTable): List[Map[String, Any]] = {
+    dataTable.asMaps(classOf[String], classOf[Any]).asScala.map(_.asScala.toMap).toList
   }
 
   private val rowSize = 9
