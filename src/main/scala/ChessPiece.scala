@@ -17,3 +17,25 @@ object boardPositionShortHands {
   val destinationFile = "destFile"
 }
 
+sealed trait ChessPiece
+object PawnMovedOnce extends ChessPiece {
+  val displayName = "Paw"
+}
+object PawnMovedTwice extends ChessPiece {
+  val displayName = "Paw"
+}
+object Knight extends ChessPiece {
+  val displayName = "Kni"
+}
+object Rook extends ChessPiece {
+  val displayName = "Roo"
+}
+object Queen extends ChessPiece {
+  val displayName = "Que"
+}
+object King extends ChessPiece {
+  val displayName = "Kin"
+}
+object Bishop extends ChessPiece {
+  val displayName = "Bis"
+}
