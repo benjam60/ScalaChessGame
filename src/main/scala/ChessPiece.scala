@@ -1,14 +1,6 @@
 package ChessGame
 
-object ChessPieceDisplayNames {
-  val Pawn = "Paw"
-  val Knight = "Kni"
-  val King = "Kin"
-  val Rook = "Roo"
-  val Queen = "Que"
-  val Bishop = "Bis"
-  val Space = " "
-}
+import ChessGame.AllPieces._
 
 object boardPositionShortHands {
   val sourceRank = "srcRank"
@@ -17,25 +9,42 @@ object boardPositionShortHands {
   val destinationFile = "destFile"
 }
 
-sealed trait ChessPiece
-object PawnMovedOnce extends ChessPiece {
-  val displayName = "Paw"
-}
-object PawnMovedTwice extends ChessPiece {
-  val displayName = "Paw"
-}
-object Knight extends ChessPiece {
-  val displayName = "Kni"
-}
-object Rook extends ChessPiece {
-  val displayName = "Roo"
-}
-object Queen extends ChessPiece {
-  val displayName = "Que"
-}
-object King extends ChessPiece {
-  val displayName = "Kin"
-}
-object Bishop extends ChessPiece {
-  val displayName = "Bis"
+object AllPieces {
+
+  sealed trait ChessPiece {
+    val displayName: String
+  }
+
+  object PawnMovedOnce extends ChessPiece {
+    override val displayName = "Paw"
+  }
+
+  object PawnMovedTwice extends ChessPiece {
+    override val displayName = "Paw"
+  }
+
+  object Knight extends ChessPiece {
+    override val displayName = "Kni"
+  }
+
+  object Rook extends ChessPiece {
+    override val displayName = "Roo"
+  }
+
+  object Queen extends ChessPiece {
+    override val displayName = "Que"
+  }
+
+  object King extends ChessPiece {
+    override val displayName = "Kin"
+  }
+
+  object Bishop extends ChessPiece {
+    override val displayName = "Bis"
+  }
+
+  object Space extends ChessPiece {
+    override val displayName = "   "
+  }
+
 }

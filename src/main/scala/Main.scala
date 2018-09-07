@@ -1,17 +1,17 @@
 package ChessGame
-import gameControlFunctions.getPlayerInputAndUpdateBoard
+
+import ChessGame.gameControlFunctions.getPlayerInputAndUpdateBoard
 
 object Main extends App {
-
   val initialBoard = new ChessBoard(InitialChessBoardState.get)
   val firstPlayerToMove = 1
   getPlayerInputAndUpdateBoard(initialBoard, firstPlayerToMove)
   println("Game Over")
-  }
+}
 
 object gameControlFunctions {
 
-  def getPlayerInputAndUpdateBoard(chessboard : ChessBoard, playerNumber : Int) : Unit = {
+  def getPlayerInputAndUpdateBoard(chessboard: ChessBoard, playerNumber: Int): Unit = {
     println(chessboard.toString)
     askWhichPieceShouldMove(playerNumber)
     val srcCoordinates = scala.io.StdIn.readLine()
@@ -27,16 +27,18 @@ object gameControlFunctions {
     }
   }
 
-  def readPieces(input : String) : (Int, Char) = {
+  def readPieces(input: String): (Int, Char) = {
     val indexOfRankCoordinateInString = 0
     val indexOfFileCoordinateInString = 2
     (input(indexOfRankCoordinateInString).asDigit, input(indexOfFileCoordinateInString))
   }
-  def askWhichPieceShouldMove(playerNumber : Int) = {
+
+  def askWhichPieceShouldMove(playerNumber: Int) = {
     println("Player " + playerNumber + ", what piece would you like to move?")
     println("Type in this format: x,y")
   }
-  def askWhereToMovePieceTo(playerNumber : Int) : Unit = {
+
+  def askWhereToMovePieceTo(playerNumber: Int): Unit = {
     println("Player " + playerNumber + ", where do you want to move the piece?")
     println("Type in this format: x,y")
   }
