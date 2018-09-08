@@ -8,8 +8,16 @@ class ChessBoard(boardState: List[List[ChessPiece]]) {
 
   def movePiece(sourceRank: Int, sourceFile: Char, destRank: Int, destFile: Char): ChessBoard = {
     val pieceToMove = getPiece(sourceRank, sourceFile)
-    val boardWithDeletedPiece: ChessBoard = deletePiece(this, sourceRank, sourceFile)
-    setPiece(boardWithDeletedPiece, pieceToMove, destRank, destFile)
+    if (pieceToMove.isValidMove(sourceRank, sourceFile, destRank, destFile)) {
+      val boardWithDeletedPiece: ChessBoard = deletePiece(this, sourceRank, sourceFile)
+      if (pieceToMove.getClass == PawnCanMoveTwice.getClass) {
+        setPiece(boardWithDeletedPiece, PawnCanMoveOnce, destRank, destFile)
+      }
+      else {
+        setPiece(boardWithDeletedPiece, pieceToMove, destRank, destFile)
+      }
+    }
+    else this
   }
 
   override def toString: String = {
@@ -62,12 +70,12 @@ object InitialChessBoardState {
   val rowSize = 8
   val get: List[List[ChessPiece]] = List(
     List(Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook),
-    List.fill(rowSize)(PawnMovedOnce),
+    List.fill(rowSize)(PawnCanMoveTwice),
     List.fill(rowSize)(Space),
     List.fill(rowSize)(Space),
     List.fill(rowSize)(Space),
     List.fill(rowSize)(Space),
-    List.fill(rowSize)(PawnMovedOnce),
+    List.fill(rowSize)(PawnCanMoveTwice),
     List(Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook)
   )
 }

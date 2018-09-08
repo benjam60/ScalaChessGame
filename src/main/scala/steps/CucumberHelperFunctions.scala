@@ -45,7 +45,7 @@ object CucumberHelperFunctions {
 object Ben { //this function is for cucumber
   def cucumberConvert(piece: String): ChessPiece = {
     piece match {
-      case "Paw" => PawnMovedOnce //problem here
+      case "Paw" => PawnCanMoveTwice //problem here
       case "Kni" => Knight
       case "Bis" => Bishop
       case "Que" => Queen
