@@ -1,27 +1,26 @@
 package ChessGame
-
-import ChessGame.gameControlFunctions.getPlayerInputAndUpdateBoard
+import ChessGame.Color.{Black, White}
+import ChessGame.gameControlFunctions.nextTurn
 import ChessBoardPieceMovement.movePiece
 
 object Main extends App {
-  val initialBoard = new ChessBoard(InitialChessBoardState.get)
-  val firstPlayerToMove = 1
-  getPlayerInputAndUpdateBoard(initialBoard, firstPlayerToMove)
+  val colorsTurn = White
+  val initialBoard = new ChessBoard(InitialChessBoardState.get, colorsTurn)
+  nextTurn(initialBoard)
   println("Game Over")
 }
 
 object gameControlFunctions {
-
-  def getPlayerInputAndUpdateBoard(chessboard: ChessBoard, playerNumber: Int): Unit = {
+  import ChessGame.Color.{Black, White}
+  def nextTurn(chessboard: ChessBoard): Unit = {
     println(chessboard.toString)
-    askWhichPieceShouldMove(playerNumber)
+    whichPieceToMove(chessboard.turn)
     val srcCoordinates = scala.io.StdIn.readLine()
-    askWhereToMovePieceTo(playerNumber)
+    whereToPlacePiece(chessboard.turn)
     val destCoordinates = scala.io.StdIn.readLine()
     val updatedBoard = movePiece(chessboard, readPieces(srcCoordinates)._1, readPieces(srcCoordinates)._2,
                                              readPieces(destCoordinates)._1, readPieces(destCoordinates)._2)
-    if (playerNumber == 1) getPlayerInputAndUpdateBoard(updatedBoard, playerNumber = 2)
-    else getPlayerInputAndUpdateBoard(updatedBoard, playerNumber = 1)
+    nextTurn(updatedBoard)
   }
 
   def readPieces(input: String): (Int, Char) = {
@@ -30,13 +29,13 @@ object gameControlFunctions {
     (input(indexOfRankCoordinateInString).asDigit, input(indexOfFileCoordinateInString))
   }
 
-  def askWhichPieceShouldMove(playerNumber: Int) = {
-    println("Player " + playerNumber + ", what piece would you like to move?")
+  def whichPieceToMove(pieceColor: Color.Value) = {
+    println(pieceColor.toString + ", what piece would you like to move?")
     println("Type in this format: x,y")
   }
 
-  def askWhereToMovePieceTo(playerNumber: Int): Unit = {
-    println("Player " + playerNumber + ", where do you want to move the piece?")
+  def whereToPlacePiece(pieceColor: Color.Value): Unit = {
+    println(pieceColor.toString + ", where do you want to move the piece?")
     println("Type in this format: x,y")
   }
 }

@@ -1,19 +1,22 @@
 package ChessGame
 
 import ChessGame.AllPieces._
-import ChessGame.ChessBoardUtilityFunctions.{boardStateIndexes, formatFiles, formatRow, addSpacing}
+import ChessGame.ChessBoardUtilityFunctions.{addSpacing, formatFiles, formatRow}
 
-class ChessBoard(boardState: List[List[ChessPiece]]) {
-  val state: List[List[ChessPiece]] = boardState
+class ChessBoard(val state: List[List[ChessPiece]], val turn: Color.Value) {
 
   override def toString: String = {
     val topLeftCorner = "   "
     val fileLettersRow = List(topLeftCorner, "A", "B", "C", "D", "E", "F", "G", "H").map(addSpacing)
-    val getRowsWithRank = boardState.zip(Stream from 1)
+    val getRowsWithRank = state.zip(Stream from 1)
     formatFiles(fileLettersRow) + getRowsWithRank.map {
       case (row: List[ChessPiece], rank: Int) => "|" + addSpacing(rank.toString) + formatRow(row)
     }.mkString("")
   }
+}
+
+object Color extends Enumeration {
+  val White, Black = Value
 }
 
 object InitialChessBoardState {

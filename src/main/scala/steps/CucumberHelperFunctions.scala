@@ -6,10 +6,12 @@ import ChessGame.ChessBoardUtilityFunctions.addSpacing
 import cucumber.api.DataTable
 import Ben.cucumberConvert
 import scala.collection.JavaConverters._
+import ChessGame.Color.{Black, White}
+
 
 object CucumberHelperFunctions {
 
-  def convert(datatable: DataTable): ChessBoard = {
+  def convert(datatable: DataTable, color : ChessGame.Color.Value): ChessBoard = {
     val boardAsSingleList: List[String] = datatable.asList(classOf[String]).asScala.toList
     val boardWithoutFileLetters = boardAsSingleList.drop(rowSize)
 
@@ -24,7 +26,7 @@ object CucumberHelperFunctions {
     }
 
     val chessBoardState = removeRankNumbersAndChangeType(boardWithoutFileLetters)
-    new ChessBoard(chessBoardState)
+    new ChessBoard(chessBoardState, color)
   }
 
 //  private def emptyStringToEmptyCell(str: String) : ChessPiece = if (str == "") Space
