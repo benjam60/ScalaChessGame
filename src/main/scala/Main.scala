@@ -1,6 +1,7 @@
 package ChessGame
 
 import ChessGame.gameControlFunctions.getPlayerInputAndUpdateBoard
+import ChessBoardPieceMovement.movePiece
 
 object Main extends App {
   val initialBoard = new ChessBoard(InitialChessBoardState.get)
@@ -17,7 +18,7 @@ object gameControlFunctions {
     val srcCoordinates = scala.io.StdIn.readLine()
     askWhereToMovePieceTo(playerNumber)
     val destCoordinates = scala.io.StdIn.readLine()
-    val updatedBoard = chessboard.movePiece(readPieces(srcCoordinates)._1, readPieces(srcCoordinates)._2,
+    val updatedBoard = movePiece(chessboard, readPieces(srcCoordinates)._1, readPieces(srcCoordinates)._2,
       readPieces(destCoordinates)._1, readPieces(destCoordinates)._2)
     if (playerNumber == 1) {
       getPlayerInputAndUpdateBoard(updatedBoard, playerNumber = 2)
