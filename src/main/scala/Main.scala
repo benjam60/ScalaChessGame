@@ -19,13 +19,9 @@ object gameControlFunctions {
     askWhereToMovePieceTo(playerNumber)
     val destCoordinates = scala.io.StdIn.readLine()
     val updatedBoard = movePiece(chessboard, readPieces(srcCoordinates)._1, readPieces(srcCoordinates)._2,
-      readPieces(destCoordinates)._1, readPieces(destCoordinates)._2)
-    if (playerNumber == 1) {
-      getPlayerInputAndUpdateBoard(updatedBoard, playerNumber = 2)
-    }
-    else {
-      getPlayerInputAndUpdateBoard(updatedBoard, playerNumber = 1)
-    }
+                                             readPieces(destCoordinates)._1, readPieces(destCoordinates)._2)
+    if (playerNumber == 1) getPlayerInputAndUpdateBoard(updatedBoard, playerNumber = 2)
+    else getPlayerInputAndUpdateBoard(updatedBoard, playerNumber = 1)
   }
 
   def readPieces(input: String): (Int, Char) = {
@@ -43,5 +39,4 @@ object gameControlFunctions {
     println("Player " + playerNumber + ", where do you want to move the piece?")
     println("Type in this format: x,y")
   }
-
 }
