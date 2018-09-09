@@ -17,12 +17,8 @@ object AllPieces {
   object PawnCanMoveTwice extends ChessPiece {
     override val displayName = "Paw"
     def isValidMove(srcRow : Int, srcCol : Int, destRow : Int, destCol : Int) : Boolean = {
-      if (srcCol == destCol && Math.abs(srcRow - destRow) <= 2) {
-        true
-      }
-      else {
-        false
-      }
+      if (srcCol == destCol && Math.abs(srcRow - destRow) <= 2) true
+      else false
     }
   }
 
