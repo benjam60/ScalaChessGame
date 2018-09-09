@@ -1,10 +1,11 @@
 package ChessGame
 
 import ChessGame.AllPieces._
-import ChessGame.ChessBoardUtilityFunctions._
+import ChessGame.ChessBoardUtilityFunctions.{boardStateIndexes, formatFiles, formatRow, addSpacing}
 
 class ChessBoard(boardState: List[List[ChessPiece]]) {
   val state: List[List[ChessPiece]] = boardState
+
 
   override def toString: String = {
     val topLeftCorner = "   "
@@ -49,22 +50,6 @@ object ChessBoardPieceMovement {
       List(boardState(row).patch[ChessPiece, List[ChessPiece]](col, Seq(piece), replaced = 1)) ++
       boardState.drop(indexOfRowAfterEditedRow)
   }
-}
-
-object ChessBoardUtilityFunctions {
-  def addSpacing(boardCell: String) =
-    if (boardCell.size != StandardPieceSize) " " + boardCell + " "
-    else boardCell
-
-  def boardStateIndexes(rank: Int, file: Char): (Int, Int) = (rank - 1, convertFileToIndex(file))
-
-  def formatRow(row: List[ChessPiece]) = "|" + row.map(piece => addSpacing(piece.displayName)).mkString("|") + "|\n"
-
-  def formatFiles(row: List[String]) = "|" + row.map(file => addSpacing(file)).mkString("|") + "|\n"
-
-  def convertFileToIndex(file: Char): Int = file.toInt - 65
-
-  private val StandardPieceSize = 3
 }
 
 object InitialChessBoardState {
