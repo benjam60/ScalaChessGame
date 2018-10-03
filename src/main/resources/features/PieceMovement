@@ -34,6 +34,7 @@ Feature: Ensure proper piece movement
       | 7 | Paw | Paw | Paw | Paw | Paw | Paw | Paw | Paw |
       | 8 | Roo | Kni | Bis | Kin | Que | Bis | Kni | Roo |
 
+
   Scenario: A player can't take two turns in a row
     Given In a new game, it is the turn of White
     When the following moves are made

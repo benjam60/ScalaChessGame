@@ -2,19 +2,20 @@ package ChessGame
 
 import ChessGame.AllPieces.{ChessPiece, PawnCanMoveOnce, PawnCanMoveTwice, Space}
 import ChessGame.ChessBoardUtilityFunctions.boardStateIndexes
-import ChessGame.Color.{Black, White}
+import ChessGame.Color.{Black, Color, White}
 
 object ChessBoardPieceMovement {
   def movePiece(board: ChessBoard, sourceRank: Int, sourceFile: Char, destRank: Int, destFile: Char): ChessBoard = {
-    val pieceToMove = getPiece(board, sourceRank, sourceFile)
+    val pieceToMove : ChessPiece = getPiece(board, sourceRank, sourceFile)
     if (pieceToMove.isValidMove(sourceRank, sourceFile, destRank, destFile)) {
-      val boardWithDeletedPiece: ChessBoard = deletePiece(board, sourceRank, sourceFile)
-      if (pieceToMove.getClass == PawnCanMoveTwice.getClass) {
-        setPiece(boardWithDeletedPiece, PawnCanMoveOnce, destRank, destFile)
-      }
-      else setPiece(boardWithDeletedPiece, pieceToMove, destRank, destFile)
+      val boardWithErasedSourcePiece: ChessBoard = deletePiece(board, sourceRank, sourceFile)
+      val boardWithPlacedPiece = setPiece(boardWithErasedSourcePiece, pieceToSet(pieceToMove), destRank, destFile)
+      new ChessBoard(boardWithPlacedPiece.state, switchTurns(boardWithPlacedPiece.turn))
     }
     else board
+  }
+  private def pieceToSet(pieceToMove : ChessPiece) : ChessPiece = {
+    if (pieceToMove == PawnCanMoveTwice) PawnCanMoveOnce else pieceToMove
   }
 
   private def getPiece(board: ChessBoard, rankIn: Int, fileIn: Char): ChessPiece = {
@@ -27,12 +28,9 @@ object ChessBoardPieceMovement {
 
   private def setPiece(board: ChessBoard, piece: ChessPiece, rankIn: Int, fileIn: Char): ChessBoard = {
     val (row, col) = boardStateIndexes(rankIn, fileIn)
-    if (piece.getClass == Space.getClass) {
-      new ChessBoard(overwriteCell(board.state, piece, row, col), board.turn)
-    }
-    else {
-      new ChessBoard(overwriteCell(board.state, piece, row, col), switchTurns(board.turn))
-    }
+    val boardWithDeletedSource = overwriteCell(board.state, piece, row, col)
+    if (piece == Space) new ChessBoard(boardWithDeletedSource, board.turn)
+    else new ChessBoard(boardWithDeletedSource, board.turn)
   }
 
   private def overwriteCell(boardState: List[List[ChessPiece]], piece: ChessPiece, row: Int, col: Int): List[List[ChessPiece]] = {
@@ -43,8 +41,5 @@ object ChessBoardPieceMovement {
       boardState.drop(indexOfRowAfterEditedRow)
   }
 
-  private def switchTurns(color: Color.Value): Color.Value = {
-    if (color == Black) White
-    else Black
-  }
+  private def switchTurns(color: Color): Color = if (color == Black) White else Black
 }

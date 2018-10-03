@@ -2,8 +2,9 @@ package ChessGame
 
 import ChessGame.AllPieces._
 import ChessGame.ChessBoardUtilityFunctions.{addSpacing, formatFiles, formatRow}
+import Color.Color
 
-class ChessBoard(val state: List[List[ChessPiece]], val turn: Color.Value) {
+class ChessBoard(val state: List[List[ChessPiece]], val turn: Color) {
 
   override def toString: String = {
     val topLeftCorner = "   "
@@ -16,6 +17,7 @@ class ChessBoard(val state: List[List[ChessPiece]], val turn: Color.Value) {
 }
 
 object Color extends Enumeration {
+  type Color = Value
   val White, Black = Value
 }
 
