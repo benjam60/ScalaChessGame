@@ -6,15 +6,16 @@ import ChessGame.Color.{Black, Color, White}
 
 object ChessBoardPieceMovement {
   def movePiece(board: ChessBoard, sourceRank: Int, sourceFile: Char, destRank: Int, destFile: Char): ChessBoard = {
-    val pieceToMove : ChessPiece = getPiece(board, sourceRank, sourceFile)
+    val pieceToMove = getPiece(board, sourceRank, sourceFile)
     if (pieceToMove.isValidMove(sourceRank, sourceFile, destRank, destFile)) {
-      val boardWithErasedSourcePiece: ChessBoard = deletePiece(board, sourceRank, sourceFile)
+      val boardWithErasedSourcePiece = deletePiece(board, sourceRank, sourceFile)
       val boardWithPlacedPiece = setPiece(boardWithErasedSourcePiece, pieceToSet(pieceToMove), destRank, destFile)
       new ChessBoard(boardWithPlacedPiece.state, switchTurns(boardWithPlacedPiece.turn))
     }
     else board
   }
-  private def pieceToSet(pieceToMove : ChessPiece) : ChessPiece = {
+
+  private def pieceToSet(pieceToMove: ChessPiece): ChessPiece = {
     if (pieceToMove == PawnCanMoveTwice) PawnCanMoveOnce else pieceToMove
   }
 
@@ -23,8 +24,7 @@ object ChessBoardPieceMovement {
     board.state(row)(col)
   }
 
-  private def deletePiece(board: ChessBoard, rank: Int, file: Char): ChessBoard =
-    setPiece(board, Space, rank, file)
+  private def deletePiece(board: ChessBoard, rank: Int, file: Char): ChessBoard = setPiece(board, Space, rank, file)
 
   private def setPiece(board: ChessBoard, piece: ChessPiece, rankIn: Int, fileIn: Char): ChessBoard = {
     val (row, col) = boardStateIndexes(rankIn, fileIn)

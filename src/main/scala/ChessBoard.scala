@@ -1,18 +1,20 @@
 package ChessGame
 
 import ChessGame.AllPieces._
-import ChessGame.ChessBoardUtilityFunctions.{addSpacing, formatFiles, formatRow}
-import Color.Color
+import ChessGame.ChessBoardUtilityFunctions.{createChessSquare, formatFiles, formatRow}
+import ChessGame.Color.Color
 
 class ChessBoard(val state: List[List[ChessPiece]], val turn: Color) {
 
-  override def toString: String = {
-    val topLeftCorner = "   "
-    val fileLettersRow = List(topLeftCorner, "A", "B", "C", "D", "E", "F", "G", "H").map(addSpacing)
-    val getRowsWithRank = state.zip(Stream from 1)
-    formatFiles(fileLettersRow) + getRowsWithRank.map {
-      case (row: List[ChessPiece], rank: Int) => "|" + addSpacing(rank.toString) + formatRow(row)
-    }.mkString("")
+  def displayWithRankAndFile: String = {
+    val topLeftCorner: Char = ' '
+    val rowWithFileLettersAndSpace = topLeftCorner :: ('A' to 'H').toList
+    val boardWithRanks = state.zip(Stream from 1)
+    val formattedFileRow = formatFiles(rowWithFileLettersAndSpace)
+    val displayableBoardWithRanks =  boardWithRanks.map {
+      case (row: List[ChessPiece], rank: Int) => createChessSquare(rank) + formatRow(row)
+    }.mkString
+    formattedFileRow + displayableBoardWithRanks
   }
 }
 
@@ -21,8 +23,9 @@ object Color extends Enumeration {
   val White, Black = Value
 }
 
-object InitialChessBoardState {
-  val rowSize = 8
+object InitialInternalChessBoardState {
+  private val rowSize = 8
+  //need to differentiate
   val get: List[List[ChessPiece]] = List(
     List(Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook),
     List.fill(rowSize)(PawnCanMoveTwice),

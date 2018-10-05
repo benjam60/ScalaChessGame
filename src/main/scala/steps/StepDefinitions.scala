@@ -1,15 +1,14 @@
 package steps
 import ChessGame.ChessBoardPieceMovement.movePiece
+import ChessGame.Color.{Black, White}
+import ChessGame.{ChessBoard, InitialInternalChessBoardState}
 import cucumber.api.DataTable
 import cucumber.api.scala.{EN, ScalaDsl}
 import steps.CucumberHelperFunctions.{convert, convertMovesToList}
-import ChessGame.{ChessBoard, InitialChessBoardState}
-import ChessGame.Color.{Black, White}
 
 class StepDefinitions extends ScalaDsl with EN {
-  //private val log = LoggerFactory.getLogger(classOf[StepDefinitions])
 
-  private var runner = new Runner
+  private var runner = new Runner //Todo: Before and After create new Runner; import before and after
 
   Given("""^a new chess game$"""){ () =>
     runner = new Runner //move to before hook until we figure this out
@@ -17,8 +16,8 @@ class StepDefinitions extends ScalaDsl with EN {
 
   Given("""^In a new game, it is the turn of (White|Black)""") { color : String =>
     runner = new Runner
-    if (color == "White") runner.chessBoard = new ChessBoard(InitialChessBoardState.get, White)
-    else runner.chessBoard = new ChessBoard(InitialChessBoardState.get, Black)
+    if (color == "White") runner.chessBoard = new ChessBoard(InitialInternalChessBoardState.get, White)
+    else runner.chessBoard = new ChessBoard(InitialInternalChessBoardState.get, Black)
   }
 
   When("""^the following moves are made$"""){ (moves: DataTable) =>
@@ -34,9 +33,9 @@ class StepDefinitions extends ScalaDsl with EN {
   Then("^the board should look like$"){ dataTable : DataTable =>
     val arbitraryColor = Black
     val board : ChessBoard = convert(dataTable, arbitraryColor)
-    println("My class' chessboard is\n" + runner.chessBoard.toString)
-    println("and the expected board is \n" + board.toString)
-    assert(board.toString == runner.chessBoard.toString)
+    println("My class' chessboard is\n" + runner.chessBoard.displayWithRankAndFile)
+    println("and the expected board is \n" + board.displayWithRankAndFile)
+    assert(board.displayWithRankAndFile == runner.chessBoard.displayWithRankAndFile)
   }
 
   Then("""^it is the turn of (White|Black)$""") { color : String =>

@@ -1,19 +1,18 @@
 package ChessGame
-import ChessGame.Color.{Black, White}
+import ChessGame.ChessBoardPieceMovement.movePiece
+import ChessGame.Color.White
 import ChessGame.gameControlFunctions.nextTurn
-import ChessBoardPieceMovement.movePiece
 
 object Main extends App {
   val colorsTurn = White
-  val initialBoard = new ChessBoard(InitialChessBoardState.get, colorsTurn)
+  val initialBoard = new ChessBoard(InitialInternalChessBoardState.get, colorsTurn)
   nextTurn(initialBoard)
   println("Game Over")
 }
 
 object gameControlFunctions {
-  import ChessGame.Color.{Black, White}
   def nextTurn(chessboard: ChessBoard): Unit = {
-    println(chessboard.toString)
+    println(chessboard.displayWithRankAndFile)
     whichPieceToMove(chessboard.turn)
     val srcCoordinates = scala.io.StdIn.readLine()
     whereToPlacePiece(chessboard.turn)
@@ -23,7 +22,7 @@ object gameControlFunctions {
     nextTurn(updatedBoard)
   }
 
-  def readPieces(input: String): (Int, Char) = {
+  def readPieces(input: String): (Int, Char) = { //Todo: Custom pattern match on this input for num,num
     val indexOfRankCoordinateInString = 0
     val indexOfFileCoordinateInString = 2
     (input(indexOfRankCoordinateInString).asDigit, input(indexOfFileCoordinateInString))

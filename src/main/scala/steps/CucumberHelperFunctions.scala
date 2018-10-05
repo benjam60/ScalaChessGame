@@ -2,11 +2,10 @@ package steps
 
 import ChessGame.AllPieces._
 import ChessGame.ChessBoard
-import ChessGame.ChessBoardUtilityFunctions.addSpacing
 import cucumber.api.DataTable
-import Ben.cucumberConvert
+import steps.Ben.cucumberConvert
+
 import scala.collection.JavaConverters._
-import ChessGame.Color.{Black, White}
 
 
 object CucumberHelperFunctions {

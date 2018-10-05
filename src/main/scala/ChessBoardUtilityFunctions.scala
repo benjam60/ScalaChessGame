@@ -2,17 +2,19 @@ package ChessGame
 import ChessGame.AllPieces.ChessPiece
 
 object ChessBoardUtilityFunctions {
-  def addSpacing(boardCell: String) =
-    if (boardCell.size != StandardPieceSize) " " + boardCell + " "
-    else boardCell
 
   def boardStateIndexes(rank: Int, file: Char): (Int, Int) = (rank - 1, convertFileToIndex(file))
 
-  def formatRow(row: List[ChessPiece]) = "|" + row.map(piece => addSpacing(piece.displayName)).mkString("|") + "|\n"
+  def formatRow(row: List[ChessPiece]) = row.map(createChessSquare).mkString + "|\n"
 
-  def formatFiles(row: List[String]) = "|" + row.map(file => addSpacing(file)).mkString("|") + "|\n"
+  def createChessSquare(chessPiece: ChessPiece) : String = s"|${chessPiece.displayName}"
+  def createChessSquare(rank: Int) : String = s"| ${rank.toString} "
+  def createChessSquare(file: Char) : String = s"| $file "
 
-  def convertFileToIndex(file: Char): Int = file.toInt - 65
+
+  def formatFiles(row: List[Char]) = row.map(createChessSquare).mkString + "|\n"
+
+  private def convertFileToIndex(file: Char): Int = file.toInt - 65
 
   private val StandardPieceSize = 3
 }
