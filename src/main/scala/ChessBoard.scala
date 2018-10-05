@@ -9,7 +9,7 @@ class ChessBoard(val state: List[List[ChessPiece]], val turn: Color) {
   def displayWithRankAndFile: String = {
     val topLeftCorner: Char = ' '
     val rowWithFileLettersAndSpace = topLeftCorner :: ('A' to 'H').toList
-    val boardWithRanks = state.zip(Stream from 1)
+    val boardWithRanks = state.zip(1 to 8)
     val formattedFileRow = formatFiles(rowWithFileLettersAndSpace)
     val displayableBoardWithRanks =  boardWithRanks.map {
       case (row: List[ChessPiece], rank: Int) => createChessSquare(rank) + formatRow(row)
