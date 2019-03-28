@@ -1,7 +1,7 @@
 package steps
 import ChessGame.ChessBoardPieceMovement.movePiece
 import ChessGame.Color.{Black, White}
-import ChessGame.{ChessBoard, InitialInternalChessBoardState}
+import ChessGame.{ChessBoard, ChessBoardPrinter, InitialInternalChessBoardState}
 import cucumber.api.DataTable
 import cucumber.api.scala.{EN, ScalaDsl}
 import steps.CucumberHelperFunctions.{convert, convertMovesToList}
@@ -33,9 +33,11 @@ class StepDefinitions extends ScalaDsl with EN {
   Then("^the board should look like$"){ dataTable : DataTable =>
     val arbitraryColor = Black
     val board : ChessBoard = convert(dataTable, arbitraryColor)
-    println("My class' chessboard is\n" + runner.chessBoard.displayWithRankAndFile)
-    println("and the expected board is \n" + board.displayWithRankAndFile)
-    assert(board.displayWithRankAndFile == runner.chessBoard.displayWithRankAndFile)
+    val actualBoard = ChessBoardPrinter.printBoard(runner.chessBoard)
+    val expectedBoard = ChessBoardPrinter.printBoard(board)
+    println("My class' chessboard is\n" + actualBoard)
+    println("and the expected board is \n" + expectedBoard)
+    assert(expectedBoard == actualBoard)
   }
 
   Then("""^it is the turn of (White|Black)$""") { color : String =>
