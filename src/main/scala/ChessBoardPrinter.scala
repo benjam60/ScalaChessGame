@@ -6,7 +6,7 @@ import ChessGame.ChessBoardUtilityFunctions.{createChessSquare, formatFiles, for
 
 object ChessBoardPrinter {
 
-  def printBoard(chessBoard: ChessBoard) : String = {
+  def print(chessBoard: ChessBoard) : String = {
     val topLeftCorner: Char = ' '
     val rowWithFileLettersAndSpace = topLeftCorner :: ('A' to 'H').toList
     val boardWithRanks = chessBoard.state.zip(1 to 8)

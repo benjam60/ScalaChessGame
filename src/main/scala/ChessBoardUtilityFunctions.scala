@@ -16,5 +16,4 @@ object ChessBoardUtilityFunctions {
 
   private def convertFileToIndex(file: Char): Int = file.toInt - 65
 
-  private val StandardPieceSize = 3
 }

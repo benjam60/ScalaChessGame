@@ -24,14 +24,8 @@ object CucumberHelperFunctions {
       rows.map(row => row.map(cucumberConvert))
     }
 
-    val chessBoardState = removeRankNumbersAndChangeType(boardWithoutFileLetters)
-    new ChessBoard(chessBoardState, color)
-  }
-
-//  private def emptyStringToEmptyCell(str: String) : ChessPiece = if (str == "") Space
-
-  def convertMoves(dataTable: DataTable): List[Map[String, Any]] = {
-    dataTable.asMaps(classOf[String], classOf[Any]).asScala.map(_.asScala.toMap).toList
+    val state = removeRankNumbersAndChangeType(boardWithoutFileLetters)
+    new ChessBoard(state, color)
   }
 
   def convertMovesToList(dataTable: DataTable): List[String] = {

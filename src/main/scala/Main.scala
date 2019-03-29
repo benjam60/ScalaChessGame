@@ -12,7 +12,7 @@ object Main extends App {
 
 object gameControlFunctions {
   def nextTurn(chessboard: ChessBoard): Unit = {
-    println(ChessBoardPrinter.printBoard(chessboard))
+    println(ChessBoardPrinter.print(chessboard))
     whichPieceToMove(chessboard.turn)
     val srcCoordinates = scala.io.StdIn.readLine()
     whereToPlacePiece(chessboard.turn)
