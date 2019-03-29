@@ -11,17 +11,17 @@ import scala.collection.JavaConverters._
 object CucumberHelperFunctions {
 
   def convert(datatable: DataTable, color : ChessGame.Color.Value): ChessBoard = {
-    val boardAsSingleList: List[String] = datatable.asList(classOf[String]).asScala.toList
+    val boardAsSingleList = datatable.asList(classOf[String]).asScala.toList.toIndexedSeq
     val boardWithoutFileLetters = boardAsSingleList.drop(rowSize)
 
-    def removeRankNumbersAndChangeType(list: List[String]): List[List[ChessPiece]] = {
-      list match {
-        case Nil => Nil
-        case _ => {
-          val x = list.slice(1, rowSize)
-          x.map( piece => cucumberConvert(piece)):: removeRankNumbersAndChangeType(list.drop(rowSize))
-        }
+    def removeRankNumbersAndChangeType(state: IndexedSeq[String]): IndexedSeq[IndexedSeq[ChessPiece]] = {
+      def getNextRow(rest : IndexedSeq[String]): IndexedSeq[IndexedSeq[String]] = {
+        val nextRow: IndexedSeq[String] = rest.slice(1, rowSize)
+        val newRest: IndexedSeq[String] = rest.drop(rowSize)
+        if (newRest.isEmpty) IndexedSeq(nextRow) else IndexedSeq(nextRow) ++ getNextRow(newRest)
       }
+      val rows: IndexedSeq[IndexedSeq[String]] = getNextRow(state)
+      rows.map(row => row.map(cucumberConvert))
     }
 
     val chessBoardState = removeRankNumbersAndChangeType(boardWithoutFileLetters)

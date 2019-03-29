@@ -5,7 +5,7 @@ object ChessBoardUtilityFunctions {
 
   def boardStateIndexes(rank: Int, file: Char): (Int, Int) = (rank - 1, convertFileToIndex(file))
 
-  def formatRow(row: List[ChessPiece]) = row.map(createChessSquare).mkString + "|\n"
+  def formatRow(row: IndexedSeq[ChessPiece]) = row.map(createChessSquare).mkString + "|\n"
 
   def createChessSquare(chessPiece: ChessPiece) : String = s"|${chessPiece.displayName}"
   def createChessSquare(rank: Int) : String = s"| ${rank.toString} "
