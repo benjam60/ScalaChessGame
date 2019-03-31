@@ -3,5 +3,5 @@ package steps
 import ChessGame._
 import ChessGame.Color.White
 class Runner {
-   var chessBoard = new ChessBoard(InitialInternalChessBoardState.get, White)
+   var chessBoard = new Board(InitialInternalChessBoardState.get, White)
 }

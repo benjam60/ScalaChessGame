@@ -1,12 +1,11 @@
 package ChessGame
 
 import ChessGame.AllPieces.ChessPiece
-import ChessGame.ChessBoard
-import ChessGame.ChessBoardUtilityFunctions.{createChessSquare, formatFiles, formatRow}
+import ChessGame.BoardUtilityFunctions.{createChessSquare, formatFiles, formatRow}
 
 object ChessBoardPrinter {
 
-  def print(chessBoard: ChessBoard) : String = {
+  def print(chessBoard: Board) : String = {
     val topLeftCorner: Char = ' '
     val rowWithFileLettersAndSpace = topLeftCorner :: ('A' to 'H').toList
     val boardWithRanks = chessBoard.state.zip(1 to 8)

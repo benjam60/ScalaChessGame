@@ -1,7 +1,7 @@
 package steps
 
 import ChessGame.AllPieces._
-import ChessGame.ChessBoard
+import ChessGame.Board
 import cucumber.api.DataTable
 import steps.Ben.cucumberConvert
 
@@ -10,7 +10,7 @@ import scala.collection.JavaConverters._
 
 object CucumberHelperFunctions {
 
-  def convert(datatable: DataTable, color : ChessGame.Color.Value): ChessBoard = {
+  def convert(datatable: DataTable, color : ChessGame.Color.Value): Board = {
     val boardAsSingleList = datatable.asList(classOf[String]).asScala.toList.toIndexedSeq
     val boardWithoutFileLetters = boardAsSingleList.drop(rowSize)
 
@@ -25,7 +25,7 @@ object CucumberHelperFunctions {
     }
 
     val state = removeRankNumbersAndChangeType(boardWithoutFileLetters)
-    new ChessBoard(state, color)
+    new Board(state, color)
   }
 
   def convertMovesToList(dataTable: DataTable): List[String] = {
@@ -37,10 +37,11 @@ object CucumberHelperFunctions {
 }
 
 
-object Ben { //this function is for cucumber
+object Ben {
   def cucumberConvert(piece: String): ChessPiece = {
-    piece match {
-      case "Paw" => PawnCanMoveTwice //problem here
+    piece match { //how to differentiate between move once or twice for a pawn
+      case WhitePawnName => WhitePawnCanMoveTwice
+      case BlackPawnName => BlackPawnCanMoveTwice
       case "Kni" => Knight
       case "Bis" => Bishop
       case "Que" => Queen

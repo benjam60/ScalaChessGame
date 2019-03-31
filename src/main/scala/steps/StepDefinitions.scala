@@ -1,7 +1,7 @@
 package steps
-import ChessGame.ChessBoardPieceMovement.movePiece
+import ChessGame.BoardPieceMovement.movePiece
 import ChessGame.Color.{Black, White}
-import ChessGame.{ChessBoard, ChessBoardPrinter, InitialInternalChessBoardState}
+import ChessGame.{Board, ChessBoardPrinter, InitialInternalChessBoardState}
 import cucumber.api.DataTable
 import cucumber.api.scala.{EN, ScalaDsl}
 import steps.CucumberHelperFunctions.{convert, convertMovesToList}
@@ -16,8 +16,8 @@ class StepDefinitions extends ScalaDsl with EN {
 
   Given("""^In a new game, it is the turn of (White|Black)""") { color : String =>
     runner = new Runner
-    if (color == "White") runner.chessBoard = new ChessBoard(InitialInternalChessBoardState.get, White)
-    else runner.chessBoard = new ChessBoard(InitialInternalChessBoardState.get, Black)
+    if (color == "White") runner.chessBoard = new Board(InitialInternalChessBoardState.get, White)
+    else runner.chessBoard = new Board(InitialInternalChessBoardState.get, Black)
   }
 
   When("""^the following moves are made$"""){ (moves: DataTable) =>
@@ -30,9 +30,11 @@ class StepDefinitions extends ScalaDsl with EN {
                                                                    move(5)) })
   }
 
+
+
   Then("^the board should look like$"){ dataTable : DataTable =>
     val arbitraryColor = Black
-    val board : ChessBoard = convert(dataTable, arbitraryColor)
+    val board : Board = convert(dataTable, arbitraryColor)
     val actualBoard = ChessBoardPrinter.print(runner.chessBoard)
     val expectedBoard = ChessBoardPrinter.print(board)
     println("My class' chessboard is\n" + actualBoard)

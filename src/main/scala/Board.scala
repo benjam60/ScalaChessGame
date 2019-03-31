@@ -1,10 +1,10 @@
 package ChessGame
 
 import ChessGame.AllPieces._
-import ChessGame.ChessBoardUtilityFunctions.{createChessSquare, formatFiles, formatRow}
+import ChessGame.BoardUtilityFunctions.{createChessSquare, formatFiles, formatRow}
 import ChessGame.Color.Color
 
-case class ChessBoard(state: IndexedSeq[IndexedSeq[ChessPiece]], turn: Color)
+case class Board(state: IndexedSeq[IndexedSeq[ChessPiece]], turn: Color)
 
 object Color extends Enumeration {
   type Color = Value
@@ -16,12 +16,12 @@ object InitialInternalChessBoardState {
   //need to differentiate
   val get: IndexedSeq[IndexedSeq[ChessPiece]] = IndexedSeq(
     IndexedSeq(Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook),
-    IndexedSeq.fill(rowSize)(PawnCanMoveTwice),
+    IndexedSeq.fill(rowSize)(WhitePawnCanMoveTwice),
     IndexedSeq.fill(rowSize)(Space),
     IndexedSeq.fill(rowSize)(Space),
     IndexedSeq.fill(rowSize)(Space),
     IndexedSeq.fill(rowSize)(Space),
-    IndexedSeq.fill(rowSize)(PawnCanMoveTwice),
+    IndexedSeq.fill(rowSize)(BlackPawnCanMoveTwice),
     IndexedSeq(Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook)
   )
 }

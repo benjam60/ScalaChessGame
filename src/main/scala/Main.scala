@@ -1,17 +1,17 @@
 package ChessGame
-import ChessGame.ChessBoardPieceMovement.movePiece
+import ChessGame.BoardPieceMovement.movePiece
 import ChessGame.Color.White
 import ChessGame.gameControlFunctions.nextTurn
 
 object Main extends App {
   val colorsTurn = White
-  val initialBoard = new ChessBoard(InitialInternalChessBoardState.get, colorsTurn)
+  val initialBoard = new Board(InitialInternalChessBoardState.get, colorsTurn)
   nextTurn(initialBoard)
   println("Game Over")
 }
 
 object gameControlFunctions {
-  def nextTurn(chessboard: ChessBoard): Unit = {
+  def nextTurn(chessboard: Board): Unit = {
     println(ChessBoardPrinter.print(chessboard))
     whichPieceToMove(chessboard.turn)
     val srcCoordinates = scala.io.StdIn.readLine()

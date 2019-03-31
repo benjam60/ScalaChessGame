@@ -10,7 +10,7 @@ Feature: Ensures chessboard initializes correctly
       | 4 |     |     |     |     |     |     |     |     |
       | 5 |     |     |     |     |     |     |     |     |
       | 6 |     |     |     |     |     |     |     |     |
-      | 7 | Paw | Paw | Paw | Paw | Paw | Paw | Paw | Paw |
+      | 7 | paw | paw | paw | paw | paw | paw | paw | paw |
       | 8 | Roo | Kni | Bis | Kin | Que | Bis | Kni | Roo |
 
 

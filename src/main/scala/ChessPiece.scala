@@ -9,22 +9,46 @@ object AllPieces {
     def isValidMove(srcRow: Int, srcCol: Int, destRow: Int, destCol: Int): Boolean
   }
 
-  object PawnCanMoveTwice extends ChessPiece {
-    override val displayName = "Paw"
+  object BlackPawnCanMoveTwice extends ChessPiece {
+    override val displayName = BlackPawnName
 
-    def isValidMove(srcRow: Int, srcCol: Int, destRow: Int, destCol: Int): Boolean = {
-      if (srcCol == destCol && Math.abs(srcRow - destRow) <= 2) true
-      else false
-    }
+    def isValidMove(srcRow: Int, srcCol: Int, destRow: Int, destCol: Int): Boolean =
+      isValidPawnCanMoveTwice(srcRow, srcCol, destRow, destCol)
+
   }
 
-  object PawnCanMoveOnce extends ChessPiece {
-    override val displayName = "Paw"
+  object BlackPawnCanMoveOnce extends ChessPiece {
+    override val displayName = BlackPawnName
 
-    def isValidMove(srcRow: Int, srcCol: Int, destRow: Int, destCol: Int): Boolean = {
-      srcCol == destCol && Math.abs(srcRow - destRow) == 1
-    }
+    def isValidMove(srcRow: Int, srcCol: Int, destRow: Int, destCol: Int): Boolean =
+      isValidPawnCanMoveOnce(srcRow, srcCol, destRow, destCol)
+
   }
+
+  object WhitePawnCanMoveTwice extends ChessPiece {
+    override val displayName = WhitePawnName
+
+    def isValidMove(srcRow: Int, srcCol: Int, destRow: Int, destCol: Int): Boolean =
+      isValidPawnCanMoveTwice(srcRow, srcCol, destRow, destCol)
+
+  }
+
+  object WhitePawnCanMoveOnce extends ChessPiece {
+    override val displayName = WhitePawnName
+
+    def isValidMove(srcRow: Int, srcCol: Int, destRow: Int, destCol: Int): Boolean =
+      isValidPawnCanMoveOnce(srcRow, srcCol, destRow, destCol)
+  }
+
+  private def isValidPawnCanMoveOnce(srcRow: Int, srcCol: Int, destRow: Int, destCol: Int): Boolean =
+    srcCol == destCol && Math.abs(srcRow - destRow) == 1
+
+  private def isValidPawnCanMoveTwice(srcRow: Int, srcCol: Int, destRow: Int, destCol: Int): Boolean =
+    srcCol == destCol && Math.abs(srcRow - destRow) == 2
+
+  val WhitePawnName = "Paw"
+  val BlackPawnName = WhitePawnName.toLowerCase
+
 
   object Knight extends ChessPiece {
     override val displayName = "Kni"

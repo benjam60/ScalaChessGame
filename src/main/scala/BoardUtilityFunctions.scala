@@ -1,7 +1,7 @@
 package ChessGame
 import ChessGame.AllPieces.ChessPiece
 
-object ChessBoardUtilityFunctions {
+object BoardUtilityFunctions {
 
   def boardStateIndexes(rank: Int, file: Char): (Int, Int) = (rank - 1, convertFileToIndex(file))
 
