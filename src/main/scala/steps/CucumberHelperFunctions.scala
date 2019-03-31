@@ -10,8 +10,8 @@ import scala.collection.JavaConverters._
 
 object CucumberHelperFunctions {
 
-  def convert(datatable: DataTable, color : ChessGame.Color.Value): Board = {
-    val boardAsSingleList = datatable.asList(classOf[String]).asScala.toList.toIndexedSeq
+  def convert(boardState: DataTable): Board = {
+    val boardAsSingleList = boardState.asList(classOf[String]).asScala.toList.toIndexedSeq
     val boardWithoutFileLetters = boardAsSingleList.drop(rowSize)
 
     def removeRankNumbersAndChangeType(state: IndexedSeq[String]): IndexedSeq[IndexedSeq[ChessPiece]] = {
@@ -25,12 +25,10 @@ object CucumberHelperFunctions {
     }
 
     val state = removeRankNumbersAndChangeType(boardWithoutFileLetters)
-    new Board(state, color)
+    Board(state)
   }
 
-  def convertMovesToList(dataTable: DataTable): List[String] = {
-    dataTable.asList(classOf[String]).asScala.map(x => x).toList
-  }
+  def convertMovesToList(dataTable: DataTable): List[String] = dataTable.asList(classOf[String]).asScala.toList
 
   private val rowSize = 9
 

@@ -1,20 +1,23 @@
 package ChessGame
 
 import ChessGame.AllPieces._
-import ChessGame.BoardUtilityFunctions.{createChessSquare, formatFiles, formatRow}
-import ChessGame.Color.Color
 
-case class Board(state: IndexedSeq[IndexedSeq[ChessPiece]], turn: Color)
+case class Board(state: IndexedSeq[IndexedSeq[ChessPiece]])
 
-object Color extends Enumeration {
-  type Color = Value
-  val White, Black = Value
+sealed trait Color {
+  def nextTurn : Color
+}
+object Black extends Color {
+  override def nextTurn: Color = White
+}
+object White extends Color {
+  override def nextTurn: Color = Black
 }
 
-object InitialInternalChessBoardState {
+object InitialBoard {
   private val rowSize = 8
   //need to differentiate
-  val get: IndexedSeq[IndexedSeq[ChessPiece]] = IndexedSeq(
+  val state: IndexedSeq[IndexedSeq[ChessPiece]] = IndexedSeq(
     IndexedSeq(Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook),
     IndexedSeq.fill(rowSize)(WhitePawnCanMoveTwice),
     IndexedSeq.fill(rowSize)(Space),

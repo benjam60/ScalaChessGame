@@ -1,9 +1,10 @@
 package ChessGame
 
 import ChessGame.AllPieces._
-import ChessGame.Color.{Black, Color, White}
 
 object BoardPieceMovement {
+
+  //ToDo: need to test -1 and absolute value(write code) for vertical distance
 
   def movePiece(board: Board, sourceRank: Int, sourceFile: Char, destRank: Int, destFile: Char): Board = {
     val pieceToMove = board.state(sourceRank - 1)(toBoardIndex(sourceFile))
@@ -19,7 +20,7 @@ object BoardPieceMovement {
     val movedPieceBoard = board.state.updated(destRank, updatedDestRow)
     val srcRow = board.state(sourceRank)
     val clearedSrc = movedPieceBoard.updated(sourceRank, srcRow.updated(toBoardIndex(sourceFile), Space))
-    Board(clearedSrc, switchTurns(board.turn))
+    Board(clearedSrc)
   }
 
   private def pieceToSet(pieceToMove : ChessPiece, verticalDistance : Int) : ChessPiece =
