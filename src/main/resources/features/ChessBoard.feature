@@ -13,4 +13,25 @@ Feature: Ensures chessboard initializes correctly
       | 7 | paw | paw | paw | paw | paw | paw | paw | paw |
       | 8 | Roo | Kni | Bis | Kin | Que | Bis | Kni | Roo |
 
+    Scenario: Custom starting board (for testing)
+      Given the board looks like
+        |   | A | B   | C   | D | E | F | G | H |
+        | 1 |   |     |     |   |   |   |   |   |
+        | 2 |   |     |     |   |   |   |   |   |
+        | 3 |   |     |     |   |   |   |   |   |
+        | 4 |   | Paw |     |   |   |   |   |   |
+        | 5 |   |     | Paw |   |   |   |   |   |
+        | 6 |   |     |     |   |   |   |   |   |
+        | 7 |   |     |     |   |   |   |   |   |
+        | 8 |   |     |     |   |   |   |   |   |
+      Then the board should look like
+        |   | A | B   | C   | D | E | F | G | H |
+        | 1 |   |     |     |   |   |   |   |   |
+        | 2 |   |     |     |   |   |   |   |   |
+        | 3 |   |     |     |   |   |   |   |   |
+        | 4 |   | Paw |     |   |   |   |   |   |
+        | 5 |   |     | Paw |   |   |   |   |   |
+        | 6 |   |     |     |   |   |   |   |   |
+        | 7 |   |     |     |   |   |   |   |   |
+        | 8 |   |     |     |   |   |   |   |   |
 

@@ -1,6 +1,5 @@
 Feature: Ensure proper piece movement
 
-  @ExampleFeature
   Scenario: A piece can be moved on the board and the board's state will update
     Given a new chess game
     When the following moves are made
@@ -12,9 +11,9 @@ Feature: Ensure proper piece movement
       | 2 | Paw |     | Paw | Paw | Paw | Paw | Paw | Paw |
       | 3 |     | Paw |     |     |     |     |     |     |
       | 4 |     |     |     |     |     |     |     |     |
-      | 5 |     |     |     |     |     |     |     | Paw |
+      | 5 |     |     |     |     |     |     |     | paw |
       | 6 |     |     |     |     |     |     |     |     |
-      | 7 | Paw | Paw | Paw | Paw | Paw | Paw | Paw |     |
+      | 7 | paw | paw | paw | paw | paw | paw | paw |     |
       | 8 | Roo | Kni | Bis | Kin | Que | Bis | Kni | Roo |
 
 
@@ -31,28 +30,26 @@ Feature: Ensure proper piece movement
       | 4 |     | Paw |     |     |     |     |     |     |
       | 5 |     |     |     |     |     |     |     |     |
       | 6 |     |     |     |     |     |     |     |     |
-      | 7 | Paw | Paw | Paw | Paw | Paw | Paw | Paw | Paw |
+      | 7 | paw | paw | paw | paw | paw | paw | paw | paw |
       | 8 | Roo | Kni | Bis | Kin | Que | Bis | Kni | Roo |
 
-  Scenario: White can't move blacks piece
-    Given a new chess game
-    When the following moves are made
-      | 7B->6B |
-    Then the board should look like
-      |   | A   | B   | C   | D   | E   | F   | G   | H   |
-      | 1 | Roo | Kni | Bis | Que | Kin | Bis | Kni | Roo |
-      | 2 | Paw |     | Paw | Paw | Paw | Paw | Paw | Paw |
-      | 3 |     |     |     |     |     |     |     |     |
-      | 4 |     | Paw |     |     |     |     |     |     |
-      | 5 |     |     |     |     |     |     |     |     |
-      | 6 |     |     |     |     |     |     |     |     |
-      | 7 | Paw | Paw | Paw | Paw | Paw | Paw | Paw | Paw |
-      | 8 | Roo | Kni | Bis | Kin | Que | Bis | Kni | Roo |
-
+#  Scenario: White can't move blacks piece
+#    Given a new chess game
+#    When the following moves are made
+#      | 7B->6B |
+#    Then the board should look like
+#      |   | A   | B   | C   | D   | E   | F   | G   | H   |
+#      | 1 | Roo | Kni | Bis | Que | Kin | Bis | Kni | Roo |
+#      | 2 | Paw |     | Paw | Paw | Paw | Paw | Paw | Paw |
+#      | 3 |     |     |     |     |     |     |     |     |
+#      | 4 |     | Paw |     |     |     |     |     |     |
+#      | 5 |     |     |     |     |     |     |     |     |
+#      | 6 |     |     |     |     |     |     |     |     |
+#      | 7 | paw | paw | paw | paw | paw | paw | paw | paw |
+#      | 8 | Roo | Kni | Bis | Kin | Que | Bis | Kni | Roo |
 
   Scenario: A player can't take two turns in a row
     Given In a new game, it is the turn of White
     When the following moves are made
       | 2B->4B |
     Then it is the turn of Black
-

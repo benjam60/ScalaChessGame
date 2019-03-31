@@ -36,7 +36,6 @@ object CucumberHelperFunctions {
 
 }
 
-
 object Ben {
   def cucumberConvert(piece: String): ChessPiece = {
     piece match { //how to differentiate between move once or twice for a pawn

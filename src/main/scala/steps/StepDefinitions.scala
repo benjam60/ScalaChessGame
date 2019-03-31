@@ -14,13 +14,19 @@ class StepDefinitions extends ScalaDsl with EN {
     runner = new Runner //move to before hook until we figure this out
   }
 
+  Given("""^the board looks like$""") { dataTable: DataTable =>
+    val arbitraryColor = Black
+    val board = convert(dataTable, arbitraryColor)
+    runner.chessBoard = board
+  }
+
   Given("""^In a new game, it is the turn of (White|Black)""") { color : String =>
     runner = new Runner
     if (color == "White") runner.chessBoard = new Board(InitialInternalChessBoardState.get, White)
     else runner.chessBoard = new Board(InitialInternalChessBoardState.get, Black)
   }
 
-  When("""^the following moves are made$"""){ (moves: DataTable) =>
+  When("""^the following moves are made$"""){ moves: DataTable =>
     val playerMoves : List[String] = convertMovesToList(moves)
         runner.chessBoard =
           playerMoves.foldLeft(runner.chessBoard)((acc, move) => { movePiece(acc,

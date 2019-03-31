@@ -44,7 +44,7 @@ object AllPieces {
     srcCol == destCol && Math.abs(srcRow - destRow) == 1
 
   private def isValidPawnCanMoveTwice(srcRow: Int, srcCol: Int, destRow: Int, destCol: Int): Boolean =
-    srcCol == destCol && Math.abs(srcRow - destRow) == 2
+    srcCol == destCol && Math.abs(srcRow - destRow) <= 2
 
   val WhitePawnName = "Paw"
   val BlackPawnName = WhitePawnName.toLowerCase
