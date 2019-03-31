@@ -25,22 +25,17 @@ class PlayerInputParser(inputSource : InputSource) {
     else (chessboard, turn)
   }
 
-  private def readPieces(input: String): (Int, Char, Int, Char) = { //Todo: Custom pattern match on this input for num,num
-    val indexOfSrcRankCoordinateInString = 0
-    val indexOfSrcFileCoordinateInString = 1
-    val indexOfDestRankCoordinateInString = 4
-    val indexOfDestFileCoordinateInString = 5
-    (input(indexOfSrcRankCoordinateInString).asDigit, input(indexOfSrcFileCoordinateInString),
-      input(indexOfDestRankCoordinateInString).asDigit, input(indexOfDestFileCoordinateInString))
+  private def readPieces(input: String): (Int, Char, Int, Char) = {
+    val SrcRankIndex = 0
+    val SrcFileIndex = 1
+    val DestRankIndex = 4
+    val DestFileIndex = 5
+    (input(SrcRankIndex).asDigit, input(SrcFileIndex), input(DestRankIndex).asDigit, input(DestFileIndex))
   }
 
   private def whichPieceToMove(pieceColor: Color) : Unit = {
-    println(pieceColor.toString + ", what piece would you like to move?")
-    println("Type in this format: x,y")
-  }
-
-  private def whereToPlacePiece(pieceColor: Color): Unit = {
-    println(pieceColor.toString + ", where do you want to move the piece?")
+    println(pieceColor.toString +
+      ", please type exactly in this format e.g. 2B->3B to move piece from 2B to 3B")
     println("Type in this format: x,y")
   }
 }

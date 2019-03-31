@@ -29,7 +29,4 @@ object BoardPieceMovement {
       else if (pieceToMove == WhitePawnCanMoveTwice) WhitePawnCanMoveOnce
       else pieceToMove
     } else pieceToMove
-
-  //write test
-  private def switchTurns(color: Color): Color = if (color == Black) White else Black
 }
