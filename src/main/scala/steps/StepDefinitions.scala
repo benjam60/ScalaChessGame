@@ -22,7 +22,6 @@ class StepDefinitions extends ScalaDsl with EN {
   private val gamePlay = new GamePlay(TestInputWriter)(_, _)
 
   Given("""^a new chess game$"""){ () =>
-    runner = new Runner //move to before hook until we figure this out
     runner.gamePlay = gamePlay(Board(InitialBoard.state), White)
     actualBoard = Board(InitialBoard.state)
     actualTurn = White

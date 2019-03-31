@@ -16,7 +16,6 @@ object White extends Color {
 
 object InitialBoard {
   private val rowSize = 8
-  //need to differentiate
   val state: IndexedSeq[IndexedSeq[ChessPiece]] = IndexedSeq(
     IndexedSeq(Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook),
     IndexedSeq.fill(rowSize)(WhitePawnCanMoveTwice),

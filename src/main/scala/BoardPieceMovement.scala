@@ -1,7 +1,7 @@
 package ChessGame
 
 import ChessGame.AllPieces._
-
+import BoardUtilityFunctions.toBoardIndex
 object BoardPieceMovement {
 
   //ToDo: need to test -1 and absolute value(write code) for vertical distance
@@ -30,7 +30,6 @@ object BoardPieceMovement {
       else pieceToMove
     } else pieceToMove
 
-  private def toBoardIndex(file : Char) = file - AsciiValueOfA
-  private val AsciiValueOfA = 65
+  //write test
   private def switchTurns(color: Color): Color = if (color == Black) White else Black
 }

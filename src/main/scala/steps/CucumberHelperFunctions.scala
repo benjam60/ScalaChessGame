@@ -3,7 +3,6 @@ package steps
 import ChessGame.AllPieces._
 import ChessGame.Board
 import cucumber.api.DataTable
-import steps.Ben.cucumberConvert
 
 import scala.collection.JavaConverters._
 
@@ -15,27 +14,21 @@ object CucumberHelperFunctions {
     val boardWithoutFileLetters = boardAsSingleList.drop(rowSize)
 
     def removeRankNumbersAndChangeType(state: IndexedSeq[String]): IndexedSeq[IndexedSeq[ChessPiece]] = {
-      def getNextRow(rest : IndexedSeq[String]): IndexedSeq[IndexedSeq[String]] = {
+      def twoDimensionalize(rest : IndexedSeq[String]): IndexedSeq[IndexedSeq[String]] = {
         val nextRow: IndexedSeq[String] = rest.slice(1, rowSize)
         val newRest: IndexedSeq[String] = rest.drop(rowSize)
-        if (newRest.isEmpty) IndexedSeq(nextRow) else IndexedSeq(nextRow) ++ getNextRow(newRest)
+        if (newRest.isEmpty) IndexedSeq(nextRow) else IndexedSeq(nextRow) ++ twoDimensionalize(newRest)
       }
-      val rows: IndexedSeq[IndexedSeq[String]] = getNextRow(state)
-      rows.map(row => row.map(cucumberConvert))
+      val rows: IndexedSeq[IndexedSeq[String]] = twoDimensionalize(state)
+      rows.map(row => row.map(convert))
     }
 
     val state = removeRankNumbersAndChangeType(boardWithoutFileLetters)
     Board(state)
   }
 
-  def convertMovesToList(dataTable: DataTable): List[String] = dataTable.asList(classOf[String]).asScala.toList
-
-  private val rowSize = 9
-
-}
-
-object Ben {
-  def cucumberConvert(piece: String): ChessPiece = {
+  //ToDo: implement from string to get rid of these case statements
+  def convert(piece: String): ChessPiece = {
     piece match { //how to differentiate between move once or twice for a pawn
       case WhitePawnName => WhitePawnCanMoveTwice
       case BlackPawnName => BlackPawnCanMoveTwice
@@ -47,4 +40,7 @@ object Ben {
       case _ => Space
     }
   }
+
+  def convertMovesToList(dataTable: DataTable): List[String] = dataTable.asList(classOf[String]).asScala.toList
+  private val rowSize = 9
 }
