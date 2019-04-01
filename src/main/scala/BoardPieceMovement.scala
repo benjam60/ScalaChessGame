@@ -1,25 +1,24 @@
 package ChessGame
 
 import ChessGame.AllPieces._
-import BoardUtilityFunctions.toBoardIndex
+import ChessGame.InputMoveValidation.BoardPosition
 object BoardPieceMovement {
 
-  //ToDo: need to test -1 and absolute value(write code) for vertical distance
-
-  def movePiece(board: Board, sourceRank: Int, sourceFile: Char, destRank: Int, destFile: Char): Board = {
-    val pieceToMove = board.state(sourceRank - 1)(toBoardIndex(sourceFile))
-    if (pieceToMove.isValidMove(sourceRank - 1, sourceFile, destRank - 1, destFile)) {
-      movePieceAndSwitchTurns(board, sourceRank - 1, sourceFile, destRank - 1, destFile, pieceToMove)
+  def movePiece(board: Board, sourcePosition : BoardPosition, destinationPosition : BoardPosition): Board = {
+    val pieceToMove = board.state(sourcePosition.rank.boardStateIndex)(sourcePosition.file.boardStateIndex)
+    if (pieceToMove.isValidMove(sourcePosition, destinationPosition)) {
+      movePieceAndSwitchTurns(board, sourcePosition, destinationPosition, pieceToMove)
     } else board
   }
-  private def movePieceAndSwitchTurns(board: Board, sourceRank: Int, sourceFile: Char,
-                                      destRank: Int, destFile: Char, pieceToMove : ChessPiece): Board = {
-    val destRowToUpdate = board.state(destRank)
-    val updatedDestRow = destRowToUpdate.updated(toBoardIndex(destFile),
-      pieceToSet(pieceToMove, destRank - sourceRank)) //add absolute value to test
-    val movedPieceBoard = board.state.updated(destRank, updatedDestRow)
-    val srcRow = board.state(sourceRank)
-    val clearedSrc = movedPieceBoard.updated(sourceRank, srcRow.updated(toBoardIndex(sourceFile), Space))
+  private def movePieceAndSwitchTurns(board: Board, sourcePosition : BoardPosition,
+                                      destinationPosition : BoardPosition, pieceToMove : ChessPiece): Board = {
+    val destRowToUpdate = board.state(destinationPosition.rank.boardStateIndex)
+    val updatedDestRow = destRowToUpdate.updated(destinationPosition.file.boardStateIndex,
+      pieceToSet(pieceToMove, destinationPosition.rank.boardStateIndex - sourcePosition.rank.boardStateIndex)) //add absolute value to test
+    val movedPieceBoard = board.state.updated( destinationPosition.rank.boardStateIndex, updatedDestRow)
+    val srcRow = board.state(sourcePosition.rank.boardStateIndex)
+    val clearedSrc = movedPieceBoard.updated(sourcePosition.rank.boardStateIndex,
+      srcRow.updated(sourcePosition.file.boardStateIndex, Space))
     Board(clearedSrc)
   }
 
