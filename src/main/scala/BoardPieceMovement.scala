@@ -6,12 +6,12 @@ object BoardPieceMovement {
 
   def movePiece(board: Board, sourcePosition : BoardPosition, destinationPosition : BoardPosition): Board = {
     val pieceToMove = board.state(sourcePosition.rank.boardStateIndex)(sourcePosition.file.boardStateIndex)
-    if (pieceToMove.isValidMove(sourcePosition, destinationPosition)) {
-      movePieceAndSwitchTurns(board, sourcePosition, destinationPosition, pieceToMove)
-    } else board
+    if (pieceToMove.isValidMove(sourcePosition, destinationPosition))
+      updateBoard(board, sourcePosition, destinationPosition, pieceToMove)
+    else board
   }
-  private def movePieceAndSwitchTurns(board: Board, sourcePosition : BoardPosition,
-                                      destinationPosition : BoardPosition, pieceToMove : ChessPiece): Board = {
+  private def updateBoard(board: Board, sourcePosition : BoardPosition, destinationPosition : BoardPosition,
+                          pieceToMove : ChessPiece): Board = {
     val destRowToUpdate = board.state(destinationPosition.rank.boardStateIndex)
     val updatedDestRow = destRowToUpdate.updated(destinationPosition.file.boardStateIndex,
       pieceToSet(pieceToMove, destinationPosition.rank.boardStateIndex - sourcePosition.rank.boardStateIndex)) //add absolute value to test

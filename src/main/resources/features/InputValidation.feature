@@ -20,6 +20,7 @@ Feature: Input Validation
       | Illegal Moves |
       | 4A->2A        |
       | 0A->2A        |
+      | 11->11        |
       | 2Q->3Q        |
       | A2->4A        |
       | toolong       |
