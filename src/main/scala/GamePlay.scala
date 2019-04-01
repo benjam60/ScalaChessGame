@@ -1,6 +1,7 @@
 package ChessGame
 
 import ChessGame.BoardPieceMovement.movePiece
+import ChessGame.BoardUtilityFunctions.toBoardIndex
 //use compiletime safety to ensure white and black must alternate moves
 
 class GamePlay(inputSource: InputSource)(initialBoard: Board, firstMove: Color) {
@@ -19,8 +20,12 @@ class PlayerInputParser(inputSource : InputSource) {
     val input = inputSource.readLine
     if (input.toLowerCase() != "quit") {
       val (srcRank, srcFile, destRank, destFile) = readPieces(input)
-      val updatedBoard = movePiece(chessboard, srcRank, srcFile, destRank, destFile)
-      takeTurn(updatedBoard, turn.nextTurn)
+      val pieceToMove: AllPieces.ChessPiece = chessboard.state(srcRank - 1)(toBoardIndex(srcFile))
+      if (pieceToMove.color != turn) { takeTurn(chessboard, turn) }
+      else {
+        val updatedBoard = movePiece(chessboard, srcRank, srcFile, destRank, destFile)
+        takeTurn(updatedBoard, turn.nextTurn)
+      }
     }
     else (chessboard, turn)
   }
