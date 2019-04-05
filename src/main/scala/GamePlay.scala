@@ -1,6 +1,7 @@
 package ChessGame
 
 import ChessGame.BoardPieceMovement.movePiece
+import org.scalactic.{Bad, Or}
 //use compiletime safety to ensure white and black must alternate moves
 
 class GamePlay(inputSource: InputSource)(initialBoard: Board, firstMove: Color) {
@@ -14,22 +15,21 @@ class GamePlay(inputSource: InputSource)(initialBoard: Board, firstMove: Color) 
 case class ChessMove(source : (Int, Int), destination : (Int, Int))
 
 class PlayerInputParser(inputSource : InputSource) {
-  def takeTurn(chessboard: Board, turn : Color) : (Board, Color) = {
-    println(ChessBoardPrinter.print(chessboard))
+  def takeTurn(chessboard: Board, turn : Color) : Or[Board, ErrorType] = {
+    println(BoardPrinter.print(chessboard))
     whichPieceToMove(turn)
     val input = inputSource.readLine
-    if (shouldEndGame(input)) {
+    if (shouldContinueGame(input)) {
       InputMoveValidation.readPieces(input) match {
         case Some((sourcePosition, destinationPosition)) =>
           val pieceToMove = InputMoveValidation.get(chessboard, sourcePosition)
           if (pieceToMove.map(_.color).contains(turn)) {
-            val updatedBoard = movePiece(chessboard, sourcePosition, destinationPosition)
-            takeTurn(updatedBoard, turn.nextTurn)
-          } else takeTurn(chessboard, turn)
-      case None => takeTurn(chessboard, turn)
+            movePiece(chessboard, sourcePosition, destinationPosition)
+          } else Bad(NotYourTurn)
+      	case None => Bad(InvalidInput)
       }
     }
-    else (chessboard, turn)
+    else Bad(GameOver)
   }
 
   private def whichPieceToMove(pieceColor: Color) : Unit = {
@@ -37,9 +37,15 @@ class PlayerInputParser(inputSource : InputSource) {
     println("Type in this format: x,y")
   }
 
-  private def shouldEndGame(input : String) : Boolean = input.toLowerCase() != "quit"
+  private def shouldContinueGame(input : String) : Boolean = input.toLowerCase() != "quit"
 }
 
 trait InputSource {
   def readLine : String
 }
+
+sealed trait ErrorType
+object NotYourTurn extends ErrorType
+object GameOver extends ErrorType
+object InvalidMove extends ErrorType
+object InvalidInput extends ErrorType

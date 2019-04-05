@@ -49,8 +49,8 @@ class StepDefinitions extends ScalaDsl with EN {
 
   Then("^the board should look like$"){ dataTable : DataTable =>
     val board : Board = convert(dataTable)
-    val actBoard = ChessBoardPrinter.print(actualBoard)
-    val expectedBoard = ChessBoardPrinter.print(board)
+    val actBoard = BoardPrinter.print(actualBoard)
+    val expectedBoard = BoardPrinter.print(board)
     println("My class' chessboard is\n" + actBoard)
     println("and the expected board is \n" + expectedBoard)
     assert(expectedBoard == actBoard)

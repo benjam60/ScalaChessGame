@@ -2,28 +2,22 @@ package ChessGame
 
 import ChessGame.AllPieces._
 
-case class Board(state: IndexedSeq[IndexedSeq[ChessPiece]])
+case class Board(state: IndexedSeq[IndexedSeq[Option[ChessPiece]]])
 
-sealed trait Color {
-  def nextTurn : Color
-}
-object Black extends Color {
-  override def nextTurn: Color = White
-}
-object White extends Color {
-  override def nextTurn: Color = Black
-}
+sealed trait Color
+object Black extends Color
+object White extends Color
 
 object InitialBoard {
   private val rowSize = 8
-  val state: IndexedSeq[IndexedSeq[ChessPiece]] = IndexedSeq(
-    IndexedSeq(Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook),
-    IndexedSeq.fill(rowSize)(WhitePawnCanMoveTwice),
-    IndexedSeq.fill(rowSize)(Space),
-    IndexedSeq.fill(rowSize)(Space),
-    IndexedSeq.fill(rowSize)(Space),
-    IndexedSeq.fill(rowSize)(Space),
-    IndexedSeq.fill(rowSize)(BlackPawnCanMoveTwice),
-    IndexedSeq(Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook)
+  val state: IndexedSeq[IndexedSeq[Option[ChessPiece]]] = IndexedSeq(
+    IndexedSeq(Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook).map(c => Option(c)),
+    IndexedSeq.fill(rowSize)(WhitePawnCanMoveTwice).map(c => Option(c)),
+    IndexedSeq.fill(rowSize)(None),
+    IndexedSeq.fill(rowSize)(None),
+    IndexedSeq.fill(rowSize)(None),
+    IndexedSeq.fill(rowSize)(None),
+    IndexedSeq.fill(rowSize)(BlackPawnCanMoveTwice).map(c => Option(c)),
+    IndexedSeq(Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook).map(c => Option(c))
   )
 }
