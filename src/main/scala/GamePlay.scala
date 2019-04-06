@@ -1,6 +1,6 @@
 package ChessGame
 
-import ChessGame.BoardPieceMovement.movePiece
+import ChessGame.PieceMovement.movePiece
 import org.scalactic.{Bad, Or}
 //use compiletime safety to ensure white and black must alternate moves
 

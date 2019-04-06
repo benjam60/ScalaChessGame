@@ -3,7 +3,7 @@ package ChessGame
 import ChessGame.AllPieces._
 import org.scalactic.{Bad, Good, Or}
 
-object BoardPieceMovement {
+object PieceMovement {
 
   def movePiece(board: Board, source : BoardPosition, destination : BoardPosition): Or[Board, ErrorType] =
 		board.get(source).collect { case piece if piece.isValidMove(board, source, destination) =>
