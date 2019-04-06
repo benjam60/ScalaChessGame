@@ -1,12 +1,23 @@
 package ChessGame
 
 import ChessGame.AllPieces._
+import ChessGame.InputMoveValidation.BoardPosition
 
-case class Board(state: IndexedSeq[IndexedSeq[Option[ChessPiece]]] = InitialBoard.state)
+case class Board(state: IndexedSeq[IndexedSeq[Option[ChessPiece]]] = InitialBoard.state) {
+  def get(position : BoardPosition) : Option[ChessPiece] = state(position.rankBoardIndex)(position.fileBoardIndex)
+}
 
-sealed trait Color
-object Black extends Color
-object White extends Color
+sealed trait Color {
+  val direction : Int
+}
+object Black extends Color {
+  private val UpTheBoard = 1
+  override val direction: Int = UpTheBoard
+}
+object White extends Color {
+  private val DownTheBoard = -1
+  override val direction: Int = DownTheBoard
+}
 
 object InitialBoard {
   private val rowSize = 8

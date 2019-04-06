@@ -8,7 +8,7 @@ object BoardPieceMovement {
 
   def movePiece(board: Board, source : BoardPosition, destination : BoardPosition): Or[Board, ErrorType] = {
     val pieceToMove = board.state(source.rankBoardIndex)(source.fileBoardIndex)
-		pieceToMove.collect { case piece if piece.isValidMove(source, destination) =>
+		pieceToMove.collect { case piece if piece.isValidMove(board, piece, source, destination) =>
 			Good(updateBoard(board, source, destination, piece)) }.getOrElse(Bad(InvalidMove))
   }
 
@@ -18,7 +18,7 @@ object BoardPieceMovement {
 		board.updateBoard(Option.empty[ChessPiece], source).updateBoard(piece, destination)
 	}
 
-	implicit class BoardExtensions(board : Board) {
+	private implicit class BoardExtensions(board : Board) {
 	 def updateBoard(piece: Option[ChessPiece], position : BoardPosition): Board = {
 		 val updatedRow = board.state(position.rankBoardIndex).updated(position.fileBoardIndex, piece)
 		 val updatedState = board.state.updated(position.rankBoardIndex, updatedRow)

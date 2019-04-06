@@ -72,7 +72,7 @@ Feature: Ensure proper Pawn movement
     Then the board should look like
       |   | A   | B   | C   | D   | E   | F   | G   | H   |
       | 1 | Roo | Kni | Bis | Que | Kin | Bis | Kni | Roo |
-      | 2 | Paw | Paw | Paw | Paw | Paw | Paw | Paw | Paw |
+      | 2 | Paw | Paw |     | Paw | Paw | Paw | Paw | Paw |
       | 3 |     |     |     |     |     |     |     |     |
       | 4 |     |     |     |     |     |     |     |     |
       | 5 |     |     |     | Paw |     |     |     |     |
@@ -81,6 +81,8 @@ Feature: Ensure proper Pawn movement
       | 8 | Roo | Kni | Bis | Kin | Que | Bis | Kni | Roo |
 
 
-  Scenario: A pawn should not be able to jump over its own pieces
-
-    Scenario: can't move diagnolly 2 spaces
+#  Scenario: A pawn should not be able to jump over its own pieces
+#
+#    Scenario: can't move diagnolly 2 spaces
+#
+#      Scenario: can not move backwards!

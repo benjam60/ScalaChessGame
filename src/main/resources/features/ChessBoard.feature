@@ -14,7 +14,7 @@ Feature: Ensures chessboard initializes correctly
       | 8 | Roo | Kni | Bis | Kin | Que | Bis | Kni | Roo |
 
   Scenario: Custom starting board (for testing)
-    Given the board looks like
+    Given It is black's turn and the board looks like
       |   | A | B   | C   | D | E | F | G | H |
       | 1 |   |     |     |   |   |   |   |   |
       | 2 |   |     |     |   |   |   |   |   |
