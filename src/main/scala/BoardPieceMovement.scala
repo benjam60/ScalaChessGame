@@ -8,7 +8,7 @@ object BoardPieceMovement {
 
   def movePiece(board: Board, source : BoardPosition, destination : BoardPosition): Or[Board, ErrorType] = {
     val pieceToMove = board.state(source.rankBoardIndex)(source.fileBoardIndex)
-		pieceToMove.collect { case piece if piece.isValidMove(board, piece, source, destination) =>
+		pieceToMove.collect { case piece if piece.isValidMove(board, source, destination) =>
 			Good(updateBoard(board, source, destination, piece)) }.getOrElse(Bad(InvalidMove))
   }
 
