@@ -1,9 +1,10 @@
 package steps
+
+import ChessGame.AllPieces._
 import ChessGame._
 import cucumber.api.DataTable
 import cucumber.api.scala.{EN, ScalaDsl}
 import steps.CucumberHelperFunctions.{convert, convertMovesToList}
-import ChessGame.AllPieces._
 
 
 class StepDefinitions extends ScalaDsl with EN {
