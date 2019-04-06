@@ -12,19 +12,22 @@ object BoardPieceMovement {
 			Good(updateBoard(board, source, destination, piece)) }.getOrElse(Bad(InvalidMove))
   }
 
-  private def updateBoard(board: Board, source : BoardPosition, destination : BoardPosition,
-                          pieceToMove : ChessPiece): Board = {
-    val destRowToUpdate = board.state(destination.rankBoardIndex)
-    val updatedDestRow = destRowToUpdate.updated(destination.fileBoardIndex,
-      changePawnType(pieceToMove, Math.abs(destination.rankBoardIndex - source.rankBoardIndex)))
-    val movedPieceBoard = board.state.updated(destination.rankBoardIndex, updatedDestRow)
-    val srcRow = board.state(source.rankBoardIndex)
-    val clearedSrc = movedPieceBoard.updated(source.rankBoardIndex, srcRow.updated(source.fileBoardIndex, None))
-    Board(clearedSrc)
-  }
+	private def updateBoard(board: Board, source : BoardPosition, destination : BoardPosition,
+													pieceToMove : ChessPiece): Board = {
+		val piece = changePawnType(pieceToMove, source, destination)
+		board.updateBoard(Option.empty[ChessPiece], source).updateBoard(piece, destination)
+	}
 
-  private def changePawnType(pieceToMove : ChessPiece, verticalDistance : Int) : Option[ChessPiece] =
-    if (verticalDistance > 1) { //can abstract as Pawn!!
+	implicit class BoardExtensions(board : Board) {
+	 def updateBoard(piece: Option[ChessPiece], position : BoardPosition): Board = {
+		 val updatedRow = board.state(position.rankBoardIndex).updated(position.fileBoardIndex, piece)
+		 val updatedState = board.state.updated(position.rankBoardIndex, updatedRow)
+		 board.copy(updatedState)
+	 }
+	}
+
+  private def changePawnType(pieceToMove : ChessPiece, source : BoardPosition, destination : BoardPosition) : Option[ChessPiece] =
+    if (Math.abs(destination.rankBoardIndex - source.rankBoardIndex) > 1) { //can abstract as Pawn!!
       if (pieceToMove == BlackPawnCanMoveTwice) Option(BlackPawnCanMoveOnce)
       else if (pieceToMove == WhitePawnCanMoveTwice) Option(WhitePawnCanMoveOnce)
       else Option(pieceToMove)

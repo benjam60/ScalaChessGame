@@ -16,7 +16,6 @@ Feature: Ensure proper Pawn movement
       | 7 | paw | paw | paw | paw | paw | paw | paw |     |
       | 8 | Roo | Kni | Bis | Kin | Que | Bis | Kni | Roo |
 
-
   Scenario: When you try to move a pawn 2 spaces twice, then it'll only move 2 spaces once
     Given a new chess game
     When the following moves are made
@@ -63,3 +62,25 @@ Feature: Ensure proper Pawn movement
       | 6 |     |     |     |     |     |     | Paw |     |
       | 7 | paw |     | paw | paw | paw | paw | paw | paw |
       | 8 | Roo | Kni | Bis | Kin | Que | Bis | Kni | Roo |
+
+  Scenario: A pawn can eat an opposing piece at one space diagnol
+    Given a new chess game
+    When the following moves are made
+      | 2C->4C |
+      | 7D->5D |
+      | 4C->5D |
+    Then the board should look like
+      |   | A   | B   | C   | D   | E   | F   | G   | H   |
+      | 1 | Roo | Kni | Bis | Que | Kin | Bis | Kni | Roo |
+      | 2 | Paw | Paw | Paw | Paw | Paw | Paw | Paw | Paw |
+      | 3 |     |     |     |     |     |     |     |     |
+      | 4 |     |     |     |     |     |     |     |     |
+      | 5 |     |     |     | Paw |     |     |     |     |
+      | 6 |     |     |     |     |     |     |     |     |
+      | 7 | paw | paw | paw |     | paw | paw | paw | paw |
+      | 8 | Roo | Kni | Bis | Kin | Que | Bis | Kni | Roo |
+
+
+  Scenario: A pawn should not be able to jump over its own pieces
+
+    Scenario: can't move diagnolly 2 spaces
