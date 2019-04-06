@@ -20,7 +20,7 @@ object PlayerInputParser {
     if (shouldContinueGame(input)) {
       InputMoveValidation.readPieces(input) match {
         case Some((sourcePosition, destinationPosition)) =>
-          val pieceToMove = InputMoveValidation.get(chessboard, sourcePosition)
+          val pieceToMove = chessboard.get(sourcePosition)
           if (pieceToMove.map(_.color).contains(turn)) {
             movePiece(chessboard, sourcePosition, destinationPosition)
           } else Bad(NotYourTurn)
@@ -29,16 +29,5 @@ object PlayerInputParser {
     }
     else Bad(GameOver)
 
-//  private def whichPieceToMove(pieceColor: Color) : Unit = {
-//    println(s"${pieceColor.toString}, please type exactly in this format e.g. 2B->3B to move piece from 2B to 3B")
-//    println("Type in this format: x,y")
-//  }
-
   private def shouldContinueGame(input : String) : Boolean = input.toLowerCase() != "quit"
 }
-
-sealed trait ErrorType
-object NotYourTurn extends ErrorType
-object GameOver extends ErrorType
-object InvalidMove extends ErrorType
-object InvalidInput extends ErrorType

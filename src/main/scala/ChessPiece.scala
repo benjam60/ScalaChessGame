@@ -1,7 +1,5 @@
 package ChessGame
 
-import ChessGame.InputMoveValidation.BoardPosition
-
 
 object AllPieces {
 
@@ -17,11 +15,6 @@ object AllPieces {
     }
     protected def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean
   }
-  private val canMoveTwoSpaces = true
-  val BlackPawnCanMoveTwoSpaces = Pawn(canMoveTwoSpaces, Black)
-  val BlackPawnCanMoveOneSpace = Pawn(!canMoveTwoSpaces, Black)
-  val WhitePawnCanMoveTwoSpaces = Pawn(canMoveTwoSpaces, White)
-  val WhitePawnCanMoveOneSpace = Pawn(!canMoveTwoSpaces, White)
 
   case class Pawn(canMoveTwoSpaces : Boolean, override val color : Color) extends ChessPiece {
     override val displayName: String = if (color == White) WhitePawnName else BlackPawnName
@@ -81,5 +74,12 @@ object AllPieces {
 
     override def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean = true
   }
+
+
+  private val canMoveTwoSpaces = true
+  val BlackPawnCanMoveTwoSpaces = Pawn(canMoveTwoSpaces, Black)
+  val BlackPawnCanMoveOneSpace = Pawn(!canMoveTwoSpaces, Black)
+  val WhitePawnCanMoveTwoSpaces = Pawn(canMoveTwoSpaces, White)
+  val WhitePawnCanMoveOneSpace = Pawn(!canMoveTwoSpaces, White)
 
 }

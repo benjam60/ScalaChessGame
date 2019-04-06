@@ -7,7 +7,7 @@ object Main extends App {
   private val initialBoard = Board(InitialBoard.state)
   private val newGame  = GamePlay(initialBoard, colorsTurn)
 	playGame(newGame)
-  println("Game Over")
+  println("Game Over.")
 
 	private def playGame(gamePlay: GamePlay) : Unit = {
 		println(BoardPrinter.toString(gamePlay.currentBoard))
