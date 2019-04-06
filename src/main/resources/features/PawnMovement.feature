@@ -45,14 +45,21 @@ Feature: Ensure proper Pawn movement
       | Black | 7B->5B | 5B       |
       | White | 2C->4C | 4C       |
 
-  Scenario: Ensure pawn type changes when moving it two spaces
-    Given In a new game, it is the turn of Black
+  Scenario: A pawn can move two spaces once and then only one space
+    Given a new chess game
     When the following moves are made
+      | 2G->3G |
       | 7B->5B |
-    Then position 5B contains a Black pawn that can move once
-
-  Scenario: Valid moves for black pawns
-    Given In a new game, it is the turn of White
-    When the following moves are made
-      | 2C->4C |
-    Then position 4C contains a White pawn that can move once
+      | 3G->5G |
+      | 5B->4B |
+      | 5G->6G |
+    Then the board should look like
+      |   | A   | B   | C   | D   | E   | F   | G   | H   |
+      | 1 | Roo | Kni | Bis | Que | Kin | Bis | Kni | Roo |
+      | 2 | Paw | Paw | Paw | Paw | Paw | Paw |     | Paw |
+      | 3 |     |     |     |     |     |     |     |     |
+      | 4 |     | paw |     |     |     |     |     |     |
+      | 5 |     |     |     |     |     |     |     |     |
+      | 6 |     |     |     |     |     |     | Paw |     |
+      | 7 | paw |     | paw | paw | paw | paw | paw | paw |
+      | 8 | Roo | Kni | Bis | Kin | Que | Bis | Kni | Roo |
