@@ -16,7 +16,7 @@ object BoardPieceMovement {
                           pieceToMove : ChessPiece): Board = {
     val destRowToUpdate = board.state(destination.rankBoardIndex)
     val updatedDestRow = destRowToUpdate.updated(destination.fileBoardIndex,
-      changePawnType(pieceToMove, destination.rankBoardIndex - source.rankBoardIndex)) //add absolute value to test
+      changePawnType(pieceToMove, Math.abs(destination.rankBoardIndex - source.rankBoardIndex)))
     val movedPieceBoard = board.state.updated(destination.rankBoardIndex, updatedDestRow)
     val srcRow = board.state(source.rankBoardIndex)
     val clearedSrc = movedPieceBoard.updated(source.rankBoardIndex, srcRow.updated(source.fileBoardIndex, None))

@@ -3,7 +3,7 @@ import ChessGame._
 import cucumber.api.DataTable
 import cucumber.api.scala.{EN, ScalaDsl}
 import steps.CucumberHelperFunctions.{convert, convertMovesToList}
-import ChessGame.AllPieces.BlackPawnCanMoveTwice
+import ChessGame.AllPieces._
 
 
 class StepDefinitions extends ScalaDsl with EN {
@@ -46,10 +46,11 @@ class StepDefinitions extends ScalaDsl with EN {
     if (color == "White") assert(actualTurn == White) else assert(actualTurn == Black)
   }
 
-  Then("""^position (.{2}) contains a Black pawn that can move once""") { pos : String =>
+  Then("""^position (.{2}) contains a (White|Black) pawn that can move once""") { (pos : String, color : String) =>
       val rankIndex = pos(0).asDigit - 1
       val fileIndex = pos(1) - 65
-      assert(actualBoard.state(rankIndex)(fileIndex) == Option(BlackPawnCanMoveTwice))
+      val expectedPiece = if (color == "White") WhitePawnCanMoveOnce else BlackPawnCanMoveOnce
+      assert(actualBoard.state(rankIndex)(fileIndex) == Option(expectedPiece))
   }
 
 }
