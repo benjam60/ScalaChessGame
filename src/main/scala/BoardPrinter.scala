@@ -6,7 +6,7 @@ import BoardUtilityFunctions.{Ranks, Files}
 
 object BoardPrinter {
 
-  def print(board: Board) : String = {
+  def toString(board: Board) : String = {
     val topLeftCorner: Char = ' '
     val rowWithFileLettersAndSpace = topLeftCorner :: Files
     val boardWithRanks = board.state.zip(Ranks)
