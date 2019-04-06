@@ -1,6 +1,6 @@
 package ChessGame
 
-import ChessGame.AllPieces.{ChessPiece, Space}
+import ChessGame.AllPieces.ChessPiece
 
 object InputMoveValidation {
 
@@ -19,22 +19,19 @@ object InputMoveValidation {
     else None
 
   def get(board: Board, boardPosition: BoardPosition) : Option[ChessPiece] = {
-    val row = board.state(boardPosition.rank.boardStateIndex)
-    val piece = row(boardPosition.file.boardStateIndex)
-    Option(piece).filter(_ != Space)
+    val row = board.state(boardPosition.rankBoardIndex)
+    row(boardPosition.fileBoardIndex)
   }
 
   private def isOnBoard(rank : Int, file : Char) : Boolean = RankRange.contains(rank) && FileRange.contains(file)
 
   private def makeZeroBasedIndex(input : Int) : Int = input - 1
-  case class BoardPosition(rank : Rank, file : File)
+  case class BoardPosition(rankBoardIndex : Int, fileBoardIndex : Int)
     object BoardPosition {
         def apply(userInputtedRank : Int, userInputtedFile : Char): BoardPosition =
-        BoardPosition(Rank(makeZeroBasedIndex(userInputtedRank)), File(toBoardIndex(userInputtedFile)))
+        BoardPosition(makeZeroBasedIndex(userInputtedRank), toBoardIndex(userInputtedFile))
 
     }
-  case class Rank(boardStateIndex : Int)
-  case class File(boardStateIndex : Int)
   private val RankRange = (1 to 8).toList
   private val FileRange = ('A' to 'H').toList
   private def toBoardIndex(file : Char) : Int = file.toInt - AsciiValueOfA

@@ -11,11 +11,12 @@ object AllPieces {
 
     def isValidMove(source: BoardPosition, destination: BoardPosition): Boolean
   }
-
-  val BlackPawnCanMoveTwice = Pawn(false, Black)
-  val BlackPawnCanMoveOnce = Pawn(true, Black)
-  val WhitePawnCanMoveTwice = Pawn(false, White)
-  val WhitePawnCanMoveOnce = Pawn(true, White)
+  private val hasMovedTwice = true
+  private val hasNotMovedTwice = false
+  val BlackPawnCanMoveTwice = Pawn(hasNotMovedTwice, Black) //change wording
+  val BlackPawnCanMoveOnce = Pawn(hasMovedTwice, Black)
+  val WhitePawnCanMoveTwice = Pawn(hasNotMovedTwice, White)
+  val WhitePawnCanMoveOnce = Pawn(hasMovedTwice, White)
 
 
   case class Pawn(alreadyMovedTwice : Boolean, override val color : Color) extends ChessPiece {
@@ -23,8 +24,8 @@ object AllPieces {
 
     override def isValidMove(source: BoardPosition, destination: BoardPosition): Boolean = {
       val numSpacesCanMove = if (alreadyMovedTwice) 1 else 2
-      source.file == destination.file &&
-        Math.abs(source.rank.boardStateIndex - destination.rank.boardStateIndex) <= numSpacesCanMove
+      source.fileBoardIndex == destination.fileBoardIndex &&
+        Math.abs(source.rankBoardIndex - destination.rankBoardIndex) <= numSpacesCanMove
     }
 
     private def WhitePawnName = "Paw"

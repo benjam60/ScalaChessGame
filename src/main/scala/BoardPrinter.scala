@@ -12,7 +12,7 @@ object BoardPrinter {
     val boardWithRanks = board.state.zip(Ranks)
     val formattedFileRow = formatFiles(rowWithFileLettersAndSpace)
     val displayableBoardWithRanks =  boardWithRanks.map {
-      case (row: IndexedSeq[ChessPiece], rank: Int) => createChessSquare(rank) + formatRow(row)
+      case (row: IndexedSeq[Option[ChessPiece]], rank: Int) => createChessSquare(rank) + formatRow(row)
     }.mkString
     formattedFileRow + displayableBoardWithRanks
   }
