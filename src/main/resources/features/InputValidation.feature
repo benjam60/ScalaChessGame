@@ -27,6 +27,7 @@ Feature: Input Validation
       | short         |
       | 8A->9A        |
       | ~][\]<[       |
+      | 2F->2F        |
 
   Scenario: A player can't take two turns in a row
     Given In a new game, it is the turn of White

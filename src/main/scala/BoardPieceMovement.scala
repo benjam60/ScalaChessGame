@@ -28,8 +28,8 @@ object BoardPieceMovement {
 
   private def changePawnType(pieceToMove : ChessPiece, source : BoardPosition, destination : BoardPosition) : Option[ChessPiece] =
     if (Math.abs(destination.rankBoardIndex - source.rankBoardIndex) > 1) { //can abstract as Pawn!!
-      if (pieceToMove == BlackPawnCanMoveTwice) Option(BlackPawnCanMoveOnce)
-      else if (pieceToMove == WhitePawnCanMoveTwice) Option(WhitePawnCanMoveOnce)
+      if (pieceToMove == BlackPawnCanMoveTwoSpaces) Option(BlackPawnCanMoveOneSpace)
+      else if (pieceToMove == WhitePawnCanMoveTwoSpaces) Option(WhitePawnCanMoveOneSpace)
       else Option(pieceToMove)
     } else Option(pieceToMove)
 }

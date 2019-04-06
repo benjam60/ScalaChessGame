@@ -19,9 +19,8 @@ object CucumberHelperFunctions {
         val newRest: IndexedSeq[String] = rest.drop(rowSize)
         if (newRest.isEmpty) IndexedSeq(nextRow) else IndexedSeq(nextRow) ++ twoDimensionalize(newRest)
       }
-      val rows: IndexedSeq[IndexedSeq[String]] = twoDimensionalize(state)
-      val x = rows.map(row => row.map(convert))
-      x
+      val rows = twoDimensionalize(state)
+      rows.map(row => row.map(convert))
     }
 
     val state = removeRankNumbersAndChangeType(boardWithoutFileLetters)
@@ -31,8 +30,8 @@ object CucumberHelperFunctions {
   //ToDo: implement from string to get rid of these case statements
   def convert(piece: String): Option[ChessPiece] = {
     piece match { //how to differentiate between move once or twice for a pawn
-      case "Paw" => Option(WhitePawnCanMoveTwice)
-      case "paw" => Option(BlackPawnCanMoveTwice)
+      case "Paw" => Option(WhitePawnCanMoveTwoSpaces)
+      case "paw" => Option(BlackPawnCanMoveTwoSpaces)
       case "Kni" => Option(Knight)
       case "Bis" => Option(Bishop)
       case "Que" => Option(Queen)

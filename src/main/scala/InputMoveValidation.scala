@@ -10,7 +10,8 @@ object InputMoveValidation {
       val destRank = input(4).asDigit
       val sourceFile = input(1)
       val destFile = input(5)
-      if (isOnBoard(sourceRank, sourceFile) && isOnBoard(destRank, destFile)) {
+      if (isOnBoard(sourceRank, sourceFile) && isOnBoard(destRank, destFile) &&
+        !sourceIsSameAsDestination(sourceRank, sourceFile, destRank, destFile)) {
         val sourcePosition = BoardPosition(sourceRank, sourceFile)
         val destinationPosition = BoardPosition(destRank, destFile)
         Option((sourcePosition, destinationPosition))
@@ -24,7 +25,8 @@ object InputMoveValidation {
   }
 
   private def isOnBoard(rank : Int, file : Char) : Boolean = RankRange.contains(rank) && FileRange.contains(file)
-
+  private def sourceIsSameAsDestination(srcRank : Int, srcFile : Char, destRank : Int, destFile : Char): Boolean =
+    srcRank == destRank && srcFile == destFile
   private def makeZeroBasedIndex(input : Int) : Int = input - 1
   case class BoardPosition(rankBoardIndex : Int, fileBoardIndex : Int)
     object BoardPosition {

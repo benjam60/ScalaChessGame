@@ -8,23 +8,22 @@ object AllPieces {
   sealed trait ChessPiece {
     val color : Color
     val displayName: String
-    def isValidMove(board : Board, source: BoardPosition, destination: BoardPosition) = {
+    def isValidMove(board : Board, source: BoardPosition, destination: BoardPosition): Boolean =
+      isValidMoveForAnyPiece(board, source, destination) && isValidMoveForPiece(board, source, destination)
+
+    private def isValidMoveForAnyPiece(board: Board, source: BoardPosition, destination: BoardPosition) : Boolean = {
       val isNotEatingOwnPiece = board.get(destination).forall(_.color != color)
-      isNotEatingOwnPiece && isValidMoveForPiece(board, source, destination)
+      isNotEatingOwnPiece
     }
-
     protected def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean
-
   }
-  private val hasMovedTwice = true //canMoveTwice and only need one boolean, use operator
-  private val hasNotMovedTwice = false
-  val BlackPawnCanMoveTwice = Pawn(hasNotMovedTwice, Black) //change wording
-  val BlackPawnCanMoveOnce = Pawn(hasMovedTwice, Black)
-  val WhitePawnCanMoveTwice = Pawn(hasNotMovedTwice, White)
-  val WhitePawnCanMoveOnce = Pawn(hasMovedTwice, White)
+  private val canMoveTwoSpaces = true
+  val BlackPawnCanMoveTwoSpaces = Pawn(canMoveTwoSpaces, Black)
+  val BlackPawnCanMoveOneSpace = Pawn(!canMoveTwoSpaces, Black)
+  val WhitePawnCanMoveTwoSpaces = Pawn(canMoveTwoSpaces, White)
+  val WhitePawnCanMoveOneSpace = Pawn(!canMoveTwoSpaces, White)
 
-
-  case class Pawn(alreadyMovedTwice : Boolean, override val color : Color) extends ChessPiece {
+  case class Pawn(canMoveTwoSpaces : Boolean, override val color : Color) extends ChessPiece {
     override val displayName: String = if (color == White) WhitePawnName else BlackPawnName
 
     override def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean =
@@ -38,7 +37,7 @@ object AllPieces {
 
     private def isLegalVerticalMove(board: Board, source: BoardPosition,
                                     destination: BoardPosition) : Boolean = {
-      val numSpacesCanMove = if (alreadyMovedTwice) 1 else 2
+      val numSpacesCanMove = if (canMoveTwoSpaces) 2 else 1
       source.fileBoardIndex == destination.fileBoardIndex &&
         Math.abs(source.rankBoardIndex - destination.rankBoardIndex) <= numSpacesCanMove
     }
