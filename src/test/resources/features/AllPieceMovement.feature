@@ -10,7 +10,7 @@ Feature: Ensures all pieces' movement follows certain rules
       | 5 |     |     |     |     |     |     |     |     |
       | 6 |     |     |     |     |     |     |     |     |
       | 7 | paw | paw | paw |     | paw | paw | paw | paw |
-      | 8 | Roo | Kni | Bis | Kin | Que | Bis | Kni | Roo |
+      | 8 | roo | Kni | Bis | Kin | Que | Bis | Kni | roo |
     When the following moves are made
       | <Invalid Moves> |
     Then it is the turn of White

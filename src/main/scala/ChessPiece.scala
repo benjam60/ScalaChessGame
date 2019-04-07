@@ -49,9 +49,8 @@ object AllPieces {
     override def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean = true
   }
 
-  object Rook extends ChessPiece {
-    override val displayName = "Roo"
-    override val color: Color = White
+  case class Rook(color: Color) extends ChessPiece {
+    override val displayName: String = if (color == White) "Roo" else "roo"
 
     override def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean = true
   }
@@ -83,5 +82,6 @@ object AllPieces {
   val BlackPawnCanMoveOneSpace = Pawn(!canMoveTwoSpaces, Black)
   val WhitePawnCanMoveTwoSpaces = Pawn(canMoveTwoSpaces, White)
   val WhitePawnCanMoveOneSpace = Pawn(!canMoveTwoSpaces, White)
-
+	val BlackRook = Rook(Black)
+	val WhiteRook = Rook(White)
 }

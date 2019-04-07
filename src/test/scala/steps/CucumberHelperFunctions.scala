@@ -36,7 +36,9 @@ object CucumberHelperFunctions {
       case "Bis" => Option(Bishop)
       case "Que" => Option(Queen)
       case "Kin" => Option(King)
-      case "Roo" => Option(Rook)
+      case "Roo" => Option(WhiteRook)
+      case "roo" => Option(BlackRook)
+
       case _ => Option.empty[ChessPiece]
     }
   }
