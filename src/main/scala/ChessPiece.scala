@@ -21,13 +21,12 @@ object AllPieces {
     override val colorAgnosticDisplayName: String = "Paw"
 
     override def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean =
-      if (source.fileBoardIndex == destination.fileBoardIndex) {
+      if (source.fileBoardIndex == destination.fileBoardIndex)
         isLegalVerticalMove(board, source, destination) && board.get(destination).isEmpty
-      }
       else isLegalDiagonalMove(board, source, destination)
 
     private def isLegalDiagonalMove(board: Board, source: BoardPosition, destination: BoardPosition) : Boolean =
-      source.rankBoardIndex - destination.rankBoardIndex == 1*color.direction &&
+      source.rankBoardIndex - destination.rankBoardIndex == color.direction &&
         List(1, -1).contains(source.fileBoardIndex - destination.fileBoardIndex) &&
         board.state(destination.rankBoardIndex)(destination.fileBoardIndex).exists(_.color == next(color))
 
@@ -42,7 +41,11 @@ object AllPieces {
   case class Knight(override val color: Color) extends ChessPiece {
     override val colorAgnosticDisplayName: String = "Kni"
 
-    override def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean = true
+    override def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean = {
+      val rankDifference = Math.abs(source.rankBoardIndex - destination.rankBoardIndex)
+      val fileDifference = Math.abs(source.fileBoardIndex - destination.fileBoardIndex)
+      (rankDifference == 2 && fileDifference == 1) || (rankDifference == 1 && fileDifference == 2)
+    }
   }
 
   case class Rook(override val color : Color) extends ChessPiece {
