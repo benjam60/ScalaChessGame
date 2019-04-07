@@ -182,3 +182,4 @@ Feature: Ensure proper Pawn movement
       | 4D->FD |
     Then it is the turn of White
 
+    #Scenario: Pawn can't move horizontally

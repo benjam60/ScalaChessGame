@@ -1,0 +1,6 @@
+Problem with End to End Testing:
+Hard to test pawns can only move in specific ways and not all
+other possible ways. Would be too many tests for all the ways
+pawns can't move...Would unit tests improve this? Is it necessary?
+
+maybe asserts thrown into the code could help?
