@@ -69,9 +69,30 @@ object AllPieces {
   case class Bishop(override val color : Color) extends ChessPiece {
     override val colorAgnosticDisplayName: String = "Bis"
 
-    override def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean = true
+    override def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean = {
+      val rankDifference = Math.abs(source.rankBoardIndex - destination.rankBoardIndex)
+      val fileDifference = Math.abs(source.fileBoardIndex - destination.fileBoardIndex)
+      rankDifference == fileDifference && !arePiecesInBetweenDiagonally(board, source, destination)
+    }
   }
 
+  private def arePiecesInBetweenDiagonally(board: Board, source: BoardPosition,
+                                           destination: BoardPosition) : Boolean = {
+    (source.rankBoardIndex, source.fileBoardIndex, destination.rankBoardIndex,
+    destination.fileBoardIndex) match {
+      case (srcRank, srcFile, destRank, destFile) if srcRank > destRank && srcFile < destFile  => {
+        val x = (srcFile + 1 until destFile).toList
+        val qqq = (srcRank - 1 to destRank + 1 by -1).toList.zip(x)
+        qqq.exists { case (r : Int, f : Int) =>
+          board.state(r)(f).isDefined
+        }
+
+          //.contains { case (r, f) => board.state(r)(f).isDefined }
+      }
+      case _ => false
+    }
+
+  }
 
   private val canMoveTwoSpaces = true
   val BlackPawnCanMoveTwoSpaces = Pawn(canMoveTwoSpaces, Black)
