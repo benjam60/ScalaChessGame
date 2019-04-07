@@ -149,13 +149,36 @@ Feature: Ensure proper Pawn movement
       | <Moves> |
     Then it is the turn of <Color>
     Examples:
-    |Color|Moves|
-    | White    | 4D->5D    |
+      | Color | Moves  |
+      | White | 4D->5D |
 
+  Scenario: Pawns can't jump over opponents pieces
+    Given It is White's turn and the board looks like
+      |   | A   | B   | C   | D   | E   | F   | G   | H   |
+      | 1 | Roo | Kni | Bis | Que | Kin | Bis | Kni | Roo |
+      | 2 | Paw | Paw | Paw |     | Paw | Paw | Paw | Paw |
+      | 3 |     |     |     |     |     |     |     |     |
+      | 4 |     |     |     | Paw |     |     |     |     |
+      | 5 |     |     |     | paw |     |     |     |     |
+      | 6 |     |     |     |     |     |     |     |     |
+      | 7 | paw | paw | paw |     | paw | paw | paw | paw |
+      | 8 | Roo | Kni | Bis | Kin | Que | Bis | Kni | Roo |
+    When the following moves are made
+      | 4D->6D |
+    Then it is the turn of White
 
-#  Scenario: Pawns can't jump over opponents pieces
+  Scenario: Pawn can't move diagonally 2 spaces
+    Given It is White's turn and the board looks like
+      |   | A   | B   | C   | D   | E   | F   | G   | H   |
+      | 1 | Roo | Kni | Bis | Que | Kin | Bis | Kni | Roo |
+      | 2 | Paw | Paw | Paw |     | Paw | Paw | Paw | Paw |
+      | 3 |     |     |     |     |     |     |     |     |
+      | 4 |     |     |     | Paw |     |     |     |     |
+      | 5 |     |     |     |     |     |     |     |     |
+      | 6 |     |     |     |     |     | paw |     |     |
+      | 7 | paw | paw | paw | paw | paw |     | paw | paw |
+      | 8 | Roo | Kni | Bis | Kin | Que | Bis | Kni | Roo |
+    When the following moves are made
+      | 4D->FD |
+    Then it is the turn of White
 
-
-#
-#    Scenario: can't move diagnolly 2 spaces
-#
