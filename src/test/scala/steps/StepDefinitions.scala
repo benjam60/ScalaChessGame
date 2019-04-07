@@ -19,12 +19,13 @@ class StepDefinitions extends ScalaDsl with EN {
     runner.gamePlay = GamePlay(Board(), White)
   }
 
-  Given("""^It is (black|white)'s turn and the board looks like$""") { (color : String, dataTable: DataTable) =>
-    val chosenColor = if (color == "black") Black else White
+  Given("""^It is (Black|White)'s turn and the board looks like$""") { (color : String, dataTable: DataTable) =>
+    val chosenColor = if (color == "Black") Black else White
     val board = convert(dataTable)
     runner.gamePlay = GamePlay(board, chosenColor)
   }
 
+  //it is an invalid move
   Given("""^In a new game, it is the turn of (White|Black)""") { color : String =>
     runner.gamePlay = GamePlay(Board(), { if (color == "White") White else Black })
   }

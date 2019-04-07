@@ -20,7 +20,9 @@ object AllPieces {
     override val displayName: String = if (color == White) WhitePawnName else BlackPawnName
 
     override def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean =
-      if (source.fileBoardIndex == destination.fileBoardIndex) isLegalVerticalMove(board, source, destination)
+      if (source.fileBoardIndex == destination.fileBoardIndex) {
+        isLegalVerticalMove(board, source, destination) && board.get(destination).isEmpty
+      }
       else isLegalDiagonalMove(board, source, destination)
 
     private def isLegalDiagonalMove(board: Board, source: BoardPosition, destination: BoardPosition) : Boolean =

@@ -1,7 +1,7 @@
 Feature: Ensures all pieces' movement follows certain rules
 
   Scenario Outline: Can't eat your own pieces
-    Given It is white's turn and the board looks like
+    Given It is White's turn and the board looks like
       |   | A   | B   | C   | D   | E   | F   | G   | H   |
       | 1 | Roo | Kni | Bis | Que | Kin | Bis | Kni | Roo |
       | 2 | Paw | Paw |     | Paw | Paw | Paw | Paw | Paw |
