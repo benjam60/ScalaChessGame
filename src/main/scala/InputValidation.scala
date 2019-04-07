@@ -2,13 +2,13 @@ package ChessGame
 
 import ChessGame.BoardUtilityFunctions.{Files, Ranks}
 
-object InputMoveValidation {
+object InputValidation {
 
   def readPieces(input : String) : Option[(BoardPosition, BoardPosition)] =
     if (input.length == ValidInputSize) {
       val sourceRank = input(0).asDigit //TODO BE: throws exception handle
-      val destRank = input(4).asDigit
       val sourceFile = input(1)
+      val destRank = input(4).asDigit
       val destFile = input(5)
       if (isOnBoard(sourceRank, sourceFile) && isOnBoard(destRank, destFile) &&
         !sourceIsSameAsDestination(sourceRank, sourceFile, destRank, destFile)) {

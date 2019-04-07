@@ -1,16 +1,15 @@
 package ChessGame
 
 import ChessGame.AllPieces._
-import org.scalactic.{Bad, Good, Or}
 
 object PieceMovement {
 
-  def movePiece(board: Board, source : BoardPosition, destination : BoardPosition): Or[Board, ErrorType] =
-		board.get(source).collect { case piece if piece.isValidMove(board, source, destination) =>
+  def movePiece(board: Board, piece: ChessPiece, source : BoardPosition, destination : BoardPosition): Board = {
 			val placedPiece = changePawnType(piece, source, destination)
 			val removedSourcePiece = updateBoard(board, Option.empty[ChessPiece], source)
 			val placedAtDestination = updateBoard(removedSourcePiece, placedPiece, destination)
-			Good(placedAtDestination) }.getOrElse(Bad(InvalidMove))
+			placedAtDestination
+		}
 
 	 private def updateBoard(board : Board, piece: Option[ChessPiece], position : BoardPosition): Board = {
 		 val updatedRow = board.state(position.rankBoardIndex).updated(position.fileBoardIndex, piece)
