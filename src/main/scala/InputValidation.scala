@@ -1,6 +1,6 @@
 package ChessGame
 
-import ChessGame.BoardUtilityFunctions.{Files, Ranks}
+import Constants.{Files, Ranks}
 
 object InputValidation {
 

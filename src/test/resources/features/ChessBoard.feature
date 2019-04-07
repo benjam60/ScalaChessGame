@@ -4,14 +4,14 @@ Feature: Ensures chessboard initializes correctly
     Given a new chess game
     Then the board should look like
       |   | A   | B   | C   | D   | E   | F   | G   | H   |
-      | 1 | Roo | Kni | Bis | Que | Kin | Bis | Kni | Roo |
-      | 2 | Paw | Paw | Paw | Paw | Paw | Paw | Paw | Paw |
+      | 1 | ROO | KNI | BIS | QUE | KIN | BIS | KNI | ROO |
+      | 2 | PAW | PAW | PAW | PAW | PAW | PAW | PAW | PAW |
       | 3 |     |     |     |     |     |     |     |     |
       | 4 |     |     |     |     |     |     |     |     |
       | 5 |     |     |     |     |     |     |     |     |
       | 6 |     |     |     |     |     |     |     |     |
       | 7 | paw | paw | paw | paw | paw | paw | paw | paw |
-      | 8 | roo | Kni | Bis | Kin | Que | Bis | Kni | roo |
+      | 8 | roo | kni | bis | kin | que | bis | kni | roo |
 
   Scenario: Custom starting board (for testing)
     Given It is Black's turn and the board looks like
@@ -19,8 +19,8 @@ Feature: Ensures chessboard initializes correctly
       | 1 |   |     |     |   |   |   |   |   |
       | 2 |   |     |     |   |   |   |   |   |
       | 3 |   |     |     |   |   |   |   |   |
-      | 4 |   | Paw |     |   |   |   |   |   |
-      | 5 |   |     | Paw |   |   |   |   |   |
+      | 4 |   | PAW |     |   |   |   |   |   |
+      | 5 |   |     | PAW |   |   |   |   |   |
       | 6 |   |     |     |   |   |   |   |   |
       | 7 |   |     |     |   |   |   |   |   |
       | 8 |   |     |     |   |   |   |   |   |
@@ -29,8 +29,8 @@ Feature: Ensures chessboard initializes correctly
       | 1 |   |     |     |   |   |   |   |   |
       | 2 |   |     |     |   |   |   |   |   |
       | 3 |   |     |     |   |   |   |   |   |
-      | 4 |   | Paw |     |   |   |   |   |   |
-      | 5 |   |     | Paw |   |   |   |   |   |
+      | 4 |   | PAW |     |   |   |   |   |   |
+      | 5 |   |     | PAW |   |   |   |   |   |
       | 6 |   |     |     |   |   |   |   |   |
       | 7 |   |     |     |   |   |   |   |   |
       | 8 |   |     |     |   |   |   |   |   |

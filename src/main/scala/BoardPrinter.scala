@@ -2,7 +2,7 @@ package ChessGame
 
 import ChessGame.AllPieces.ChessPiece
 import ChessGame.BoardUtilityFunctions.{createChessSquare, formatFiles, formatRow}
-import BoardUtilityFunctions.{Ranks, Files}
+import Constants.{Ranks, Files}
 
 object BoardPrinter {
 

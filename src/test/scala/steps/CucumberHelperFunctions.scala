@@ -30,15 +30,18 @@ object CucumberHelperFunctions {
   //ToDo: implement from string to get rid of these case statements
   def convert(piece: String): Option[ChessPiece] = {
     piece match { //how to differentiate between move once or twice for a pawn
-      case "Paw" => Option(WhitePawnCanMoveTwoSpaces)
+      case "PAW" => Option(WhitePawnCanMoveTwoSpaces)
       case "paw" => Option(BlackPawnCanMoveTwoSpaces)
-      case "Kni" => Option(Knight)
-      case "Bis" => Option(Bishop)
-      case "Que" => Option(Queen)
-      case "Kin" => Option(King)
-      case "Roo" => Option(WhiteRook)
+      case "KNI" => Option(WhiteKnight)
+      case "kni" => Option(BlackKnight)
+      case "BIS" => Option(WhiteBishop)
+      case "bis" => Option(BlackBishop)
+      case "QUE" => Option(WhiteQueen)
+      case "que" => Option(BlackQueen)
+      case "KIN" => Option(WhiteKing)
+      case "kin" => Option(BlackKing)
+      case "ROO" => Option(WhiteRook)
       case "roo" => Option(BlackRook)
-
       case _ => Option.empty[ChessPiece]
     }
   }

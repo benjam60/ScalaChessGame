@@ -1,23 +1,24 @@
-package ChessGame
-
+package ChessGame //TODO BE: Fix package name
+import BoardUtilityFunctions.next
 
 object AllPieces {
 
   sealed trait ChessPiece {
+    protected val colorAgnosticDisplayName : String
     val color : Color
-    val displayName: String
-    def isValidMove(board : Board, source: BoardPosition, destination: BoardPosition): Boolean =
-      isValidMoveForAnyPiece(board, source, destination) && isValidMoveForPiece(board, source, destination)
+    def displayName: String =
+      if (color == White) colorAgnosticDisplayName.toUpperCase else colorAgnosticDisplayName.toLowerCase
 
-    private def isValidMoveForAnyPiece(board: Board, source: BoardPosition, destination: BoardPosition) : Boolean = {
+    def isValidMove(board : Board, source: BoardPosition, destination: BoardPosition): Boolean = {
       val isNotEatingOwnPiece = board.get(destination).forall(_.color != color)
-      isNotEatingOwnPiece
+      isNotEatingOwnPiece && isValidMoveForPiece(board, source, destination)
     }
+
     protected def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean
   }
 
   case class Pawn(canMoveTwoSpaces : Boolean, override val color : Color) extends ChessPiece {
-    override val displayName: String = if (color == White) WhitePawnName else BlackPawnName
+    override val colorAgnosticDisplayName: String = "Paw"
 
     override def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean =
       if (source.fileBoardIndex == destination.fileBoardIndex) {
@@ -28,7 +29,7 @@ object AllPieces {
     private def isLegalDiagonalMove(board: Board, source: BoardPosition, destination: BoardPosition) : Boolean =
       source.rankBoardIndex - destination.rankBoardIndex == 1*color.direction &&
         List(1, -1).contains(source.fileBoardIndex - destination.fileBoardIndex) &&
-        board.state(destination.rankBoardIndex)(destination.fileBoardIndex).exists(_.color == oppositeColor)
+        board.state(destination.rankBoardIndex)(destination.fileBoardIndex).exists(_.color == next(color))
 
     private def isLegalVerticalMove(board: Board, source: BoardPosition,
                                     destination: BoardPosition) : Boolean = {
@@ -36,42 +37,34 @@ object AllPieces {
       source.fileBoardIndex == destination.fileBoardIndex &&
         numSpacesCanMove.contains(source.rankBoardIndex - destination.rankBoardIndex)
     }
-
-    private def WhitePawnName = "Paw"
-    private def BlackPawnName = WhitePawnName.toLowerCase
-    private def oppositeColor: Color = if (color == White) Black else White
   }
 
-  object Knight extends ChessPiece {
-    override val displayName = "Kni"
-    override val color: Color = White
+  case class Knight(override val color: Color) extends ChessPiece {
+    override val colorAgnosticDisplayName: String = "Kni"
 
     override def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean = true
   }
 
   case class Rook(override val color : Color) extends ChessPiece {
-    override val displayName: String = if (color == White) "Roo" else "roo"
+    override val colorAgnosticDisplayName: String = "Roo"
 
     override def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean = true
   }
 
-  object Queen extends ChessPiece {
-    override val displayName = "Que"
-    override val color: Color = White
+  case class Queen(override val color : Color) extends ChessPiece {
+    override val colorAgnosticDisplayName: String = "Que"
 
     override def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean = true
   }
 
-  object King extends ChessPiece {
-    override val displayName = "Kin"
-    override val color: Color = White
+  case class King(override val color : Color) extends ChessPiece {
+    override val colorAgnosticDisplayName: String = "Kin"
 
     override def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean = true
   }
 
-  object Bishop extends ChessPiece {
-    override val displayName = "Bis"
-    override val color: Color = White
+  case class Bishop(override val color : Color) extends ChessPiece {
+    override val colorAgnosticDisplayName: String = "Bis"
 
     override def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean = true
   }
@@ -84,4 +77,12 @@ object AllPieces {
   val WhitePawnCanMoveOneSpace = Pawn(!canMoveTwoSpaces, White)
 	val BlackRook = Rook(Black)
 	val WhiteRook = Rook(White)
+  val BlackKnight = Knight(Black)
+  val WhiteKnight = Knight(White)
+  val BlackKing = King(Black)
+  val WhiteKing = King(White)
+  val BlackQueen = Queen(Black)
+  val WhiteQueen = Queen(White)
+  val BlackBishop = Bishop(Black)
+  val WhiteBishop = Bishop(White)
 }

@@ -7,14 +7,14 @@ Feature: Input Validation
       | 2G->3G          |
     Then the board should look like
       |   | A   | B   | C   | D   | E   | F   | G   | H   |
-      | 1 | Roo | Kni | Bis | Que | Kin | Bis | Kni | Roo |
-      | 2 | Paw | Paw | Paw | Paw | Paw | Paw |     | Paw |
-      | 3 |     |     |     |     |     |     | Paw |     |
+      | 1 | ROO | KNI | BIS | QUE | KIN | BIS | KNI | ROO |
+      | 2 | PAW | PAW | PAW | PAW | PAW | PAW |     | PAW |
+      | 3 |     |     |     |     |     |     | PAW |     |
       | 4 |     |     |     |     |     |     |     |     |
       | 5 |     |     |     |     |     |     |     |     |
       | 6 |     |     |     |     |     |     |     |     |
       | 7 | paw | paw | paw | paw | paw | paw | paw | paw |
-      | 8 | roo | Kni | Bis | Kin | Que | Bis | Kni | roo |
+      | 8 | roo | kni | bis | kin | que | bis | kni | roo |
     Examples:
       | Illegal Moves |
       | 7B->4B        |
