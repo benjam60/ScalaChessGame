@@ -30,9 +30,9 @@ object AllPieces {
 
     private def isLegalVerticalMove(board: Board, source: BoardPosition,
                                     destination: BoardPosition) : Boolean = {
-      val numSpacesCanMove = if (canMoveTwoSpaces) 2 else 1
+      val numSpacesCanMove = if (canMoveTwoSpaces) List(1, 2).map(_*color.direction) else List(1).map(_*color.direction)
       source.fileBoardIndex == destination.fileBoardIndex &&
-        Math.abs(source.rankBoardIndex - destination.rankBoardIndex) <= numSpacesCanMove
+        numSpacesCanMove.contains(source.rankBoardIndex - destination.rankBoardIndex)
     }
 
     private def WhitePawnName = "Paw"

@@ -95,6 +95,46 @@ Feature: Ensure proper Pawn movement
       | 2D->4D |
     Then it is the turn of White
 
+  Scenario: Black Pawns cannot move downwards
+    Given In a new game, it is the turn of Black
+    When the following moves are made
+      | 7D->8D |
+    Then the board should look like
+      |   | A   | B   | C   | D   | E   | F   | G   | H   |
+      | 1 | Roo | Kni | Bis | Que | Kin | Bis | Kni | Roo |
+      | 2 | Paw | Paw | Paw | Paw | Paw | Paw | Paw | Paw |
+      | 3 |     |     |     |     |     |     |     |     |
+      | 4 |     |     |     |     |     |     |     |     |
+      | 5 |     |     |     |     |     |     |     |     |
+      | 6 |     |     |     |     |     |     |     |     |
+      | 7 | paw | paw | paw | paw | paw | paw | paw | paw |
+      | 8 | Roo | Kni | Bis | Kin | Que | Bis | Kni | Roo |
+
+  Scenario: White Pawns cannot move upwards
+    Given It is white's turn and the board looks like
+      |   | A   | B   | C   | D   | E   | F   | G   | H   |
+      | 1 | Roo | Kni | Bis | Que | Kin | Bis | Kni | Roo |
+      | 2 | Paw | Paw | Paw |     | Paw | Paw | Paw | Paw |
+      | 3 |     |     |     |     |     |     |     |     |
+      | 4 |     |     |     | Paw |     |     |     |     |
+      | 5 |     |     |     |     |     |     |     |     |
+      | 6 |     |     |     |     |     |     |     |     |
+      | 7 | paw | paw | paw | paw | paw | paw | paw | paw |
+      | 8 | Roo | Kni | Bis | Kin | Que | Bis | Kni | Roo |
+    When the following moves are made
+      | 4D->3D |
+    Then the board should look like
+      |   | A   | B   | C   | D   | E   | F   | G   | H   |
+      | 1 | Roo | Kni | Bis | Que | Kin | Bis | Kni | Roo |
+      | 2 | Paw | Paw | Paw |     | Paw | Paw | Paw | Paw |
+      | 3 |     |     |     |     |     |     |     |     |
+      | 4 |     |     |     | Paw |     |     |     |     |
+      | 5 |     |     |     |     |     |     |     |     |
+      | 6 |     |     |     |     |     |     |     |     |
+      | 7 | paw | paw | paw | paw | paw | paw | paw | paw |
+      | 8 | Roo | Kni | Bis | Kin | Que | Bis | Kni | Roo |
+
+
 #
 #    Scenario: can't move diagnolly 2 spaces
 #

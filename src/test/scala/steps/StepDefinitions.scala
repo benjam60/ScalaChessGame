@@ -9,6 +9,7 @@ import steps.CucumberHelperFunctions.{convert, convertMovesToList}
 
 class StepDefinitions extends ScalaDsl with EN {
 
+  //ToDo: delete the runner because it is not doing anything
   private val runner = new Runner //Todo: Before and After create new Runner; import before and after
   private def actualBoard : Board = runner.gamePlay.currentBoard
   private def actualTurn : Color = runner.gamePlay.currentTurn
