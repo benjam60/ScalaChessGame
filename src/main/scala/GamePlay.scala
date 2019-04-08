@@ -1,9 +1,8 @@
 package ChessGame
 
-import ChessGame.AllPieces.ChessPiece
+import ChessGame.BoardUtilityFunctions.next
 import ChessGame.PieceMovement.movePiece
 import org.scalactic.{Bad, Good, Or}
-import BoardUtilityFunctions.next
 //use compiletime safety to ensure white and black must alternate moves
 
 case class GamePlay(currentBoard: Board, currentTurn: Color) {
