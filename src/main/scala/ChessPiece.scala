@@ -82,10 +82,9 @@ object AllPieces {
                                            destination: BoardPosition) : Boolean =
     (source.rankBoardIndex, source.fileBoardIndex, destination.rankBoardIndex, destination.fileBoardIndex) match {
       case (srcRank, srcFile, destRank, destFile) if srcRank > destRank && srcFile < destFile  => {
-        val x = (srcFile + 1 until destFile).toList
-        val qqq = (srcRank - 1 to destRank + 1 by -1).toList.zip(x)
-        qqq.exists { case (r : Int, f : Int) =>
-          board.state(r)(f).isDefined
+        val filesToTraverse = (srcFile + 1 until destFile).toList
+        (srcRank - 1 to destRank + 1 by -1).toList.zip(filesToTraverse).exists {
+          case (r : Int, f : Int) => board.state(r)(f).isDefined
         }
       }
       case (srcRank, srcFile, destRank, destFile) if srcRank < destRank && srcFile < destFile  => {
