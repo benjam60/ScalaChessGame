@@ -15,10 +15,9 @@ case class GamePlay(currentBoard: Board, currentTurn: Color) {
   def validateAndThenTakeTurn(input : String, board: Board, turn : Color) : Or[Board, ErrorType] =
     if (shouldContinueGame(input)) {
       InputValidation.readPieces(input).map { case (sourcePosition, destinationPosition) =>
-          val pieceToMove = board.get(sourcePosition)
           if (PieceMovementValidation.isValidMove(board, sourcePosition, destinationPosition,
-						turn, pieceToMove)) {
-						Good(movePiece(board, pieceToMove.get, sourcePosition, destinationPosition))
+						turn, board.get(sourcePosition))) {
+						Good(movePiece(board, board.get(sourcePosition).get, sourcePosition, destinationPosition))
 					}
 					else Bad(NotYourPiece)
       }.getOrElse(Bad(InvalidInput))

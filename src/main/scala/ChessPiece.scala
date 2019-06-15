@@ -4,17 +4,18 @@ import BoardUtilityFunctions.next
 object AllPieces {
 
   sealed trait ChessPiece {
+    def getColor : Color = color
+    def getDisplayName: String =
+    if (color == White) colorAgnosticDisplayName.toUpperCase else colorAgnosticDisplayName.toLowerCase
+
+    def isValidMove(board : Board, source: BoardPosition, destination: BoardPosition): Boolean =
+    isNotEatingOwnPiece(board, destination) && isValidMoveForPiece(board, source, destination)
+
     protected val colorAgnosticDisplayName : String
-    val color : Color
-    def displayName: String =
-      if (color == White) colorAgnosticDisplayName.toUpperCase else colorAgnosticDisplayName.toLowerCase
-
-    def isValidMove(board : Board, source: BoardPosition, destination: BoardPosition): Boolean = {
-      val isNotEatingOwnPiece = board.get(destination).forall(_.color != color)
-      isNotEatingOwnPiece && isValidMoveForPiece(board, source, destination)
-    }
-
+    protected val color : Color
     protected def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean
+    private def isNotEatingOwnPiece(board : Board, destination: BoardPosition) : Boolean =
+    board.get(destination).forall(_.color != color)
   }
 
   case class Pawn(canMoveTwoSpaces : Boolean, override val color : Color) extends ChessPiece {
@@ -27,8 +28,8 @@ object AllPieces {
 
     private def isLegalDiagonalMove(board: Board, source: BoardPosition, destination: BoardPosition) : Boolean =
       source.rankBoardIndex - destination.rankBoardIndex == color.direction &&
-        List(1, -1).contains(source.fileBoardIndex - destination.fileBoardIndex) &&
-        board.state(destination.rankBoardIndex)(destination.fileBoardIndex).exists(_.color == next(color))
+        calculateIndexDistance(source.fileBoardIndex, destination.fileBoardIndex) == 1 && //TODO BE: remove magic #
+        board.state(destination.rankBoardIndex)(destination.fileBoardIndex).exists(_.getColor == next(color))
 
     private def isLegalVerticalMove(board: Board, source: BoardPosition,
                                     destination: BoardPosition) : Boolean = {
@@ -41,11 +42,13 @@ object AllPieces {
   case class Knight(override val color: Color) extends ChessPiece {
     override val colorAgnosticDisplayName: String = "Kni"
 
-    override def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean = {
-      val rankDifference = Math.abs(source.rankBoardIndex - destination.rankBoardIndex)
-      val fileDifference = Math.abs(source.fileBoardIndex - destination.fileBoardIndex)
-      (rankDifference == 2 && fileDifference == 1) || (rankDifference == 1 && fileDifference == 2)
-    }
+    override def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean =
+      (calculateIndexDistance(source.rankBoardIndex, destination.rankBoardIndex),
+        calculateIndexDistance(source.fileBoardIndex, destination.fileBoardIndex)) match {
+        case (rankDifference, fileDifference) if rankDifference == 1 && fileDifference == 2 => true
+        case (rankDifference, fileDifference) if rankDifference == 2 && fileDifference == 1 => true
+        case _ => false
+      }
   }
 
   case class Rook(override val color : Color) extends ChessPiece {
@@ -69,17 +72,15 @@ object AllPieces {
   case class Bishop(override val color : Color) extends ChessPiece {
     override val colorAgnosticDisplayName: String = "Bis"
 
-    override def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean = {
-      val rankDifference = Math.abs(source.rankBoardIndex - destination.rankBoardIndex)
-      val fileDifference = Math.abs(source.fileBoardIndex - destination.fileBoardIndex)
-      rankDifference == fileDifference && !arePiecesInBetweenDiagonally(board, source, destination)
-    }
+    override def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean =
+      calculateIndexDistance(source.rankBoardIndex, destination.rankBoardIndex) ==
+        calculateIndexDistance(source.fileBoardIndex, destination.fileBoardIndex) &&
+        !arePiecesInBetweenDiagonally(board, source, destination)
   }
 
   private def arePiecesInBetweenDiagonally(board: Board, source: BoardPosition,
                                            destination: BoardPosition) : Boolean =
-    (source.rankBoardIndex, source.fileBoardIndex, destination.rankBoardIndex,
-    destination.fileBoardIndex) match {
+    (source.rankBoardIndex, source.fileBoardIndex, destination.rankBoardIndex, destination.fileBoardIndex) match {
       case (srcRank, srcFile, destRank, destFile) if srcRank > destRank && srcFile < destFile  => {
         val x = (srcFile + 1 until destFile).toList
         val qqq = (srcRank - 1 to destRank + 1 by -1).toList.zip(x)
@@ -94,6 +95,8 @@ object AllPieces {
       }
       case _ => false
   }
+
+  private def calculateIndexDistance(first : Int, second : Int) : Int = Math.abs(first - second)
 
   private val canMoveTwoSpaces = true
   val BlackPawnCanMoveTwoSpaces = Pawn(canMoveTwoSpaces, Black)

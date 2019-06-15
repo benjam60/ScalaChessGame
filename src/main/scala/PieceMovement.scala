@@ -5,10 +5,8 @@ import ChessGame.AllPieces._
 object PieceMovement {
 
   def movePiece(board: Board, piece: ChessPiece, source : BoardPosition, destination : BoardPosition): Board = {
-			val placedPiece = changePawnType(piece, source, destination)
 			val removedSourcePiece = updateBoard(board, Option.empty[ChessPiece], source)
-			val placedAtDestination = updateBoard(removedSourcePiece, placedPiece, destination)
-			placedAtDestination
+			updateBoard(removedSourcePiece, changePawnType(piece, source, destination), destination)
 		}
 
 	 private def updateBoard(board : Board, piece: Option[ChessPiece], position : BoardPosition): Board = {
