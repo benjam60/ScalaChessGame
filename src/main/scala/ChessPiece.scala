@@ -77,7 +77,7 @@ object AllPieces {
   }
 
   private def arePiecesInBetweenDiagonally(board: Board, source: BoardPosition,
-                                           destination: BoardPosition) : Boolean = {
+                                           destination: BoardPosition) : Boolean =
     (source.rankBoardIndex, source.fileBoardIndex, destination.rankBoardIndex,
     destination.fileBoardIndex) match {
       case (srcRank, srcFile, destRank, destFile) if srcRank > destRank && srcFile < destFile  => {
@@ -86,12 +86,13 @@ object AllPieces {
         qqq.exists { case (r : Int, f : Int) =>
           board.state(r)(f).isDefined
         }
-
-          //.contains { case (r, f) => board.state(r)(f).isDefined }
+      }
+      case (srcRank, srcFile, destRank, destFile) if srcRank < destRank && srcFile < destFile  => {
+        (1 until destRank - srcRank).toList.exists { index =>
+          board.state(srcRank + index)(srcFile + index).isDefined
+        }
       }
       case _ => false
-    }
-
   }
 
   private val canMoveTwoSpaces = true

@@ -40,10 +40,10 @@ Feature: Ensures correct Bishop movement
     Examples:
       | Invalid Moves |
       | 2B->5E        |
-      | 2B->3A        |
-      | 2B->3B        |
-      | 2B->1B        |
-      | 2B->2A        |
-      | 2B->4A        |
-      | 6F->4H        |
+#      | 2B->3A        |
+#      | 2B->3B        |
+#      | 2B->1B        |
+#      | 2B->2A        |
+#      | 2B->4A        |
+#      | 6F->4H        |
     #add all 4 directions, with one and more spaces
