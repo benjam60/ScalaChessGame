@@ -10,10 +10,9 @@ object BoardPrinter {
     val topLeftCorner: Char = ' '
     val rowWithFileLettersAndSpace = topLeftCorner :: Files
     val boardWithRanks = board.state.zip(Ranks)
-    val formattedFileRow = formatFiles(rowWithFileLettersAndSpace)
     val displayableBoardWithRanks =  boardWithRanks.map {
       case (row: IndexedSeq[Option[ChessPiece]], rank: Int) => createChessSquare(rank) + formatRow(row)
     }.mkString
-    formattedFileRow + displayableBoardWithRanks
+    formatFiles(rowWithFileLettersAndSpace) + displayableBoardWithRanks
   }
 }

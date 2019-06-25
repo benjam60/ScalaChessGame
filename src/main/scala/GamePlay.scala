@@ -15,13 +15,15 @@ case class GamePlay(currentBoard: Board, currentTurn: Color) {
   def validateAndThenTakeTurn(input : String, board: Board, turn : Color) : Or[Board, ErrorType] =
     if (shouldContinueGame(input)) {
       InputValidation.readPieces(input).map { case (sourcePosition, destinationPosition) =>
-          if (PieceMovementValidation.isValidMove(board, sourcePosition, destinationPosition,
-						turn, board.get(sourcePosition))) {
-						Good(movePiece(board, board.get(sourcePosition).get, sourcePosition, destinationPosition))
-					}
-					else Bad(NotYourPiece)
+	      takeTurn(board, sourcePosition, destinationPosition, turn)
       }.getOrElse(Bad(InvalidInput))
     } else Bad(GameOver)
+
+	private def takeTurn(board: Board, sourcePosition : BoardPosition, destinationPosition : BoardPosition, turn : Color) =
+		if (PieceMovementValidation.isValidMove(board, sourcePosition, destinationPosition, turn, board.get(sourcePosition))) {
+			Good(movePiece(board, board.get(sourcePosition).get, sourcePosition, destinationPosition))
+		} else Bad(NotYourPiece)
+
 
   private def shouldContinueGame(input : String) : Boolean = input.toLowerCase() != "quit"
 }
