@@ -1,0 +1,5 @@
+Without classes and just passing around the data into functions,
+you cannot constrain how the data is used. That is the cool thing about
+classes. I can take my board object and modify it how I want. The other
+big issue is if I want to change the implementation of the board, then
+I break everything
