@@ -14,8 +14,8 @@ case class GamePlay(currentBoard: Board, currentTurn: Color) {
 	//TODO BE: a function should do one thing, so split out all the validation into another function
   def validateAndThenTakeTurn(input : String, board: Board, turn : Color) : Or[Board, ErrorType] =
     if (shouldContinueGame(input)) {
-      InputValidation.readPieces(input).map { case (sourcePosition, destinationPosition) =>
-	      takeTurn(board, sourcePosition, destinationPosition, turn)
+      InputValidation.readPieces(input).map { move =>
+	      takeTurn(board, move.sourcePosition, move.destinationPosition, turn)
       }.getOrElse(Bad(InvalidInput))
     } else Bad(GameOver)
 
