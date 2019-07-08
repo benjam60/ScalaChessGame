@@ -28,7 +28,7 @@ object AllPieces {
 
     private def isLegalDiagonalMove(board: Board, source: BoardPosition, destination: BoardPosition) : Boolean =
       source.rankBoardIndex - destination.rankBoardIndex == color.direction &&
-        calculateIndexDistance(source.fileBoardIndex, destination.fileBoardIndex) == 1 && //TODO BE: remove magic #
+        calculateHorizontalDistance(source, destination) == 1 &&
         board.state(destination.rankBoardIndex)(destination.fileBoardIndex).exists(_.getColor == next(color))
 
     private def isLegalVerticalMove(board: Board, source: BoardPosition,
@@ -43,10 +43,9 @@ object AllPieces {
     override val colorAgnosticDisplayName: String = "Kni"
 
     override def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean =
-      (calculateIndexDistance(source.rankBoardIndex, destination.rankBoardIndex),
-        calculateIndexDistance(source.fileBoardIndex, destination.fileBoardIndex)) match {
-        case (rankDifference, fileDifference) if rankDifference == 1 && fileDifference == 2 => true
-        case (rankDifference, fileDifference) if rankDifference == 2 && fileDifference == 1 => true
+      (calculateVerticalDistance(source, destination), calculateHorizontalDistance(source, destination)) match {
+        case (1, 2) => true
+        case (2, 1) => true
         case _ => false
       }
   }
@@ -54,10 +53,8 @@ object AllPieces {
   case class Rook(override val color : Color) extends ChessPiece {
     override val colorAgnosticDisplayName: String = "Roo"
 
-    override def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean = {
-      (destination.rankBoardIndex - source.rankBoardIndex != 0) ^
-        (source.fileBoardIndex - destination.fileBoardIndex != 0)
-    }
+    override def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean =
+      calculateHorizontalDistance(source, destination) != 0 ^ calculateVerticalDistance(source, destination) != 0
   }
 
   case class Queen(override val color : Color) extends ChessPiece {
@@ -76,8 +73,7 @@ object AllPieces {
     override val colorAgnosticDisplayName: String = "Bis"
 
     override def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean =
-      calculateIndexDistance(source.rankBoardIndex, destination.rankBoardIndex) ==
-        calculateIndexDistance(source.fileBoardIndex, destination.fileBoardIndex) &&
+      calculateHorizontalDistance(source, destination) == calculateVerticalDistance(source, destination) &&
         !arePiecesInBetweenDiagonally(board, source, destination)
   }
 
@@ -98,7 +94,10 @@ object AllPieces {
       case _ => false
   }
 
-  private def calculateIndexDistance(first : Int, second : Int) : Int = Math.abs(first - second)
+  private def calculateVerticalDistance(source: BoardPosition, destination: BoardPosition) : Int =
+    math.abs(source.rankBoardIndex - destination.rankBoardIndex)
+  private def calculateHorizontalDistance(source: BoardPosition, destination: BoardPosition) : Int =
+    math.abs(source.fileBoardIndex - destination.fileBoardIndex)
 
   private val canMoveTwoSpaces = true
   val BlackPawnCanMoveTwoSpaces = Pawn(canMoveTwoSpaces, Black)
