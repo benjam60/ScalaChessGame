@@ -69,7 +69,9 @@ object AllPieces {
   case class King(override val color : Color) extends ChessPiece {
     override val colorAgnosticDisplayName: String = "Kin"
 
-    override def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean = true
+    override def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean = {
+      false
+    }
   }
 
   case class Bishop(override val color : Color) extends ChessPiece {
