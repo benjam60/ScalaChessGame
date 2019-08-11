@@ -3,13 +3,13 @@ Feature: Ensures correct Bishop movement
   Scenario Outline: Bishop valid moves
     Given It is White's turn and the board looks like
       |   | A | B   | C | D   | E | F | G | H |
-      | 1 |   |     |   |     |   |   |   |   |
+      | 1 |   |     |   | KIN |   |   |   |   |
       | 2 |   | BIS |   |     |   |   |   |   |
       | 3 |   |     |   |     |   |   |   |   |
       | 4 |   |     |   | paw |   |   |   |   |
       | 5 |   |     |   |     |   |   |   |   |
       | 6 |   |     |   |     |   |   |   |   |
-      | 7 |   |     |   |     |   |   |   |   |
+      | 7 |   |     |   | kin |   |   |   |   |
       | 8 |   |     |   |     |   |   |   |   |
     When the following moves are made
       | <Valid Moves> |

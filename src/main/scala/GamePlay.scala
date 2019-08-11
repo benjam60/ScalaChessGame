@@ -4,6 +4,8 @@ import ChessGame.AllPieces.King
 import ChessGame.BoardUtilityFunctions.next
 import ChessGame.PieceMovement.movePiece
 import org.scalactic.{Bad, Good, Or}
+
+import scala.collection.immutable
 //use compiletime safety to ensure white and black must alternate moves
 
 case class Player(isInCheck : Boolean)
@@ -29,9 +31,32 @@ case class GamePlay(currentBoard: Board, currentTurn: Color, white : Player, bla
 
 	//make sure you check if the move puts the mover's king in check as well as the opponent's
 	private def isKingInCheck(color : Color) : Boolean = {
-		val blackKing = currentBoard.state
-		false
+		val blackKingPosition = findKing(color)
+		getAllWhitePieces.exists(boardPos =>
+			currentBoard.get(boardPos).get.isValidMove(currentBoard, boardPos, blackKingPosition) )
 	}
+
+	private def findKing(color : Color) : BoardPosition = {
+		def traverseBoard(rowIndex : Int): BoardPosition = {
+			val columnIndexOfBlackKing = currentBoard.state(rowIndex).indexOf(Option(King(Black)))
+			if (columnIndexOfBlackKing > -1) {
+				BoardPosition(rowIndex, columnIndexOfBlackKing)
+			}
+			else traverseBoard(rowIndex + 1)
+		}
+		traverseBoard(0)
+	}
+
+//	private def getAllWhitePieces : List[(ChessPiece] = {
+//		currentBoard.state.flatMap(row =>
+//			row.flatten.collect { case piece if piece.getColor == White => piece } )
+//	}
+private def getAllWhitePieces: immutable.Seq[BoardPosition] =
+	(0 until 8).flatMap(rowIndex =>
+		(0 until 8).collect { case colIndex
+			if currentBoard.state(rowIndex)(colIndex).exists(_.getColor == White) =>
+			BoardPosition(rowIndex, colIndex) }.toList
+	)
 
   private def shouldContinueGame(input : String) : Boolean = input.toLowerCase() != "quit"
 }
