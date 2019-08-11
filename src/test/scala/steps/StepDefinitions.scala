@@ -16,18 +16,18 @@ class StepDefinitions extends ScalaDsl with EN {
 
 
   Given("""^a new chess game$"""){ () =>
-    runner.gamePlay = GamePlay(Board(), White)
+    runner.gamePlay = GamePlay(Board(), White, Player(false), Player(false))
   }
 
   Given("""^It is (Black|White)'s turn and the board looks like$""") { (color : String, dataTable: DataTable) =>
     val chosenColor = if (color == "Black") Black else White
     val board = convert(dataTable)
-    runner.gamePlay = GamePlay(board, chosenColor)
+    runner.gamePlay = GamePlay(board, chosenColor, Player(false), Player(false))
   }
 
   //it is an invalid move
   Given("""^In a new game, it is the turn of (White|Black)""") { color : String =>
-    runner.gamePlay = GamePlay(Board(), { if (color == "White") White else Black })
+    runner.gamePlay = GamePlay(Board(), { if (color == "White") White else Black }, Player(false), Player(false))
   }
 
   When("""^the following moves are made$"""){ moves: DataTable =>
@@ -54,6 +54,11 @@ class StepDefinitions extends ScalaDsl with EN {
       val fileIndex = pos(1) - 65
       val expectedPiece = if (color == "White") WhitePawnCanMoveOneSpace else BlackPawnCanMoveOneSpace
       assert(actualBoard.state(rankIndex)(fileIndex) == Option(expectedPiece))
+  }
+
+  Then("""^(Black|White) is in check""") { color : String =>
+    val player = if (color == "White") runner.gamePlay.white else runner.gamePlay.black
+    assert(player.isInCheck)
   }
 
 }

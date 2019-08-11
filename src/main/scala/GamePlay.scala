@@ -5,17 +5,19 @@ import ChessGame.PieceMovement.movePiece
 import org.scalactic.{Bad, Good, Or}
 //use compiletime safety to ensure white and black must alternate moves
 
-case class GamePlay(currentBoard: Board, currentTurn: Color) {
+case class Player(isInCheck : Boolean)
+
+case class GamePlay(currentBoard: Board, currentTurn: Color, white : Player, black : Player) {
   def takeTurn(userInput : String) : Or[GamePlay, ErrorType] =
-		validateAndThenTakeTurn(userInput, currentBoard, currentTurn).map { board =>
+		validateAndThenTakeTurn(userInput, this).map { board =>
 			this.copy(board, next(currentTurn))
 		}
 
 	//TODO BE: a function should do one thing, so split out all the validation into another function
-  private def validateAndThenTakeTurn(input : String, board: Board, turn : Color) : Or[Board, ErrorType] =
+  private def validateAndThenTakeTurn(input : String, gamePlay: GamePlay) : Or[Board, ErrorType] =
     if (shouldContinueGame(input)) {
       InputValidation.readPieces(input).map { move =>
-	      takeTurn(board, move.sourcePosition, move.destinationPosition, turn)
+	      takeTurn(gamePlay.currentBoard, move.sourcePosition, move.destinationPosition, gamePlay.currentTurn)
       }.getOrElse(Bad(InvalidInput))
     } else Bad(GameOver)
 
