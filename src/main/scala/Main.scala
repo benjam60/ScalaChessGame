@@ -1,27 +1,22 @@
 package ChessGame
 
-import org.scalactic.{Bad, Good}
-
 object Main extends App {
-	private val colorsTurn = White
-  private val initialBoard = Board(InitialBoard.state)
-  private val newGame  = GamePlay(initialBoard, colorsTurn)
-	playGame(newGame)
-  println("Game Over.")
+	private val startingColor = White
+	playGame(GamePlay(Board(InitialBoard.state), startingColor))
 
 	private def playGame(gamePlay: GamePlay) : Unit = {
-		println(BoardPrinter.toString(gamePlay.currentBoard))
-		println(s"${gamePlay.currentTurn.toString}, type in your move <Rank><File>-><Rank><File> e.g. 2C->3C")
-		val userInput = scala.io.StdIn.readLine()
-		gamePlay.takeTurn(userInput) match {
-			case Good(updatedGamePlay) => playGame(updatedGamePlay)
-			case Bad(GameOver) => ()
-			case Bad(_) => {
-				println("Invalid Move.")
+		printBoard(gamePlay)
+		printPrompt(gamePlay)
+		gamePlay.takeTurn(getPlayerInput()).map(playGame).badMap {
+			case GameOver => printMsg("Game Over.")
+			case _ => printMsg("Invalid Move.")
 				playGame(gamePlay)
-			}
 		}
-
 	}
+
+	private def printBoard(gamePlay: GamePlay) : Unit = println(BoardPrinter.toString(gamePlay.currentBoard))
+	private def printPrompt(gamePlay: GamePlay) : Unit = println(s"${gamePlay.currentTurn.toString}, type in your move <Rank><File>-><Rank><File> e.g. 2C->3C")
+	private def getPlayerInput() : String = scala.io.StdIn.readLine()
+	private def printMsg(msg : String) : Unit = println(msg)
 }
 
