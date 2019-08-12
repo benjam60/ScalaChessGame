@@ -28,5 +28,15 @@ Feature: Situations where we are in check
       | 7 | paw | paw | paw | paw |     | paw | paw | paw |
       | 8 | roo | kni | bis | kin | que | bis | kni | roo |
     When the following moves are made
-      | 7F->4B |
+      | 8F->4B |
+    Then the board should look like
+      |   | A   | B   | C   | D   | E   | F   | G   | H   |
+      | 1 | ROO | KNI | BIS | QUE | KIN | BIS | KNI | ROO |
+      | 2 | PAW | PAW | PAW |     | PAW | PAW | PAW | PAW |
+      | 3 |     |     |     |     |     |     |     |     |
+      | 4 |     | bis |     |     |     |     |     |     |
+      | 5 |     |     |     | PAW |     |     |     |     |
+      | 6 |     |     |     |     |     |     |     |     |
+      | 7 | paw | paw | paw | paw |     | paw | paw | paw |
+      | 8 | roo | kni | bis | kin | que |     | kni | roo |
     Then White is in check

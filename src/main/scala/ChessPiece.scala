@@ -1,5 +1,5 @@
 package ChessGame //TODO BE: Fix package name
-import BoardUtilityFunctions.next
+import BoardUtilityFunctions.getOther
 
 object AllPieces {
 
@@ -29,7 +29,7 @@ object AllPieces {
     private def isLegalDiagonalMove(board: Board, source: BoardPosition, destination: BoardPosition) : Boolean =
       source.rankBoardIndex - destination.rankBoardIndex == color.direction &&
         calculateHorizontalDistance(source, destination) == 1 &&
-        board.state(destination.rankBoardIndex)(destination.fileBoardIndex).exists(_.getColor == next(color))
+        board.state(destination.rankBoardIndex)(destination.fileBoardIndex).exists(_.getColor == getOther(color))
 
     private def isLegalVerticalMove(board: Board, source: BoardPosition,
                                     destination: BoardPosition) : Boolean = {

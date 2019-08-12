@@ -1,7 +1,7 @@
 package ChessGame
 
 import ChessGame.AllPieces.King
-import ChessGame.BoardUtilityFunctions.next
+import ChessGame.BoardUtilityFunctions.getOther
 import ChessGame.PieceMovement.movePiece
 import org.scalactic.{Bad, Good, Or}
 
@@ -13,8 +13,8 @@ case class Player(isInCheck : Boolean)
 case class GamePlay(currentBoard: Board, currentTurn: Color, white : Player, black : Player) {
   def takeTurn(userInput : String) : Or[GamePlay, ErrorType] =
 		validateAndThenTakeTurn(userInput, this).map { board =>
-			this.copy(board, next(currentTurn))
-		}.map(gamePlay => if (isKingInCheck(gamePlay.currentTurn)) gamePlay.copy(black = Player(true)) else gamePlay )
+			setToCheck(this.copy(currentBoard = board)).copy(currentTurn = getOther(currentTurn))
+		}
 
 	//TODO BE: a function should do one thing, so split out all the validation into another function
   private def validateAndThenTakeTurn(input : String, gamePlay: GamePlay) : Or[Board, ErrorType] =
@@ -30,15 +30,15 @@ case class GamePlay(currentBoard: Board, currentTurn: Color, white : Player, bla
 		} else Bad(NotYourPiece)
 
 	//make sure you check if the move puts the mover's king in check as well as the opponent's
-	private def isKingInCheck(color : Color) : Boolean = {
-		val blackKingPosition = findKing(color)
-		getAllWhitePieces.exists(boardPos =>
-			currentBoard.get(boardPos).get.isValidMove(currentBoard, boardPos, blackKingPosition) )
+	private def isKingInCheck(color : Color, board: Board) : Boolean = {
+		val kingPosition = findKing(color, board)
+		getAllPieces(board, getOther(color)).exists(boardPos =>
+			board.get(boardPos).get.isValidMove(board, boardPos, kingPosition) )
 	}
 
-	private def findKing(color : Color) : BoardPosition = {
+	private def findKing(color : Color, board: Board) : BoardPosition = {
 		def traverseBoard(rowIndex : Int): BoardPosition = {
-			val columnIndexOfBlackKing = currentBoard.state(rowIndex).indexOf(Option(King(Black)))
+			val columnIndexOfBlackKing = board.state(rowIndex).indexOf(Option(King(color)))
 			if (columnIndexOfBlackKing > -1) {
 				BoardPosition(rowIndex, columnIndexOfBlackKing)
 			}
@@ -47,14 +47,16 @@ case class GamePlay(currentBoard: Board, currentTurn: Color, white : Player, bla
 		traverseBoard(0)
 	}
 
-//	private def getAllWhitePieces : List[(ChessPiece] = {
-//		currentBoard.state.flatMap(row =>
-//			row.flatten.collect { case piece if piece.getColor == White => piece } )
-//	}
-private def getAllWhitePieces: immutable.Seq[BoardPosition] =
+	private def setToCheck(gamePlay: GamePlay) : GamePlay =
+		gamePlay.currentTurn match {
+			case White => if (isKingInCheck(Black, gamePlay.currentBoard)) gamePlay.copy(black = Player(true)) else gamePlay
+			case Black => if (isKingInCheck(White, gamePlay.currentBoard)) gamePlay.copy(white = Player(true)) else gamePlay
+		}
+
+	private def getAllPieces(board : Board, color : Color): immutable.Seq[BoardPosition] =
 	(0 until 8).flatMap(rowIndex =>
 		(0 until 8).collect { case colIndex
-			if currentBoard.state(rowIndex)(colIndex).exists(_.getColor == White) =>
+			if board.state(rowIndex)(colIndex).exists(_.getColor == color) =>
 			BoardPosition(rowIndex, colIndex) }.toList
 	)
 
