@@ -13,21 +13,21 @@ class StepDefinitions extends ScalaDsl with EN {
   private val runner = new Runner //Todo: Before and After create new Runner; import before and after
   private def actualBoard : Board = runner.gamePlay.currentBoard
   private def actualTurn : Color = runner.gamePlay.currentTurn
-
+  private val newPlayer = Player(false, false)
 
   Given("""^a new chess game$"""){ () =>
-    runner.gamePlay = GamePlay(Board(), White, Player(false), Player(false))
+    runner.gamePlay = GamePlay(Board(), White, newPlayer, newPlayer)
   }
 
   Given("""^It is (Black|White)'s turn and the board looks like$""") { (color : String, dataTable: DataTable) =>
     val chosenColor = if (color == "Black") Black else White
     val board = convert(dataTable)
-    runner.gamePlay = GamePlay(board, chosenColor, Player(false), Player(false))
+    runner.gamePlay = GamePlay(board, chosenColor, newPlayer, newPlayer)
   }
 
   //it is an invalid move
   Given("""^In a new game, it is the turn of (White|Black)""") { color : String =>
-    runner.gamePlay = GamePlay(Board(), { if (color == "White") White else Black }, Player(false), Player(false))
+    runner.gamePlay = GamePlay(Board(), { if (color == "White") White else Black }, newPlayer, newPlayer)
   }
 
   When("""^the following moves are made$"""){ moves: DataTable =>
@@ -56,9 +56,14 @@ class StepDefinitions extends ScalaDsl with EN {
       assert(actualBoard.state(rankIndex)(fileIndex) == Option(expectedPiece))
   }
 
-  Then("""^(Black|White) is in check""") { color : String =>
+  Then("""(Black|White) is in check""") { color : String =>
     val player = if (color == "White") runner.gamePlay.white else runner.gamePlay.black
     assert(player.isInCheck)
+  }
+
+  Then("""(Black|White) wins""") { color : String =>
+    val losingPlayer = if (color == "White") runner.gamePlay.black else runner.gamePlay.white
+    assert(losingPlayer.isInCheckMate)
   }
 
 }

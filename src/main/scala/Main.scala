@@ -3,8 +3,9 @@ package ChessGame
 object Main extends App {
 	private val startingColor = White
 	private val isInCheck = false
-	private val whitePlayer = Player(isInCheck)
-	private val blackPlayer = Player(isInCheck)
+	private val isInCheckMate = false
+	private val whitePlayer = Player(isInCheck, isInCheckMate)
+	private val blackPlayer = Player(isInCheck, isInCheckMate)
 	playGame(GamePlay(Board(InitialBoard.state), startingColor, whitePlayer, blackPlayer))
 
 	private def playGame(gamePlay: GamePlay) : Unit = {

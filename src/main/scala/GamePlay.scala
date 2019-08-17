@@ -8,7 +8,7 @@ import org.scalactic.{Bad, Good, Or}
 import scala.collection.immutable
 //use compiletime safety to ensure white and black must alternate moves
 
-case class Player(isInCheck : Boolean)
+case class Player(isInCheck : Boolean, isInCheckMate : Boolean)
 
 case class GamePlay(currentBoard: Board, currentTurn: Color, white : Player, black : Player) {
   def takeTurn(userInput : String) : Or[GamePlay, ErrorType] =
@@ -49,8 +49,8 @@ case class GamePlay(currentBoard: Board, currentTurn: Color, white : Player, bla
 
 	private def setToCheck(gamePlay: GamePlay) : GamePlay =
 		gamePlay.currentTurn match {
-			case White => if (isKingInCheck(Black, gamePlay.currentBoard)) gamePlay.copy(black = Player(true)) else gamePlay
-			case Black => if (isKingInCheck(White, gamePlay.currentBoard)) gamePlay.copy(white = Player(true)) else gamePlay
+			case White => if (isKingInCheck(Black, gamePlay.currentBoard)) gamePlay.copy(black = Player(true, false)) else gamePlay
+			case Black => if (isKingInCheck(White, gamePlay.currentBoard)) gamePlay.copy(white = Player(true, false)) else gamePlay
 		}
 
 	private def getAllPieces(board : Board, color : Color): immutable.Seq[BoardPosition] =
