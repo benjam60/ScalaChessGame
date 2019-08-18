@@ -7,10 +7,7 @@ object AllPieceApplicableRules {
 	def isMoversPiece(board : Board, source : BoardPosition, colorsTurn : Color) : Boolean =
 		board.get(source).exists(_.getColor == colorsTurn)
 
-	def isCapturingNoOne(board: Board, destination : BoardPosition) : Boolean = board.get(destination).isEmpty
-
-	def isCapturingOpponent(board: Board, destination : BoardPosition, moverColor : Color) : Option[Boolean] =
-		board.get(destination).map(piece => piece.getColor != moverColor)
-
+	def isNotCapturingSelf(board: Board, destination : BoardPosition, moverColor : Color) : Boolean =
+		board.get(destination).forall(_.getColor != moverColor)
 
 }

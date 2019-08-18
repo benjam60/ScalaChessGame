@@ -32,8 +32,7 @@ case class GamePlay(currentBoard: Board, currentTurn: Color, white : Player, bla
 		}
 
 	private def followsAllApplicableRules(board : Board, sourcePosition : BoardPosition, destinationPosition : BoardPosition, colorsTurn : Color) : Boolean =
-		(AllPieceApplicableRules.isCapturingNoOne(board, destinationPosition) ||
-		AllPieceApplicableRules.isCapturingOpponent(board, destinationPosition, colorsTurn).getOrElse(true)) &&
+		AllPieceApplicableRules.isNotCapturingSelf(board, destinationPosition, colorsTurn) &&
 	  AllPieceApplicableRules.isMoversPiece(board, sourcePosition, colorsTurn) &&
 		AllPieceApplicableRules.sourcePieceExists(board, sourcePosition)
 
