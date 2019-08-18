@@ -1,6 +1,7 @@
 package ChessGame //TODO BE: Fix package name
 import BoardUtilityFunctions.getOther
 import ChessGame.PieceMovementValidation.arePiecesInBetween
+import GeneralPieceMovementRules._
 
 object AllPieces {
 
@@ -21,8 +22,8 @@ object AllPieces {
     override def isValidMove(board: Board, source: BoardPosition, destination: BoardPosition): Boolean =
       !arePiecesInBetween(board, source, destination) && (
       if (source.fileBoardIndex == destination.fileBoardIndex) {
-	      if (!canMoveTwoSpaces) List(GeneralPieceMovementRules.isLegalVerticalMoveOneSpace, GeneralPieceMovementRules.correctColorDirection).forall(f => f(board, LegalMove(source, destination)))
-	      else List(GeneralPieceMovementRules.isLegalVerticalMoveTwoSpaces, GeneralPieceMovementRules.correctColorDirection).forall(f => f(board, LegalMove(source, destination)))
+	      if (!canMoveTwoSpaces) List(isLegalVerticalMoveOneSpace, correctColorDirection, isNotCapturingPiece).forall(f => f(board, LegalMove(source, destination)))
+	      else List(isLegalVerticalMoveTwoSpaces, correctColorDirection, isNotCapturingPiece).forall(f => f(board, LegalMove(source, destination)))
       }
       else isLegalDiagonalMove(board, source, destination))
 

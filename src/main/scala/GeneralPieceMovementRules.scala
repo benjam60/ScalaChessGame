@@ -4,6 +4,7 @@ import ChessGame.AllPieces.Knight
 
 object GeneralPieceMovementRules {
 
+	val isNotCapturingPiece = (board: Board, legalMove: LegalMove) => board.get(legalMove.destinationPosition).isEmpty
 	val isLegalVerticalMoveOneSpace = (board: Board, legalMove: LegalMove) => isLegalVerticalMove(board, legalMove)(1)
 	val isLegalVerticalMoveTwoSpaces = (board: Board, legalMove: LegalMove) => isLegalVerticalMove(board, legalMove)(2)
 	val correctColorDirection = (board: Board, legalMove: LegalMove) => {
