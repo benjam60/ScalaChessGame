@@ -1,5 +1,6 @@
 package ChessGame //TODO BE: Fix package name
 import BoardUtilityFunctions.getOther
+import ChessGame.PieceMovementValidation.arePiecesInBetween
 
 object AllPieces {
 
@@ -8,6 +9,7 @@ object AllPieces {
     def getDisplayName: String =
     if (color == White) colorAgnosticDisplayName.toUpperCase else colorAgnosticDisplayName.toLowerCase
 
+    //TODO: REMOVE dup
     def isValidMove(board : Board, source: BoardPosition, destination: BoardPosition): Boolean =
     isNotEatingOwnPiece(board, destination) && isValidMoveForPiece(board, source, destination)
 
@@ -22,9 +24,10 @@ object AllPieces {
     override val colorAgnosticDisplayName: String = "Paw"
 
     override def isValidMoveForPiece(board: Board, source: BoardPosition, destination: BoardPosition): Boolean =
+      !arePiecesInBetween(board, source, destination) && (
       if (source.fileBoardIndex == destination.fileBoardIndex)
         isLegalVerticalMove(board, source, destination) && board.get(destination).isEmpty
-      else isLegalDiagonalMove(board, source, destination)
+      else isLegalDiagonalMove(board, source, destination))
 
     private def isLegalDiagonalMove(board: Board, source: BoardPosition, destination: BoardPosition) : Boolean =
       source.rankBoardIndex - destination.rankBoardIndex == color.direction &&

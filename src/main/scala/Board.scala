@@ -3,6 +3,7 @@ package ChessGame
 import ChessGame.AllPieces._
 import Constants.RowSize
 
+//put getter and setter here?
 case class Board(state: IndexedSeq[IndexedSeq[Option[ChessPiece]]] = InitialBoard.state) {
   def get(position : BoardPosition) : Option[ChessPiece] = state(position.rankBoardIndex)(position.fileBoardIndex)
 }

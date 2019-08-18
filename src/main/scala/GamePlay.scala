@@ -11,10 +11,37 @@ import scala.collection.immutable
 case class Player(isInCheck : Boolean, isInCheckMate : Boolean)
 
 case class GamePlay(currentBoard: Board, currentTurn: Color, white : Player, black : Player) {
-  def takeTurn(userInput : String) : Or[GamePlay, ErrorType] =
-		validateAndThenTakeTurn(userInput, this).map { board =>
-			setToCheck(this.copy(currentBoard = board)).copy(currentTurn = getOther(currentTurn))
+//  def takeTurn(userInput : String) : Or[GamePlay, ErrorType] =
+//		validateAndThenTakeTurn(userInput, this).map { board =>
+//			setToCheck(this.copy(currentBoard = board)).copy(currentTurn = getOther(currentTurn))
+//		}
+
+	def takeTurn(userInput : String) : Or[GamePlay, ErrorType] =
+		checkIfLegalMove(userInput, currentBoard, currentTurn).map { legalMove =>
+			val updatedBoard = PieceMovement.movePiece(currentBoard,currentBoard.get(legalMove.sourcePosition).get,
+				legalMove.sourcePosition, legalMove.destinationPosition)
+			setToCheck(this.copy(currentBoard = updatedBoard)).copy(currentTurn = getOther(currentTurn))
 		}
+
+	def checkIfLegalMove(input : String, board : Board, colorsTurn : Color) : Or[Move, ErrorType] =
+		validateInput(input).flatMap { case m@Move(sourcePosition: BoardPosition, destinationPosition: BoardPosition) =>
+			if (followsAllApplicableRules(board, sourcePosition, destinationPosition, colorsTurn)
+				&& board.get(sourcePosition).exists(_.isValidMove(board, sourcePosition, destinationPosition))
+			)
+				Good(m) else Bad(InvalidMove)
+		}
+
+	private def followsAllApplicableRules(board : Board, sourcePosition : BoardPosition, destinationPosition : BoardPosition, colorsTurn : Color) : Boolean =
+		(AllPieceApplicableRules.isCapturingNoOne(board, destinationPosition) ||
+		AllPieceApplicableRules.isCapturingOpponent(board, destinationPosition, colorsTurn).getOrElse(true)) &&
+	  AllPieceApplicableRules.isMoversPiece(board, sourcePosition, colorsTurn) &&
+		AllPieceApplicableRules.sourcePieceExists(board, sourcePosition)
+
+
+	private def validateInput(input : String) : Or[Move, ErrorType] =
+		if (shouldContinueGame(input)) {
+			InputValidation.readPieces(input).map(move => Good(move)).getOrElse(Bad(InvalidInput))
+		} else Bad(GameOver)
 
 	//TODO BE: a function should do one thing, so split out all the validation into another function
   private def validateAndThenTakeTurn(input : String, gamePlay: GamePlay) : Or[Board, ErrorType] =

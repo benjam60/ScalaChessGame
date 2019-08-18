@@ -13,7 +13,7 @@ object PieceMovementValidation {
 
 	private def playerIsMovingOwnPiece(turn : Color, piece : ChessPiece) : Boolean = piece.getColor == turn
 
-	private def arePiecesInBetween(board: Board, source: BoardPosition, destination: BoardPosition) : Boolean = {
+	def arePiecesInBetween(board: Board, source: BoardPosition, destination: BoardPosition) : Boolean = {
 		if (isMovingVertically(source, destination) && verticalDistance(source, destination) >= minimumLengthThatCouldHavePieces) {
 			val (minRank, maxRank) = if (source.rankBoardIndex > destination.rankBoardIndex)
 				(destination.rankBoardIndex, source.rankBoardIndex) else (source.rankBoardIndex, destination.rankBoardIndex)
