@@ -2,3 +2,6 @@ How do you structure the code to prevent shotgun surgery?
 
 How do you structure the code to allow plugins? E.g. track the number of pieces
 or replay certain moves
+
+How do I design the code better to incorporate adding rules such as checking for
+checkmate without doing shotgun surgery?
