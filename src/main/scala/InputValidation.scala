@@ -4,12 +4,12 @@ import ChessGame.Constants.{Files, Ranks}
 
 object InputValidation {
 
-  def readPieces(input : String) : Option[Move] =
+  def readPieces(input : String) : Option[UnvalidatedMove] =
     if (input.length == ValidInputSize) {
       if (isOnBoard(sourceRank(input), sourceFile(input)) && isOnBoard(destinationRank(input), destinationFile(input))
         && !sourceIsSameAsDestination(sourceRank(input), sourceFile(input),destinationRank(input),
         destinationFile(input))) {
-        Option(Move(BoardPosition(sourceRank(input), sourceFile(input)), BoardPosition(destinationRank(input),
+        Option(UnvalidatedMove(BoardPosition(sourceRank(input), sourceFile(input)), BoardPosition(destinationRank(input),
           destinationFile(input))))
       } else None
     }
