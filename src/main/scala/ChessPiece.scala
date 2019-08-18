@@ -20,8 +20,10 @@ object AllPieces {
 
     override def isValidMove(board: Board, source: BoardPosition, destination: BoardPosition): Boolean =
       !arePiecesInBetween(board, source, destination) && (
-      if (source.fileBoardIndex == destination.fileBoardIndex)
-        isLegalVerticalMove(board, source, destination) && board.get(destination).isEmpty
+      if (source.fileBoardIndex == destination.fileBoardIndex) {
+	      if (!canMoveTwoSpaces) List(GeneralPieceMovementRules.isLegalVerticalMoveOneSpace, GeneralPieceMovementRules.correctColorDirection).forall(f => f(board, LegalMove(source, destination)))
+	      else List(GeneralPieceMovementRules.isLegalVerticalMoveTwoSpaces, GeneralPieceMovementRules.correctColorDirection).forall(f => f(board, LegalMove(source, destination)))
+      }
       else isLegalDiagonalMove(board, source, destination))
 
     private def isLegalDiagonalMove(board: Board, source: BoardPosition, destination: BoardPosition) : Boolean =
