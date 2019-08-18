@@ -19,24 +19,12 @@ object AllPieces {
   case class Pawn(canMoveTwoSpaces : Boolean, override val color : Color) extends ChessPiece {
     override val colorAgnosticDisplayName: String = "Paw"
 
-    override def isValidMove(board: Board, source: BoardPosition, destination: BoardPosition): Boolean =
-      !arePiecesInBetween(board, source, destination) && (
-      if (source.fileBoardIndex == destination.fileBoardIndex) {
-	      if (!canMoveTwoSpaces) List(isLegalVerticalMoveOneSpace, correctColorDirection, isNotCapturingPiece).forall(f => f(board, LegalMove(source, destination)))
-	      else List(isLegalVerticalMoveTwoSpaces, correctColorDirection, isNotCapturingPiece).forall(f => f(board, LegalMove(source, destination)))
-      }
-      else isLegalDiagonalMove(board, source, destination))
-
-    private def isLegalDiagonalMove(board: Board, source: BoardPosition, destination: BoardPosition) : Boolean =
-      source.rankBoardIndex - destination.rankBoardIndex == color.direction &&
-        calculateHorizontalDistance(source, destination) == 1 &&
-        board.state(destination.rankBoardIndex)(destination.fileBoardIndex).exists(_.getColor == getOther(color))
-
-    private def isLegalVerticalMove(board: Board, source: BoardPosition,
-                                    destination: BoardPosition) : Boolean = {
-      val numSpacesCanMove = if (canMoveTwoSpaces) List(1, 2).map(_*color.direction) else List(1).map(_*color.direction)
-      source.fileBoardIndex == destination.fileBoardIndex &&
-        numSpacesCanMove.contains(source.rankBoardIndex - destination.rankBoardIndex)
+    override def isValidMove(board: Board, source: BoardPosition, destination: BoardPosition): Boolean = {
+      val verticalMovementRule = if (canMoveTwoSpaces) isLegalVerticalMoveTwoSpaces else isLegalVerticalMoveOneSpace
+      val legalMove = LegalMove(source, destination)
+      (!arePiecesInBetween(board, source, destination) &&
+        List(verticalMovementRule, correctColorDirection, isNotCapturingPiece).forall(f => f(board, legalMove))) ||
+        List(correctColorDirection, isValidPawnDiagnolCapture, destinationHasPiece).forall(f => f(board, legalMove))
     }
   }
 
