@@ -1,7 +1,6 @@
 package ChessGame //TODO BE: Fix package name
-import BoardUtilityFunctions.getOther
+import ChessGame.GeneralPieceMovementRules._
 import ChessGame.PieceMovementValidation.arePiecesInBetween
-import GeneralPieceMovementRules._
 
 object AllPieces {
 
@@ -59,8 +58,7 @@ object AllPieces {
     override val colorAgnosticDisplayName: String = "Kin"
 
     override def isValidMove(board: Board, source: BoardPosition, destination: BoardPosition): Boolean =
-      Math.abs(source.fileBoardIndex - destination.fileBoardIndex) < 2 &&
-        Math.abs(source.rankBoardIndex - destination.rankBoardIndex) < 2
+      List(isLegalVerticalMoveOneSpace, isLegalHorizontalMoveOneSpace, isLegalDiagonalMoveOneSpace).exists(f => f(board, LegalMove(source, destination)))
 
   }
 

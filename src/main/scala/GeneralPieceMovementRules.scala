@@ -17,11 +17,13 @@ object GeneralPieceMovementRules {
 	val isValidPawnDiagnolCapture = (board: Board, legalMove: LegalMove) => {
 		val distance = calculateDistance(legalMove)
 		distance.horizontal == 1 && distance.vertical == 1 &&
-			sourceAndDestAreDifferentColors(board, legalMove)
-		//		source.rankBoardIndex - destination.rankBoardIndex == color.direction &&
-//			calculateHorizontalDistance(source, destination) == 1 &&
-			//board.state(destination.rankBoardIndex)(destination.fileBoardIndex).exists(_.getColor == getOther(color))
+			sourceAndDestAreDifferentColors(board, legalMove) //different rule
 	}
+
+	val isLegalHorizontalMoveOneSpace = (board: Board, legalMove: LegalMove) => calculateDistance(legalMove) == Distance(1, 0)
+
+	val isLegalDiagonalMoveOneSpace = (board: Board, legalMove: LegalMove) => calculateDistance(legalMove) == Distance(1, 1)
+
 
 	private def isLegalVerticalMove(board: Board, legalMove: LegalMove)(maxAllowableSpaces : Int) : Boolean =
 		(math.abs(legalMove.sourcePosition.rankBoardIndex - legalMove.destinationPosition.rankBoardIndex) <= maxAllowableSpaces) &&
