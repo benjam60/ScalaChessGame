@@ -2,7 +2,6 @@ package ChessGame
 
 import ChessGame.AllPieces.King
 import ChessGame.BoardUtilityFunctions.getOther
-import ChessGame.PieceMovement.movePiece
 import org.scalactic.{Bad, Good, Or}
 
 import scala.collection.immutable
