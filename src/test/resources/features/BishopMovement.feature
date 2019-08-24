@@ -25,15 +25,15 @@ Feature: Ensures correct Bishop movement
 
   Scenario Outline: Bishop invalid moves
     Given It is White's turn and the board looks like
-      |   | A   | B   | C | D   | E | F   | G   | H |
-      | 1 |     |     |   |     |   |     |     |   |
-      | 2 |     | BIS |   |     |   |     |     |   |
-      | 3 | PAW |     |   |     |   |     |     |   |
-      | 4 |     |     |   | paw |   |     |     |   |
-      | 5 |     |     |   |     |   |     | PAW |   |
-      | 6 |     |     |   |     |   | BIS |     |   |
-      | 7 |     |     |   |     |   |     |     |   |
-      | 8 |     |     |   |     |   |     |     |   |
+      |   | A   | B   | C | D    | E | F   | G   | H |
+      | 1 |     |     |   | KIN  |   |     |     |   |
+      | 2 |     | BIS |   |      |   |     |     |   |
+      | 3 | PAW |     |   |      |   |     |     |   |
+      | 4 |     |     |   | paw  |   |     |     |   |
+      | 5 |     |     |   |      |   |     | PAW |   |
+      | 6 |     |     |   |      |   | BIS |     |   |
+      | 7 |     |     |   |      |   |     |     |   |
+      | 8 |     |     |   | kin |   |     |     |   |
     When the following moves are made
       | <Invalid Moves> |
     Then it is the turn of White
