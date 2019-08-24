@@ -16,22 +16,22 @@ Feature: Ensures chessboard initializes correctly
   Scenario: Custom starting board (for testing)
     Given It is Black's turn and the board looks like
       |   | A | B   | C   | D | E | F | G | H |
-      | 1 |   |     | Kin    |   |   |   |   |   |
+      | 1 |   |     | Kin |   |   |   |   |   |
       | 2 |   |     |     |   |   |   |   |   |
       | 3 |   |     |     |   |   |   |   |   |
       | 4 |   | PAW |     |   |   |   |   |   |
       | 5 |   |     | PAW |   |   |   |   |   |
       | 6 |   |     |     |   |   |   |   |   |
       | 7 |   |     |     |   |   |   |   |   |
-      | 8 |   |     | kin    |   |   |   |   |   |
+      | 8 |   |     | kin |   |   |   |   |   |
     Then the board should look like
       |   | A | B   | C   | D | E | F | G | H |
-      | 1 |   |     | Kin    |   |   |   |   |   |
+      | 1 |   |     | Kin |   |   |   |   |   |
       | 2 |   |     |     |   |   |   |   |   |
       | 3 |   |     |     |   |   |   |   |   |
       | 4 |   | PAW |     |   |   |   |   |   |
       | 5 |   |     | PAW |   |   |   |   |   |
       | 6 |   |     |     |   |   |   |   |   |
       | 7 |   |     |     |   |   |   |   |   |
-      | 8 |   |     | kin    |   |   |   |   |   |
+      | 8 |   |     | kin |   |   |   |   |   |
 
