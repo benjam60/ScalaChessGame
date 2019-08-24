@@ -57,8 +57,8 @@ case class GamePlay(currentBoard: Board, currentTurn: Color, white : Player, bla
 
 	private def setToCheck(gamePlay: GamePlay) : GamePlay =
 		gamePlay.currentTurn match {
-			case White => if (isKingInCheck(Black, gamePlay.currentBoard)) gamePlay.copy(black = Player(true, false)) else gamePlay
-			case Black => if (isKingInCheck(White, gamePlay.currentBoard)) gamePlay.copy(white = Player(true, false)) else gamePlay
+			case White => if (isKingInCheck(Black, gamePlay.currentBoard)) gamePlay.copy(black = playerInCheck) else gamePlay
+			case Black => if (isKingInCheck(White, gamePlay.currentBoard)) gamePlay.copy(white = playerInCheck) else gamePlay
 		}
 
 	private def getAllPieces(board : Board, color : Color): immutable.Seq[BoardPosition] =
@@ -69,4 +69,5 @@ case class GamePlay(currentBoard: Board, currentTurn: Color, white : Player, bla
 	)
 
   private def shouldContinueGame(input : String) : Boolean = input.toLowerCase() != "quit"
+	private val playerInCheck = Player(true, false)
 }
