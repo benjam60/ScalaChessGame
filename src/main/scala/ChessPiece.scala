@@ -42,7 +42,8 @@ object AllPieces {
     override val colorAgnosticDisplayName: String = "Roo"
 
     override def isValidMove(board: Board, source: BoardPosition, destination: BoardPosition): Boolean =
-      calculateHorizontalDistance(source, destination) != 0 ^ calculateVerticalDistance(source, destination) != 0
+      !arePiecesInBetween(board, source, destination) &&
+        (calculateHorizontalDistance(source, destination) != 0 ^ calculateVerticalDistance(source, destination) != 0)
   }
 
   case class Queen(override val color : Color) extends ChessPiece {

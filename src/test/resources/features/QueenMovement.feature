@@ -38,3 +38,18 @@ Feature: Ensures correct Queen movement
     Examples:
       | Invalid Moves |
       | 5E->7D        |
+
+  Scenario: Queens shouldn't jump over pieces
+    Given It is Black's turn and the board looks like
+      |   | A   | B   | C   | D   | E   | F   | G   | H   |
+      | 1 | ROO | KNI | BIS | QUE | KIN | BIS | KNI | ROO |
+      | 2 | PAW | PAW | PAW | PAW | PAW | PAW | PAW | PAW |
+      | 3 |     |     |     |     |     |     |     |     |
+      | 4 |     |     |     |     |     |     |     |     |
+      | 5 |     |     |     |     |     |     |     |     |
+      | 6 |     |     |     |     |     |     |     |     |
+      | 7 | paw | paw | paw | paw |     | paw | paw | paw |
+      | 8 | roo | kni | bis | kin | que | bis | kni | roo |
+    When the following moves are made
+      | 8E->1E |
+    Then it is the turn of Black

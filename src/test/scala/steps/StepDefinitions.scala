@@ -25,6 +25,21 @@ class StepDefinitions extends ScalaDsl with EN {
     runner.gamePlay = GamePlay(board, chosenColor, newPlayer, newPlayer)
   }
 
+  Given("""^It is (Black|White)'s turn and their in check$""") { (color : String, dataTable: DataTable) =>
+    val board = convert(dataTable)
+    val playerInCheck = Player(isInCheck = true, isInCheckMate = false)
+    val playerNotInCheck = Player(isInCheck = false, isInCheckMate = false)
+    if (color == "Black") {
+      runner.gamePlay = GamePlay(board, Black, playerInCheck, playerNotInCheck)
+    }
+    else {
+      runner.gamePlay = GamePlay(board, White, playerNotInCheck, playerInCheck)
+    }
+
+
+  }
+
+
   //it is an invalid move
   Given("""^In a new game, it is the turn of (White|Black)""") { color : String =>
     runner.gamePlay = GamePlay(Board(), { if (color == "White") White else Black }, newPlayer, newPlayer)
@@ -61,9 +76,8 @@ class StepDefinitions extends ScalaDsl with EN {
     assert(player.isInCheck)
   }
 
-  Then("""(Black|White) wins""") { color : String =>
-    val losingPlayer = if (color == "White") runner.gamePlay.black else runner.gamePlay.white
-    assert(losingPlayer.isInCheckMate)
+  Then("""Black is out of check""") { () =>
+    assert(!runner.gamePlay.black.isInCheck)
   }
 
 }

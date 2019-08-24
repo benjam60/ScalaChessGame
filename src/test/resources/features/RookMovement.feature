@@ -56,3 +56,5 @@ Feature: Ensures correct knight movement
     Examples:
       | Invalid Moves |
       | 4D->3C        |
+      | 1H->3H        |
+      | 4D->8D        |
