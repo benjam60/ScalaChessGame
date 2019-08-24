@@ -28,7 +28,8 @@ case class GamePlay(currentBoard: Board, currentTurn: Color, white : Player, bla
 	private def followsAllApplicableRules(board : Board, sourcePosition : BoardPosition, destinationPosition : BoardPosition, colorsTurn : Color) : Boolean =
 		AllPieceApplicableRules.isNotCapturingSelf(board, destinationPosition, colorsTurn) &&
 	  AllPieceApplicableRules.isMoversPiece(board, sourcePosition, colorsTurn) &&
-		AllPieceApplicableRules.sourcePieceExists(board, sourcePosition)
+		AllPieceApplicableRules.sourcePieceExists(board, sourcePosition) &&
+	  !isKingInCheck(currentTurn, board)
 
 
 	private def validateInput(input : String) : Or[UnvalidatedMove, ErrorType] =
