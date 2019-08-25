@@ -10,13 +10,14 @@ case class Board(state: IndexedSeq[IndexedSeq[Option[ChessPiece]]] = InitialBoar
 
 object InitialBoard {
   val state: IndexedSeq[IndexedSeq[Option[ChessPiece]]] = IndexedSeq(
-    IndexedSeq(WhiteRook, WhiteKnight, WhiteBishop, WhiteQueen, WhiteKing, WhiteBishop, WhiteKnight, WhiteRook).map(Option(_)),
-    IndexedSeq.fill(RowSize)(WhitePawnCanMoveTwoSpaces).map(Option(_)),
+    IndexedSeq(Rook(White), Knight(White), Bishop(White), Queen(White), King(White), Bishop(White), Knight(White), Rook(White)).map(Option(_)),
+    IndexedSeq.fill(RowSize)(Option(Pawn(canMoveTwoSpaces = true, White))),
     IndexedSeq.fill(RowSize)(None),
     IndexedSeq.fill(RowSize)(None),
     IndexedSeq.fill(RowSize)(None),
     IndexedSeq.fill(RowSize)(None),
-    IndexedSeq.fill(RowSize)(BlackPawnCanMoveTwoSpaces).map(Option(_)),
-    IndexedSeq(BlackRook, BlackKnight, BlackBishop, BlackQueen, BlackKing, BlackBishop, BlackKnight, BlackRook).map(Option(_))
+    IndexedSeq.fill(RowSize)(Option(Pawn(canMoveTwoSpaces = true, Black))),
+    IndexedSeq(Rook(Black), Knight(Black), Bishop(Black), Queen(Black), King(Black), Bishop(Black), Knight(Black), Rook(Black)).map(Option(_))
   )
+
 }

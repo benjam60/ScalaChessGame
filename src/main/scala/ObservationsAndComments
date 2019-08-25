@@ -3,7 +3,7 @@ TODO:
 2. Add typesafety to the board class
 3. Had a bug where I mixed up player info based on color--use type safety to fix it
 4. Pull out gameplay stuff
-5.
+5. Fix pawns because can move twice sometimes
 
 
 For Checkmate: (how to break down this problem into smaller ones since

@@ -93,19 +93,4 @@ object AllPieces {
   private def calculateHorizontalDistance(source: BoardPosition, destination: BoardPosition) : Int =
     math.abs(source.fileBoardIndex - destination.fileBoardIndex)
 
-  private val canMoveTwoSpaces = true
-  val BlackPawnCanMoveTwoSpaces = Pawn(canMoveTwoSpaces, Black)
-  val BlackPawnCanMoveOneSpace = Pawn(!canMoveTwoSpaces, Black)
-  val WhitePawnCanMoveTwoSpaces = Pawn(canMoveTwoSpaces, White)
-  val WhitePawnCanMoveOneSpace = Pawn(!canMoveTwoSpaces, White)
-	val BlackRook = Rook(Black)
-	val WhiteRook = Rook(White)
-  val BlackKnight = Knight(Black)
-  val WhiteKnight = Knight(White)
-  val BlackKing = King(Black)
-  val WhiteKing = King(White)
-  val BlackQueen = Queen(Black)
-  val WhiteQueen = Queen(White)
-  val BlackBishop = Bishop(Black)
-  val WhiteBishop = Bishop(White)
 }
