@@ -11,7 +11,7 @@ Feature: Ensures chessboard initializes correctly
       | 5 |     |     |     |     |     |     |     |     |
       | 6 |     |     |     |     |     |     |     |     |
       | 7 | paw | paw | paw | paw | paw | paw | paw | paw |
-      | 8 | roo | kni | bis | kin | que | bis | kni | roo |
+      | 8 | roo | kni | bis | que | kin | bis | kni | roo |
 
   Scenario: Custom starting board (for testing)
     Given It is Black's turn and the board looks like

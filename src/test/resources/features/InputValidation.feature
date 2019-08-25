@@ -14,7 +14,7 @@ Feature: Input Validation
       | 5 |     |     |     |     |     |     |     |     |
       | 6 |     |     |     |     |     |     |     |     |
       | 7 | paw | paw | paw | paw | paw | paw | paw | paw |
-      | 8 | roo | kni | bis | kin | que | bis | kni | roo |
+      | 8 | roo | kni | bis | que | kin | bis | kni | roo |
     Examples:
       | Illegal Moves |
       | 7B->4B        |

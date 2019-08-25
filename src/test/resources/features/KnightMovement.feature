@@ -10,7 +10,7 @@ Feature: Ensures correct knight movement
       | 5 |     |     |     |     |     |     |     |     |
       | 6 |     |     |     |     |     |     |     |     |
       | 7 | paw | paw | paw | paw | paw | paw | paw | paw |
-      | 8 | roo | kni | bis | kin | que | bis | kni | roo |
+      | 8 | roo | kni | bis | que | kin | bis | kni | roo |
     When the following moves are made
       | <Valid Moves> |
     Then it is the turn of Black
@@ -33,7 +33,7 @@ Feature: Ensures correct knight movement
       | 5 |     |     |     |     |     |     |     |     |
       | 6 |     |     |     |     |     |     |     |     |
       | 7 | paw | paw | paw | paw | paw | paw | paw | paw |
-      | 8 | roo | kni | bis | kin | que | bis | kni | roo |
+      | 8 | roo | kni | bis | que | kin | bis | kni | roo |
     When the following moves are made
       | <Invalid Moves> |
     Then it is the turn of White

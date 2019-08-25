@@ -14,7 +14,7 @@ Feature: Ensure proper Pawn movement
       | 5 |     |     |     |     |     |     |     | paw |
       | 6 |     |     |     |     |     |     |     |     |
       | 7 | paw | paw | paw | paw | paw | paw | paw |     |
-      | 8 | roo | kni | bis | kin | que | bis | kni | roo |
+      | 8 | roo | kni | bis | que | kin | bis | kni | roo |
 
   Scenario: When you try to move a pawn 2 spaces twice, then it'll only move 2 spaces once
     Given a new chess game
@@ -32,7 +32,7 @@ Feature: Ensure proper Pawn movement
       | 5 |     | paw |     |     |     |     |     |     |
       | 6 |     |     |     |     |     |     |     |     |
       | 7 | paw |     | paw | paw | paw | paw | paw | paw |
-      | 8 | roo | kni | bis | kin | que | bis | kni | roo |
+      | 8 | roo | kni | bis | que | kin | bis | kni | roo |
 
   Scenario Outline: Ensure pawn type changes when moving it two spaces
     Given In a new game, it is the turn of <Color>
@@ -61,7 +61,7 @@ Feature: Ensure proper Pawn movement
       | 5 |     |     |     |     |     |     |     |     |
       | 6 |     |     |     |     |     |     | PAW |     |
       | 7 | paw |     | paw | paw | paw | paw | paw | paw |
-      | 8 | roo | kni | bis | kin | que | bis | kni | roo |
+      | 8 | roo | kni | bis | que | kin | bis | kni | roo |
 
   Scenario: A pawn can eat an opposing piece at one space diagonal
     Given a new chess game
@@ -78,7 +78,7 @@ Feature: Ensure proper Pawn movement
       | 5 |     |     |     | PAW |     |     |     |     |
       | 6 |     |     |     |     |     |     |     |     |
       | 7 | paw | paw | paw |     | paw | paw | paw | paw |
-      | 8 | roo | kni | bis | kin | que | bis | kni | roo |
+      | 8 | roo | kni | bis | que | kin | bis | kni | roo |
 
   Scenario: Pawns can't jump over same colored pieces
     Given It is White's turn and the board looks like
@@ -90,7 +90,7 @@ Feature: Ensure proper Pawn movement
       | 5 |     |     |     |     |     |     |     |     |
       | 6 |     |     |     |     |     |     |     |     |
       | 7 | paw | paw | paw |     | paw | paw | paw | paw |
-      | 8 | roo | kni | bis | kin | que | bis | kni | roo |
+      | 8 | roo | kni | bis | que | kin | bis | kni | roo |
     When the following moves are made
       | 2D->4D |
     Then it is the turn of White
@@ -108,7 +108,7 @@ Feature: Ensure proper Pawn movement
       | 5 |     |     |     |     |     |     |     |     |
       | 6 |     |     |     |     |     |     |     |     |
       | 7 | paw | paw | paw | paw | paw | paw | paw | paw |
-      | 8 | roo | kni | bis | kin | que | bis | kni | roo |
+      | 8 | roo | kni | bis | que | kin | bis | kni | roo |
 
   Scenario: White Pawns cannot move upwards
     Given It is White's turn and the board looks like
@@ -120,7 +120,7 @@ Feature: Ensure proper Pawn movement
       | 5 |     |     |     |     |     |     |     |     |
       | 6 |     |     |     |     |     |     |     |     |
       | 7 | paw | paw | paw | paw | paw | paw | paw | paw |
-      | 8 | roo | kni | bis | kin | que | bis | kni | roo |
+      | 8 | roo | kni | bis | que | kin | bis | kni | roo |
     When the following moves are made
       | 4D->3D |
     Then the board should look like
@@ -132,7 +132,7 @@ Feature: Ensure proper Pawn movement
       | 5 |     |     |     |     |     |     |     |     |
       | 6 |     |     |     |     |     |     |     |     |
       | 7 | paw | paw | paw | paw | paw | paw | paw | paw |
-      | 8 | roo | kni | bis | kin | que | bis | kni | roo |
+      | 8 | roo | kni | bis | que | kin | bis | kni | roo |
 
   Scenario Outline: Pawn can't capture piece in the forward direction
     Given It is <Color>'s turn and the board looks like
@@ -144,7 +144,7 @@ Feature: Ensure proper Pawn movement
       | 5 |     |     |     | paw |     |     |     |     |
       | 6 |     |     |     |     |     |     |     |     |
       | 7 | paw | paw | paw |     | paw | paw | paw | paw |
-      | 8 | roo | kni | bis | kin | que | bis | kni | roo |
+      | 8 | roo | kni | bis | que | kin | bis | kni | roo |
     When the following moves are made
       | <Moves> |
     Then it is the turn of <Color>
@@ -162,7 +162,7 @@ Feature: Ensure proper Pawn movement
       | 5 |     |     |     | paw |     |     |     |     |
       | 6 |     |     |     |     |     |     |     |     |
       | 7 | paw | paw | paw |     | paw | paw | paw | paw |
-      | 8 | roo | kni | bis | kin | que | bis | kni | roo |
+      | 8 | roo | kni | bis | que | kin | bis | kni | roo |
     When the following moves are made
       | 4D->6D |
     Then it is the turn of White
@@ -177,7 +177,7 @@ Feature: Ensure proper Pawn movement
       | 5 |     |     |     |     |     |     |     |     |
       | 6 |     |     |     |     |     | paw |     |     |
       | 7 | paw | paw | paw | paw | paw |     | paw | paw |
-      | 8 | roo | kni | bis | kin | que | bis | kni | roo |
+      | 8 | roo | kni | bis | que | kin | bis | kni | roo |
     When the following moves are made
       | 4D->FD |
     Then it is the turn of White

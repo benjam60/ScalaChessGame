@@ -75,6 +75,11 @@ class StepDefinitions extends ScalaDsl with EN {
 		assert(player.isInCheck)
 	}
 
+	Then("""(Black|White) wins""") { color: String =>
+		val player = if (color == "White") runner.gamePlay.white else runner.gamePlay.black
+		assert(player.isInCheckMate)
+	}
+
 	Then("""Black is out of check""") { () =>
 		assert(!runner.gamePlay.black.isInCheck)
 	}

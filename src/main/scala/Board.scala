@@ -17,6 +17,6 @@ object InitialBoard {
     IndexedSeq.fill(RowSize)(None),
     IndexedSeq.fill(RowSize)(None),
     IndexedSeq.fill(RowSize)(BlackPawnCanMoveTwoSpaces).map(Option(_)),
-    IndexedSeq(BlackRook, BlackKnight, BlackBishop, BlackKing, BlackQueen, BlackBishop, BlackKnight, BlackRook).map(Option(_))
+    IndexedSeq(BlackRook, BlackKnight, BlackBishop, BlackQueen, BlackKing, BlackBishop, BlackKnight, BlackRook).map(Option(_))
   )
 }

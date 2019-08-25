@@ -4,15 +4,15 @@ Feature: Situations where we are in check
     Given It is White's turn and the board looks like
       |   | A   | B   | C   | D   | E   | F   | G   | H   |
       | 1 | ROO | KNI | BIS | QUE | KIN | BIS | KNI | ROO |
-      | 2 | PAW | PAW | PAW |     | PAW | PAW | PAW | PAW |
-      | 3 |     |     |     |     |     |     |     |     |
+      | 2 | PAW | PAW | PAW |     |     | PAW | PAW | PAW |
+      | 3 |     |     |     |     | PAW |     |     |     |
       | 4 |     |     |     |     |     |     |     |     |
       | 5 |     |     |     | PAW |     |     |     |     |
-      | 6 |     |     |     |     |     |     |     |     |
-      | 7 | paw | paw | paw | paw |     | paw | paw | paw |
-      | 8 | roo | kni | bis | kin | que | bis | kni | roo |
+      | 6 |     |     |     |     |     | paw |     |     |
+      | 7 | paw | paw | paw | paw |     |     | paw | paw |
+      | 8 | roo | kni | bis | que | kin | bis | kni | roo |
     When the following moves are made
-      | 1C->5G |
+      | 1D->5H |
     Then Black is in check
 
   Scenario: White is in Check
@@ -25,7 +25,7 @@ Feature: Situations where we are in check
       | 5 |     |     |     | PAW |     |     |     |     |
       | 6 |     |     |     |     |     |     |     |     |
       | 7 | paw | paw | paw | paw |     | paw | paw | paw |
-      | 8 | roo | kni | bis | kin | que | bis | kni | roo |
+      | 8 | roo | kni | bis | que | kin | bis | kni | roo |
     When the following moves are made
       | 8F->4B |
     Then the board should look like
@@ -37,7 +37,7 @@ Feature: Situations where we are in check
       | 5 |     |     |     | PAW |     |     |     |     |
       | 6 |     |     |     |     |     |     |     |     |
       | 7 | paw | paw | paw | paw |     | paw | paw | paw |
-      | 8 | roo | kni | bis | kin | que |     | kni | roo |
+      | 8 | roo | kni | bis | que | kin |     | kni | roo |
     Then White is in check
 
 
@@ -50,8 +50,8 @@ Feature: Situations where we are in check
       | 4 |     |     |     |     |     |     |     |     |
       | 5 |     |     |     |     |     |     |     |     |
       | 6 |     |     |     |     |     |     |     |     |
-      | 7 | paw | paw | PAW | paw |     | paw | paw | paw |
-      | 8 | roo | kni | bis | kin | que | bis | kni | roo |
+      | 7 | paw | paw | paw | PAW |     | paw | paw | paw |
+      | 8 | roo | kni | bis | que | kin | bis | kni | roo |
     When the following moves are made
       | 7A->6A |
     Then it is the turn of Black
@@ -66,13 +66,13 @@ Feature: Situations where we are in check
       | 4 |     |     |     |     |     |     |     |     |
       | 5 |     |     |     |     |     |     |     |     |
       | 6 |     |     |     |     |     |     |     |     |
-      | 7 | paw | paw | PAW | paw |     | paw | paw | paw |
-      | 8 | roo | kni | bis | kin | que | bis | kni | roo |
+      | 7 | paw | paw | paw | PAW |     | paw | paw | paw |
+      | 8 | roo | kni | bis | que | kin | bis | kni | roo |
     When the following moves are made
       | <Moves> |
     Then it is the turn of White
     And Black is out of check
     Examples:
       | Moves  |
-      | 8D->7E |
-      | 8D->7C |
+      | 8E->7D |
+      | 8E->7E |

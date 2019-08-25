@@ -10,7 +10,7 @@ Feature: Ensures correct Queen movement
       | 5 |     |     |     |     |     |     |     |     |
       | 6 |     |     |     |     |     |     |     |     |
       | 7 | paw | paw | paw | paw | paw | paw | paw | paw |
-      | 8 | roo | kni | bis | kin | que | bis | kni | roo |
+      | 8 | roo | kni | bis | que | kin | bis | kni | roo |
     When the following moves are made
       | <Valid Moves> |
     Then it is the turn of Black
@@ -49,7 +49,7 @@ Feature: Ensures correct Queen movement
       | 5 |     |     |     |     |     |     |     |     |
       | 6 |     |     |     |     |     |     |     |     |
       | 7 | paw | paw | paw | paw |     | paw | paw | paw |
-      | 8 | roo | kni | bis | kin | que | bis | kni | roo |
+      | 8 | roo | kni | bis | que | kin | bis | kni | roo |
     When the following moves are made
-      | 8E->1E |
+      | 8D->1D |
     Then it is the turn of Black
