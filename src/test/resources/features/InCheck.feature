@@ -57,7 +57,7 @@ Feature: Situations where we are in check
     Then it is the turn of Black
     And Black is in check
 
-  Scenario: Black gets in check and then gets out of it
+  Scenario Outline: Black gets in check and then gets out of it
     Given It is Black's turn and they are in check
       |   | A   | B   | C   | D   | E   | F   | G   | H   |
       | 1 | ROO | KNI | BIS | QUE | KIN | BIS | KNI | ROO |
@@ -69,6 +69,10 @@ Feature: Situations where we are in check
       | 7 | paw | paw | PAW | paw |     | paw | paw | paw |
       | 8 | roo | kni | bis | kin | que | bis | kni | roo |
     When the following moves are made
-      | 8D->7E |
+      | <Moves> |
     Then it is the turn of White
     And Black is out of check
+    Examples:
+      | Moves  |
+      | 8D->7E |
+      | 8D->7C |
