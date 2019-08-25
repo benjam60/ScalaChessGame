@@ -74,4 +74,5 @@ case class GamePlay(currentBoard: Board, currentTurn: Color, white : Player, bla
 	private def removeCheck(gamePlay: GamePlay) : GamePlay =
 		if (currentTurn == White) gamePlay.copy(white = Player(false, false))
 	  else gamePlay.copy(black = Player(false, false))
+
 }

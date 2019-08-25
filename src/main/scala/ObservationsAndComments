@@ -3,6 +3,21 @@ TODO:
 2. Add typesafety to the board class
 3. Had a bug where I mixed up player info based on color--use type safety to fix it
 4. Pull out gameplay stuff
+5.
+
+
+For Checkmate: (how to break down this problem into smaller ones since
+there are lots of ways of causing check)
+-get the pieces or pieces that put the king in check
+-If the king can't move out of all their way or any other's way and none of the king's color
+pieces can eat them then we are in checkmate.
+
+In other words, if the king's pieces can't eat any of the opponent pieces or block their path..
+..need to think through checkmate
+
+The last piece that moved does not mean it is the piece that put it in check
+
+
 
 How do you structure the code to prevent shotgun surgery?
 
