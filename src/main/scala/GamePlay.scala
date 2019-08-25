@@ -13,9 +13,9 @@ case class GamePlay(currentBoard: Board, currentTurn: Color, white : Player, bla
 
 	def takeTurn(userInput : String) : Or[GamePlay, ErrorType] =
 		checkIfLegalMove(userInput, currentBoard, currentTurn).map { legalMove =>
-			val updatedBoard = PieceMovement.movePiece(currentBoard, legalMove)
+			val updatedBoard: Board = PieceMovement.movePiece(currentBoard, legalMove)
 			setToCheck(this.copy(currentBoard = updatedBoard)).copy(currentTurn = getOther(currentTurn))
-		}
+		}.map(removeCheck)
 
 	private def checkIfLegalMove(input : String, board : Board, colorsTurn : Color) : Or[LegalMove, ErrorType] =
 		validateInput(input).flatMap { case UnvalidatedMove(sourcePosition: BoardPosition, destinationPosition: BoardPosition) =>
@@ -70,4 +70,8 @@ case class GamePlay(currentBoard: Board, currentTurn: Color, white : Player, bla
 
   private def shouldContinueGame(input : String) : Boolean = input.toLowerCase() != "quit"
 	private val playerInCheck = Player(true, false)
+
+	private def removeCheck(gamePlay: GamePlay) : GamePlay =
+		if (currentTurn == White) gamePlay.copy(white = Player(false, false))
+	  else gamePlay.copy(black = Player(false, false))
 }

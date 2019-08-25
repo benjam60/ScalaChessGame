@@ -1,3 +1,9 @@
+TODO:
+1. If a player wants to move, make sure that the move doesn't put them in check
+2. Add typesafety to the board class
+3. Had a bug where I mixed up player info based on color--use type safety to fix it
+4. Pull out gameplay stuff
+
 How do you structure the code to prevent shotgun surgery?
 
 How do you structure the code to allow plugins? E.g. track the number of pieces
@@ -5,3 +11,5 @@ or replay certain moves
 
 How do I design the code better to incorporate adding rules such as checking for
 checkmate without doing shotgun surgery?
+
+
