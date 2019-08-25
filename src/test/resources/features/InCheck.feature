@@ -42,7 +42,7 @@ Feature: Situations where we are in check
 
 
   Scenario: If you are in check, you must get yourself out of check
-    Given It is Black's turn and their in check
+    Given It is Black's turn and they are in check
       |   | A   | B   | C   | D   | E   | F   | G   | H   |
       | 1 | ROO | KNI | BIS | QUE | KIN | BIS | KNI | ROO |
       | 2 | PAW | PAW |     | PAW | PAW | PAW | PAW | PAW |
@@ -58,7 +58,7 @@ Feature: Situations where we are in check
     And Black is in check
 
   Scenario: Black gets in check and then gets out of it
-    Given It is Black's turn and their in check
+    Given It is Black's turn and they are in check
       |   | A   | B   | C   | D   | E   | F   | G   | H   |
       | 1 | ROO | KNI | BIS | QUE | KIN | BIS | KNI | ROO |
       | 2 | PAW | PAW |     | PAW | PAW | PAW | PAW | PAW |

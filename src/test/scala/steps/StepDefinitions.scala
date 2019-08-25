@@ -27,7 +27,7 @@ class StepDefinitions extends ScalaDsl with EN {
 		runner.gamePlay = GamePlay(board, chosenColor, newPlayer, newPlayer)
 	}
 
-	Given("""^It is (Black|White)'s turn and their in check$""") { (color: String, dataTable: DataTable) =>
+	Given("""^It is (Black|White)'s turn and they are in check$""") { (color: String, dataTable: DataTable) =>
 		val board = convert(dataTable)
 		val playerInCheck = Player(isInCheck = true, isInCheckMate = false)
 		val playerNotInCheck = Player(isInCheck = false, isInCheckMate = false)
