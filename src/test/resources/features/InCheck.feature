@@ -5,14 +5,14 @@ Feature: Situations where we are in check
       |   | A   | B   | C   | D   | E   | F   | G   | H   |
       | 1 | ROO | KNI | BIS | QUE | KIN | BIS | KNI | ROO |
       | 2 | PAW | PAW | PAW |     |     | PAW | PAW | PAW |
-      | 3 |     |     |     |     | PAW |     |     |     |
+      | 3 |     |     |     | PAW | PAW |     |     |     |
       | 4 |     |     |     |     |     |     |     |     |
-      | 5 |     |     |     | PAW |     |     |     |     |
-      | 6 |     |     |     |     |     | paw |     |     |
-      | 7 | paw | paw | paw | paw |     |     | paw | paw |
-      | 8 | roo | kni | bis | que | kin | bis | kni | roo |
+      | 5 |     |     |     |     |     |     |     |     |
+      | 6 |     |     |     |     | kin |     |     |     |
+      | 7 | paw | paw | paw | paw |     | paw | paw | paw |
+      | 8 | roo | kni | bis | que |     | bis | kni | roo |
     When the following moves are made
-      | 1D->5H |
+      | 1D->4G |
     Then Black is in check
 
   Scenario: White is in Check
