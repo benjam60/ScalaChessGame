@@ -13,8 +13,7 @@ class Game(getInput : => String, writeToConsole : String => Unit) {
 	private def playGame(gamePlay: GamePlay) : Unit = {
 		printBoard(gamePlay)
 		printPrompt(gamePlay)
-
-		val resultOfTurn: Or[GamePlay, ErrorType] = gamePlay.takeTurn(getInput)
+		val resultOfTurn = gamePlay.takeTurn(getInput)
 		if (resultOfTurn.isGood) playGame(resultOfTurn.get)
 		else {
 			resultOfTurn match {
