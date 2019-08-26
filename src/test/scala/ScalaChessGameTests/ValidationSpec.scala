@@ -1,6 +1,6 @@
 package ScalaChessGameTests
 
-import ChessGame.InputValidation
+import ChessGame.{BoardPosition, InputValidation, UnvalidatedMove}
 import org.scalatest.FreeSpec
 
 class ValidationSpec extends FreeSpec {
@@ -12,6 +12,14 @@ class ValidationSpec extends FreeSpec {
 		Seq("A9->8B", ",,,,,,").foreach(in =>
 			s"$in" in {
 			assert(InputValidation.readPieces(in).isEmpty)
+			}
+		)
+	}
+
+	"Valid input" - {
+		Seq("1A->2B").foreach(in =>
+			s"$in" in {
+				assert(InputValidation.readPieces(in) == Option(UnvalidatedMove(BoardPosition(0, 0), BoardPosition(1,1))))
 			}
 		)
 	}
