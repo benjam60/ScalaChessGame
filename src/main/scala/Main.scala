@@ -1,6 +1,8 @@
 package ChessGame
 
-object Main extends App {
+import org.scalactic.{Bad, Or}
+
+class Game(getInput : => String, writeToConsole : String => Unit) {
 	private val startingColor = White
 	private val isInCheck = false
 	private val isInCheckMate = false
@@ -11,16 +13,26 @@ object Main extends App {
 	private def playGame(gamePlay: GamePlay) : Unit = {
 		printBoard(gamePlay)
 		printPrompt(gamePlay)
-		gamePlay.takeTurn(getPlayerInput()).map(playGame).badMap {
-			case GameOver => printMsg("Game Over.")
-			case _ => printMsg("Invalid Move.")
-				playGame(gamePlay)
+
+		val resultOfTurn: Or[GamePlay, ErrorType] = gamePlay.takeTurn(getInput)
+		if (resultOfTurn.isGood) playGame(resultOfTurn.get)
+		else {
+			resultOfTurn match {
+				case Bad(GameOver) => writeToConsole("Game Over.")
+				case _ => writeToConsole("Invalid Move.")
+			}
+			playGame(gamePlay)
 		}
 	}
 
-	private def printBoard(gamePlay: GamePlay) : Unit = println(BoardPrinter.toString(gamePlay.currentBoard))
-	private def printPrompt(gamePlay: GamePlay) : Unit = println(s"${gamePlay.currentTurn.toString}, type in your move <Rank><File>-><Rank><File> e.g. 2C->3C")
-	private def getPlayerInput() : String = scala.io.StdIn.readLine()
-	private def printMsg(msg : String) : Unit = println(msg)
+	private def printBoard(gamePlay: GamePlay) : Unit = writeToConsole(BoardPrinter.toString(gamePlay.currentBoard))
+	private def printPrompt(gamePlay: GamePlay) : Unit = writeToConsole(s"${gamePlay.currentTurn.toString}, type in your move <Rank><File>-><Rank><File> e.g. 2C->3C")
+
+}
+
+object Main extends App {
+	private def getPlayerInput : String = scala.io.StdIn.readLine()
+	private def writeOutput(output : String) : Unit = println(output)
+	new Game(getPlayerInput, writeOutput)
 }
 
