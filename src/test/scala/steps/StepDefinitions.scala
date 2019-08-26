@@ -6,7 +6,6 @@ import cucumber.api.DataTable
 import cucumber.api.scala.{EN, ScalaDsl}
 import steps.CucumberHelperFunctions.{convert, convertMovesToList}
 
-
 class StepDefinitions extends ScalaDsl with EN {
 
 	//ToDo: delete the runner because it is not doing anything
@@ -18,29 +17,24 @@ class StepDefinitions extends ScalaDsl with EN {
 	private val newPlayer = Player(false, false)
 
 	Given("""^a new chess game$""") { () =>
-		runner.gamePlay = GamePlay(Board(), White, newPlayer, newPlayer)
+		runner.gamePlay = GamePlay(Board(), White, Map(White -> newPlayer, Black -> newPlayer))
 	}
 
 	Given("""^It is (Black|White)'s turn and the board looks like$""") { (color: String, dataTable: DataTable) =>
 		val chosenColor = if (color == "Black") Black else White
 		val board = convert(dataTable)
-		runner.gamePlay = GamePlay(board, chosenColor, newPlayer, newPlayer)
+		runner.gamePlay = GamePlay(board, chosenColor, Map(White -> newPlayer, Black -> newPlayer))
 	}
 
 	Given("""^It is (Black|White)'s turn and they are in check$""") { (color: String, dataTable: DataTable) =>
 		val board = convert(dataTable)
-		val playerInCheck = Player(isInCheck = true, isInCheckMate = false)
-		val playerNotInCheck = Player(isInCheck = false, isInCheckMate = false)
-		if (color == "Black") runner.gamePlay = GamePlay(board, Black, white = playerNotInCheck, black = playerInCheck)
-		else runner.gamePlay = GamePlay(board, White, white = playerInCheck, black = playerNotInCheck)
+		runner.gamePlay = GamePlay(board, fromString(color),
+			Map(fromString(color) -> Player.createPlayerInCheck, BoardUtilityFunctions.getOther(fromString(color)) -> Player.createPlayerNotInCheck))
 	}
-
 
 	//it is an invalid move
 	Given("""^In a new game, it is the turn of (White|Black)""") { color: String =>
-		runner.gamePlay = GamePlay(Board(), {
-			if (color == "White") White else Black
-		}, newPlayer, newPlayer)
+		runner.gamePlay = GamePlay(Board(), fromString(color), Map(White -> newPlayer, Black -> newPlayer))
 	}
 
 	When("""^the following moves are made$""") { moves: DataTable =>
@@ -71,17 +65,17 @@ class StepDefinitions extends ScalaDsl with EN {
 	}
 
 	Then("""(Black|White) is in check""") { color: String =>
-		val player = if (color == "White") runner.gamePlay.white else runner.gamePlay.black
-		assert(player.isInCheck)
+		assert(runner.gamePlay.players(fromString(color)).isInCheck)
 	}
 
 	Then("""(Black|White) wins""") { color: String =>
-		val player = if (color == "White") runner.gamePlay.white else runner.gamePlay.black
-		assert(player.isInCheckMate)
+		assert(runner.gamePlay.players(fromString(color)).isInCheckMate)
 	}
 
 	Then("""Black is out of check""") { () =>
-		assert(!runner.gamePlay.black.isInCheck)
+		assert(!runner.gamePlay.players(Black).isInCheck)
 	}
 
+	private def fromString(input: String): Color =
+		if (input == "White") White else if (input == "Black") Black else throw new RuntimeException("Color undefined.")
 }

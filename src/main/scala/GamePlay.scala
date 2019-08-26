@@ -8,8 +8,12 @@ import scala.collection.immutable
 //use compiletime safety to ensure white and black must alternate moves
 
 case class Player(isInCheck : Boolean, isInCheckMate : Boolean)
+object Player {
+	def createPlayerInCheck = Player(true, false)
+	def createPlayerNotInCheck = Player(false, false)
+}
 
-case class GamePlay(currentBoard: Board, currentTurn: Color, white : Player, black : Player) {
+case class GamePlay(currentBoard: Board, currentTurn: Color, players : Map[Color, Player]) {
 
 	def takeTurn(userInput : String) : Or[GamePlay, ErrorType] =
 		checkIfLegalMove(userInput, currentBoard, currentTurn).map { legalMove =>
@@ -56,10 +60,7 @@ case class GamePlay(currentBoard: Board, currentTurn: Color, white : Player, bla
 	}
 
 	private def setToCheck(gamePlay: GamePlay) : GamePlay =
-		gamePlay.currentTurn match {
-			case White => if (isKingInCheck(Black, gamePlay.currentBoard)) gamePlay.copy(black = playerInCheck) else gamePlay
-			case Black => if (isKingInCheck(White, gamePlay.currentBoard)) gamePlay.copy(white = playerInCheck) else gamePlay
-		}
+	gamePlay.copy(players = players.updated(gamePlay.currentTurn, Player.createPlayerInCheck))
 
 	private def getAllPieces(board : Board, color : Color): immutable.Seq[BoardPosition] =
 	(0 until 8).flatMap(rowIndex =>
@@ -69,10 +70,9 @@ case class GamePlay(currentBoard: Board, currentTurn: Color, white : Player, bla
 	)
 
   private def shouldContinueGame(input : String) : Boolean = input.toLowerCase() != "quit"
-	private val playerInCheck = Player(true, false)
 
 	private def removeCheck(gamePlay: GamePlay) : GamePlay =
-		if (currentTurn == White) gamePlay.copy(white = Player(false, false))
-	  else gamePlay.copy(black = Player(false, false))
+		gamePlay.copy(players = players.updated(gamePlay.currentTurn, Player.createPlayerNotInCheck))
+
 
 }

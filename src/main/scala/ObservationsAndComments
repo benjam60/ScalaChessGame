@@ -4,6 +4,7 @@ TODO:
 3. Had a bug where I mixed up player info based on color--use type safety to fix it
 4. Pull out gameplay stuff
 5. Fix pawns because can move twice sometimes
+6. Handle all these conditionals for color!!! especially turn
 
 
 For Checkmate: (how to break down this problem into smaller ones since

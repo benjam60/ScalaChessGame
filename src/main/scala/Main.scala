@@ -6,7 +6,7 @@ object Main extends App {
 	private val isInCheckMate = false
 	private val whitePlayer = Player(isInCheck, isInCheckMate)
 	private val blackPlayer = Player(isInCheck, isInCheckMate)
-	playGame(GamePlay(Board(InitialBoard.state), startingColor, whitePlayer, blackPlayer))
+	playGame(GamePlay(Board(InitialBoard.state), startingColor, Map(White -> whitePlayer, Black -> blackPlayer)))
 
 	private def playGame(gamePlay: GamePlay) : Unit = {
 		printBoard(gamePlay)
