@@ -14,7 +14,7 @@ object AllPieces {
 					List(isValidPawnDiagnolCapture, destinationHasPiece).forall(f => f(board, legalMove))
 			case Black.Pawn(canMoveTwoSpaces: Boolean) =>
 				val verticalMovementRule = if (canMoveTwoSpaces) isLegalVerticalMoveTwoSpaces else isLegalVerticalMoveOneSpace
-				(!arePiecesInBetween(board, source, destination) && correctColorDirection(White.Pawn(canMoveTwoSpaces), legalMove) &&
+				(!arePiecesInBetween(board, source, destination) && correctColorDirection(Black.Pawn(canMoveTwoSpaces), legalMove) &&
 					List(verticalMovementRule, isNotCapturingPiece).forall(f => f(board, legalMove))) ||
 					List(isValidPawnDiagnolCapture, destinationHasPiece).forall(f => f(board, legalMove))
 			case Black.Knight | White.Knight => (calculateVerticalDistance(source, destination), calculateHorizontalDistance(source, destination)) match {
