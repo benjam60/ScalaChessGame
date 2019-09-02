@@ -6,6 +6,7 @@ TODO:
 5. Fix pawns because can move twice sometimes
 6. Handle all these conditionals for color!!! especially turn
 7. Pawn promotion to any piece
+8.Colored player should only be able to get their own pieces
 
 
 For Checkmate: (how to break down this problem into smaller ones since

@@ -1,6 +1,6 @@
 package steps
 
-import ChessGame.AllPieces._
+import ChessGame.SpecificPieceMovement._
 import ChessGame.{Black, Board, Color, White}
 import cucumber.api.DataTable
 

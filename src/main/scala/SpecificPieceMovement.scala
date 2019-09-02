@@ -2,7 +2,7 @@ package ChessGame //TODO BE: Fix package name
 import ChessGame.GeneralPieceMovementRules._
 import ChessGame.PieceMovementValidation.arePiecesInBetween
 
-object AllPieces {
+object SpecificPieceMovement {
 
 	def isValidMove(chessPiece: Color#ChessPiece, board: Board, source: BoardPosition, destination: BoardPosition): Boolean = {
 		val legalMove = LegalMove(source, destination)
