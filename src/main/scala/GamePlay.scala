@@ -9,15 +9,15 @@ import scala.collection.immutable
 case class Player(isInCheck: Boolean, isInCheckMate: Boolean)
 
 object Player {
-	def createPlayerInCheck = Player(true, false)
+	def createPlayerInCheck = Player(isInCheck = true, isInCheckMate = false)
 
-	def createPlayerNotInCheck = Player(false, false)
+	def createPlayerNotInCheck = Player(isInCheck = false, isInCheckMate = false)
 }
 
 case class GamePlay(currentBoard: Board, currentTurn: Color, players: Map[Color, Player]) {
 
 	def takeTurn(userInput: String): Or[GamePlay, ErrorType] =
-		checkIfLegalMove(userInput, currentBoard, currentTurn).map { legalMove =>
+		checkIfLegalMove(userInput, currentBoard).map { legalMove =>
 			val updatedBoard = PieceMovement.movePiece(currentBoard, legalMove)
 			val opponent = getOther(currentTurn)
 			if (isKingInCheck(opponent, updatedBoard))
@@ -26,24 +26,24 @@ case class GamePlay(currentBoard: Board, currentTurn: Color, players: Map[Color,
 				this.copy(currentBoard = updatedBoard)
 		}.map(removeCheck).map(_.copy(currentTurn = getOther(currentTurn)))
 
-	private def checkIfLegalMove(input: String, board: Board, colorsTurn: Color): Or[LegalMove, ErrorType] =
+	private def checkIfLegalMove(input: String, board: Board): Or[LegalMove, ErrorType] =
 		validateInput(input).flatMap { case UnvalidatedMove(sourcePosition: BoardPosition, destinationPosition: BoardPosition) =>
-			if (followsAllApplicableRules(board, sourcePosition, destinationPosition, colorsTurn)
+			if (followsAllApplicableRules(board, sourcePosition, destinationPosition)
 				&& board.get(sourcePosition).exists(piece => SpecificPieceMovement.isValidMove(piece, board, sourcePosition, destinationPosition))
 			)
 				Good(LegalMove(sourcePosition, destinationPosition)) else Bad(InvalidMove)
 		}
 
-	private def followsAllApplicableRules(board: Board, sourcePosition: BoardPosition, destinationPosition: BoardPosition, colorsTurn: Color): Boolean = {
+	private def followsAllApplicableRules(board: Board, sourcePosition: BoardPosition, destinationPosition: BoardPosition): Boolean = {
 		val isMovingPiece = AllPieceApplicableRules.sourcePieceExists(board, sourcePosition)
 		if (!isMovingPiece) {
 			println("Player isn't moving any existing piece")
 		}
-		val isNotCapturingSelf = AllPieceApplicableRules.isNotCapturingSelf(board, destinationPosition, colorsTurn)
+		val isNotCapturingSelf = AllPieceApplicableRules.isNotCapturingSelf(board, destinationPosition, currentTurn)
 		if (!isNotCapturingSelf) {
 			println("Invalid move because is capturing self")
 		}
-		val isTheMoversPiece = AllPieceApplicableRules.isMoversPiece(board, sourcePosition, colorsTurn)
+		val isTheMoversPiece = AllPieceApplicableRules.isMoversPiece(board, sourcePosition, currentTurn)
 		if (!isTheMoversPiece) {
 			println("Player is moving opponents piece")
 		}
@@ -88,8 +88,8 @@ case class GamePlay(currentBoard: Board, currentTurn: Color, players: Map[Color,
 		gamePlay.copy(players = players.updated(color, Player.createPlayerInCheck))
 
 	private def getAllPieces(board: Board, color: Color): immutable.Seq[BoardPosition] =
-		(0 until 8).flatMap(rowIndex =>
-			(0 until 8).collect { case colIndex
+		(0 until Constants.RowSize).flatMap(rowIndex =>
+			(0 until Constants.NumColumns).collect { case colIndex
 				if board.state(rowIndex)(colIndex).exists(_.colorInstance == color) =>
 				BoardPosition(rowIndex, colIndex)
 			}.toList

@@ -4,7 +4,7 @@ object PieceMovement {
 
   def movePiece(board: Board, legalMove: LegalMove): Board =
 			updateBoard(removeSourcePiece(board, legalMove.sourcePosition),
-				changePawnType(board.get(legalMove.sourcePosition).get, legalMove.sourcePosition, legalMove.destinationPosition), legalMove.destinationPosition)
+				changePawnType(board.get(legalMove.sourcePosition).get, legalMove), legalMove.destinationPosition)
 
 	private def updateBoard(board : Board, piece: Option[Color#ChessPiece], position : BoardPosition): Board = {
 		val updatedState = board.state.updated(position.rankBoardIndex, placePiece(board, piece, position))
@@ -17,8 +17,8 @@ object PieceMovement {
 	private def removeSourcePiece(board: Board, source : BoardPosition) : Board =
 		updateBoard(board, Option.empty[Color#ChessPiece], source)
 
-  private def changePawnType(pieceToMove : Color#ChessPiece, source : BoardPosition, destination : BoardPosition) : Option[Color#ChessPiece] =
-    if (Math.abs(destination.rankBoardIndex - source.rankBoardIndex) == 2) { //can abstract as Pawn!!
+  private def changePawnType(pieceToMove : Color#ChessPiece, legalMove: LegalMove) : Option[Color#ChessPiece] =
+    if (Math.abs(legalMove.destinationPosition.rankBoardIndex - legalMove.sourcePosition.rankBoardIndex) == 2) { //can abstract as Pawn!!
       if (pieceToMove == Black.Pawn(true)) Option(Black.Pawn(false))
       else if (pieceToMove == White.Pawn(true)) Option(White.Pawn(false))
       else Option(pieceToMove)
