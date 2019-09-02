@@ -30,11 +30,6 @@ object GeneralPieceMovementRules {
 	private def isLegalVerticalMove(board: Board, legalMove: LegalMove)(maxAllowableSpaces : Int) : Boolean =
 		(math.abs(legalMove.sourcePosition.rankBoardIndex - legalMove.destinationPosition.rankBoardIndex) <= maxAllowableSpaces) &&
 			(legalMove.sourcePosition.fileBoardIndex == legalMove.destinationPosition.fileBoardIndex)
-//
-//	def isCorrectDirection(source : BoardPosition, destination: BoardPosition, mover : Color) : Boolean = {
-//
-//	}
-
 
 	def noPiecesInBetween(board : Board, source : BoardPosition, destination: BoardPosition) : Boolean =
 		board.get(source).exists { piece: Color#ChessPiece =>
@@ -60,6 +55,5 @@ object GeneralPieceMovementRules {
 		} yield s.colorInstance != d.colorInstance
 		areDifferent.getOrElse(true)
 	}
-
 
 }

@@ -8,32 +8,32 @@ sealed trait Color {
 	sealed trait ChessPiece {
 		def getDisplayName: String =
 			if (color == "White") colorAgnosticDisplayName.toUpperCase else colorAgnosticDisplayName.toLowerCase
-		val colorAgnosticDisplayName : String
+		protected val colorAgnosticDisplayName : String
 		val colorInstance: Color = Color.this
 	}
 	case class Pawn(canMoveTwoSpaces : Boolean) extends ChessPiece {
 		val pieceDirection : Int = direction
-		override val colorAgnosticDisplayName: String = "Paw"
+		protected override val colorAgnosticDisplayName: String = "Paw"
 	}
 
 	object Knight extends ChessPiece {
-		override val colorAgnosticDisplayName: String = "Kni"
+		protected override val colorAgnosticDisplayName: String = "Kni"
 	}
 
 	object Rook extends ChessPiece {
-		override val colorAgnosticDisplayName: String = "Roo"
+		protected override val colorAgnosticDisplayName: String = "Roo"
 	}
 
 	object Queen extends ChessPiece {
-		override val colorAgnosticDisplayName: String = "Que"
+		protected override val colorAgnosticDisplayName: String = "Que"
 	}
 
 	object King extends ChessPiece {
-		override val colorAgnosticDisplayName: String = "Kin"
+		protected override val colorAgnosticDisplayName: String = "Kin"
 	}
 
 	object Bishop extends ChessPiece {
-		override val colorAgnosticDisplayName: String = "Bis"
+		protected override val colorAgnosticDisplayName: String = "Bis"
 
 	}
 }

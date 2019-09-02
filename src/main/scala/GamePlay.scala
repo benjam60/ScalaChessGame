@@ -88,7 +88,7 @@ case class GamePlay(currentBoard: Board, currentTurn: Color, players: Map[Color,
 		gamePlay.copy(players = players.updated(color, Player.createPlayerInCheck))
 
 	private def getAllPieces(board: Board, color: Color): immutable.Seq[BoardPosition] =
-		(0 until Constants.RowSize).flatMap(rowIndex =>
+		(0 until Constants.NumRows).flatMap(rowIndex =>
 			(0 until Constants.NumColumns).collect { case colIndex
 				if board.state(rowIndex)(colIndex).exists(_.colorInstance == color) =>
 				BoardPosition(rowIndex, colIndex)
