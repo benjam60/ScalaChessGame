@@ -1,6 +1,5 @@
 package ChessGame
 
-import ChessGame.AllPieces.King
 import ChessGame.BoardUtilityFunctions.getOther
 import org.scalactic.{Bad, Good, Or}
 
@@ -30,7 +29,7 @@ case class GamePlay(currentBoard: Board, currentTurn: Color, players: Map[Color,
 	private def checkIfLegalMove(input: String, board: Board, colorsTurn: Color): Or[LegalMove, ErrorType] =
 		validateInput(input).flatMap { case UnvalidatedMove(sourcePosition: BoardPosition, destinationPosition: BoardPosition) =>
 			if (followsAllApplicableRules(board, sourcePosition, destinationPosition, colorsTurn)
-				&& board.get(sourcePosition).exists(_.isValidMove(board, sourcePosition, destinationPosition))
+				&& board.get(sourcePosition).exists(piece => AllPieces.isValidMove(piece, board, sourcePosition, destinationPosition))
 			)
 				Good(LegalMove(sourcePosition, destinationPosition)) else Bad(InvalidMove)
 		}

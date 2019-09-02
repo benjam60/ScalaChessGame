@@ -76,3 +76,23 @@ Feature: Situations where we are in check
       | Moves  |
       | 8E->7D |
       | 8E->7E |
+
+  Scenario Outline: Black gets in check and can only block it
+    Given It is Black's turn and they are in check
+      |   | A   | B   | C   | D   | E   | F   | G   | H   |
+      | 1 |     | KNI | BIS | QUE | KIN | BIS | KNI | ROO |
+      | 2 |     | PAW | PAW | PAW | PAW | PAW | PAW | PAW |
+      | 3 |     |     |     |     | ROO |     |     |     |
+      | 4 | PAW |     |     |     |     |     |     |     |
+      | 5 |     |     |     |     |     |     |     |     |
+      | 6 |     |     |     |     |     |     |     |     |
+      | 7 | paw | paw | paw | paw |     | paw | paw | paw |
+      | 8 | roo | kni | bis | que | kin | bis | kni | roo |
+    When the following moves are made
+      | <Moves> |
+    Then it is the turn of White
+    And Black is out of check
+    Examples:
+      | Moves  |
+      | 8F->7E |
+      | 8D->7E |

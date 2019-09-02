@@ -8,7 +8,7 @@ object GeneralPieceMovementRules {
 	val isLegalVerticalMoveOneSpace = (board: Board, legalMove: LegalMove) => isLegalVerticalMove(board, legalMove)(1)
 	val isLegalVerticalMoveTwoSpaces = (board: Board, legalMove: LegalMove) => isLegalVerticalMove(board, legalMove)(2)
 	val correctColorDirection = (board: Board, legalMove: LegalMove) => {
-		val color = board.get(legalMove.sourcePosition).get.getColor
+		val color = board.get(legalMove.sourcePosition).get
 		val diff = legalMove.sourcePosition.rankBoardIndex - legalMove.destinationPosition.rankBoardIndex
 		(color.direction < 0 && diff < 0) || (color.direction > 0 && diff > 0)
 	}
@@ -35,9 +35,11 @@ object GeneralPieceMovementRules {
 
 
 	def noPiecesInBetween(board : Board, source : BoardPosition, destination: BoardPosition) : Boolean =
-		board.get(source).exists { piece: AllPieces.ChessPiece =>
-			if (!piece.isInstanceOf[Knight]) PieceMovementValidation.arePiecesInBetween(board, source, destination: BoardPosition)
-			else true
+		board.get(source).exists { piece: Color#ChessPiece =>
+			piece match {
+				case White.Knight || Black.Knight => PieceMovementValidation.arePiecesInBetween(board, source, destination)
+				case _ => true
+			}
 		}
 
 	private def calculateDistance(legalMove: LegalMove) : Distance =
