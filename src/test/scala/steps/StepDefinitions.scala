@@ -60,7 +60,7 @@ class StepDefinitions extends ScalaDsl with EN {
 	Then("""^position (.{2}) contains a (White|Black) pawn that can move once""") { (pos: String, color: String) =>
 		val rankIndex = pos(0).asDigit - 1
 		val fileIndex = pos(1) - 65
-		val expectedPiece = Pawn(canMoveTwoSpaces = false, color = if (color == "White") White else Black)
+		val expectedPiece = if (color == "White") White.Pawn(canMoveTwoSpaces = false) else Black.Pawn(canMoveTwoSpaces = false)
 		assert(actualBoard.state(rankIndex)(fileIndex) == Option(expectedPiece))
 	}
 

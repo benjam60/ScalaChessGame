@@ -23,6 +23,3 @@ Feature: Ensures all pieces' movement follows certain rules
       | 2D->4D        |
       | 2D->2D        |
 
-
-  Scenario: You can't eat your own piece
-

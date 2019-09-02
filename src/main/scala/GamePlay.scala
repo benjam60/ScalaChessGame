@@ -34,11 +34,29 @@ case class GamePlay(currentBoard: Board, currentTurn: Color, players: Map[Color,
 				Good(LegalMove(sourcePosition, destinationPosition)) else Bad(InvalidMove)
 		}
 
-	private def followsAllApplicableRules(board: Board, sourcePosition: BoardPosition, destinationPosition: BoardPosition, colorsTurn: Color): Boolean =
-		AllPieceApplicableRules.isNotCapturingSelf(board, destinationPosition, colorsTurn) &&
-			AllPieceApplicableRules.isMoversPiece(board, sourcePosition, colorsTurn) &&
-			AllPieceApplicableRules.sourcePieceExists(board, sourcePosition) &&
-			!isKingInCheck(currentTurn, PieceMovement.movePiece(board, LegalMove(sourcePosition, destinationPosition)))
+	private def followsAllApplicableRules(board: Board, sourcePosition: BoardPosition, destinationPosition: BoardPosition, colorsTurn: Color): Boolean = {
+		val isMovingPiece = AllPieceApplicableRules.sourcePieceExists(board, sourcePosition)
+		if (!isMovingPiece) {
+			println("Player isn't moving any existing piece")
+		}
+		val isNotCapturingSelf = AllPieceApplicableRules.isNotCapturingSelf(board, destinationPosition, colorsTurn)
+		if (!isNotCapturingSelf) {
+			println("Invalid move because is capturing self")
+		}
+		val isTheMoversPiece = AllPieceApplicableRules.isMoversPiece(board, sourcePosition, colorsTurn)
+		if (!isTheMoversPiece) {
+			println("Player is moving opponents piece")
+		}
+
+		if (isMovingPiece && isTheMoversPiece) {
+			val kingIsInCheck = isKingInCheck(currentTurn, PieceMovement.movePiece(board, LegalMove(sourcePosition, destinationPosition)))
+			if (kingIsInCheck) {
+				println("Move leaves mover's king in check")
+			}
+			isNotCapturingSelf && isTheMoversPiece && isMovingPiece && !kingIsInCheck
+		}
+		else false
+	}
 
 	private def validateInput(input: String): Or[UnvalidatedMove, ErrorType] =
 		if (shouldContinueGame(input)) {
@@ -48,13 +66,15 @@ case class GamePlay(currentBoard: Board, currentTurn: Color, players: Map[Color,
 	//make sure you check if the move puts the mover's king in check as well as the opponent's
 	private def isKingInCheck(color: Color, board: Board): Boolean = {
 		val kingPosition = findKing(color, board)
-		getAllPieces(board, getOther(color)).exists(boardPos =>
-			board.get(boardPos).get.isValidMove(board, boardPos, kingPosition))
+		getAllPieces(board, getOther(color)).exists { boardPos =>
+			val piece = board.get(boardPos).get
+			AllPieces.isValidMove(piece, board, boardPos, kingPosition)
+		}
 	}
 
 	private def findKing(color: Color, board: Board): BoardPosition = {
 		def traverseBoard(rowIndex: Int): BoardPosition = {
-			val columnIndexOfBlackKing = board.state(rowIndex).indexOf(Option(King(color)))
+			val columnIndexOfBlackKing = board.state(rowIndex).indexOf(Option(color.King))
 			if (columnIndexOfBlackKing > -1) {
 				BoardPosition(rowIndex, columnIndexOfBlackKing)
 			}
@@ -70,7 +90,7 @@ case class GamePlay(currentBoard: Board, currentTurn: Color, players: Map[Color,
 	private def getAllPieces(board: Board, color: Color): immutable.Seq[BoardPosition] =
 		(0 until 8).flatMap(rowIndex =>
 			(0 until 8).collect { case colIndex
-				if board.state(rowIndex)(colIndex).exists(_.getColor == color) =>
+				if board.state(rowIndex)(colIndex).exists(_.colorInstance == color) =>
 				BoardPosition(rowIndex, colIndex)
 			}.toList
 		)

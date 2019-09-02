@@ -9,24 +9,24 @@ object AllPieces {
 		chessPiece match {
 			case White.Pawn(canMoveTwoSpaces: Boolean) =>
 				val verticalMovementRule = if (canMoveTwoSpaces) isLegalVerticalMoveTwoSpaces else isLegalVerticalMoveOneSpace
-				(!arePiecesInBetween(board, source, destination) &&
-					List(verticalMovementRule, correctColorDirection, isNotCapturingPiece).forall(f => f(board, legalMove))) ||
-					List(correctColorDirection, isValidPawnDiagnolCapture, destinationHasPiece).forall(f => f(board, legalMove))
+				(!arePiecesInBetween(board, source, destination) && correctColorDirection(White.Pawn(canMoveTwoSpaces), legalMove) &&
+					List(verticalMovementRule, isNotCapturingPiece).forall(f => f(board, legalMove))) ||
+					List(isValidPawnDiagnolCapture, destinationHasPiece).forall(f => f(board, legalMove))
 			case Black.Pawn(canMoveTwoSpaces: Boolean) =>
 				val verticalMovementRule = if (canMoveTwoSpaces) isLegalVerticalMoveTwoSpaces else isLegalVerticalMoveOneSpace
-				(!arePiecesInBetween(board, source, destination) &&
-					List(verticalMovementRule, correctColorDirection, isNotCapturingPiece).forall(f => f(board, legalMove))) ||
-					List(correctColorDirection, isValidPawnDiagnolCapture, destinationHasPiece).forall(f => f(board, legalMove))
-			case Black.Knight || White.Knight => (calculateVerticalDistance(source, destination), calculateHorizontalDistance(source, destination)) match {
+				(!arePiecesInBetween(board, source, destination) && correctColorDirection(White.Pawn(canMoveTwoSpaces), legalMove) &&
+					List(verticalMovementRule, isNotCapturingPiece).forall(f => f(board, legalMove))) ||
+					List(isValidPawnDiagnolCapture, destinationHasPiece).forall(f => f(board, legalMove))
+			case Black.Knight | White.Knight => (calculateVerticalDistance(source, destination), calculateHorizontalDistance(source, destination)) match {
 				case (1, 2) => true
 				case (2, 1) => true
 				case _ => false
 			}
-			case Black.Rook || White.Rook => !arePiecesInBetween(board, source, destination) &&
+			case Black.Rook | White.Rook => !arePiecesInBetween(board, source, destination) &&
 				(calculateHorizontalDistance(source, destination) != 0 ^ calculateVerticalDistance(source, destination) != 0)
-			case Black.Queen || White.Queen => isValidMove(Black.Rook, board, source, destination) || isValidMove(Black.Bishop, board, source, destination)
-			case Black.King || White.King => List(isLegalVerticalMoveOneSpace, isLegalHorizontalMoveOneSpace, isLegalDiagonalMoveOneSpace).exists(f => f(board, legalMove))
-			case Black.Bishop || White.Bishop => calculateHorizontalDistance(source, destination) == calculateVerticalDistance(source, destination) &&
+			case Black.Queen | White.Queen => isValidMove(Black.Rook, board, source, destination) || isValidMove(Black.Bishop, board, source, destination)
+			case Black.King | White.King => List(isLegalVerticalMoveOneSpace, isLegalHorizontalMoveOneSpace, isLegalDiagonalMoveOneSpace).exists(f => f(board, legalMove))
+			case Black.Bishop | White.Bishop => calculateHorizontalDistance(source, destination) == calculateVerticalDistance(source, destination) &&
 				!arePiecesInBetweenDiagonally(board, source, destination)
 		}
 	}

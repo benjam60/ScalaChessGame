@@ -9,8 +9,10 @@ sealed trait Color {
 		def getDisplayName: String =
 			if (color == "White") colorAgnosticDisplayName.toUpperCase else colorAgnosticDisplayName.toLowerCase
 		val colorAgnosticDisplayName : String
+		val colorInstance: Color = Color.this
 	}
 	case class Pawn(canMoveTwoSpaces : Boolean) extends ChessPiece {
+		val pieceDirection : Int = direction
 		override val colorAgnosticDisplayName: String = "Paw"
 	}
 

@@ -1,7 +1,5 @@
 package ChessGame
 
-import ChessGame.AllPieces.ChessPiece
-
 //refactor this so it is easy to add and remove rules
 object PieceMovementValidation {
 

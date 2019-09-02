@@ -1,28 +1,26 @@
 package ChessGame
 
-import ChessGame.AllPieces._
-
 object PieceMovement {
 
   def movePiece(board: Board, legalMove: LegalMove): Board =
 			updateBoard(removeSourcePiece(board, legalMove.sourcePosition),
 				changePawnType(board.get(legalMove.sourcePosition).get, legalMove.sourcePosition, legalMove.destinationPosition), legalMove.destinationPosition)
 
-	private def updateBoard(board : Board, piece: Option[ChessPiece], position : BoardPosition): Board = {
+	private def updateBoard(board : Board, piece: Option[Color#ChessPiece], position : BoardPosition): Board = {
 		val updatedState = board.state.updated(position.rankBoardIndex, placePiece(board, piece, position))
 		board.copy(updatedState)
 	}
 
-	private def placePiece(board : Board, piece: Option[ChessPiece], position : BoardPosition) =
+	private def placePiece(board : Board, piece: Option[Color#ChessPiece], position : BoardPosition) =
 		board.state(position.rankBoardIndex).updated(position.fileBoardIndex, piece)
 
 	private def removeSourcePiece(board: Board, source : BoardPosition) : Board =
-		updateBoard(board, Option.empty[ChessPiece], source)
+		updateBoard(board, Option.empty[Color#ChessPiece], source)
 
-  private def changePawnType(pieceToMove : ChessPiece, source : BoardPosition, destination : BoardPosition) : Option[ChessPiece] =
+  private def changePawnType(pieceToMove : Color#ChessPiece, source : BoardPosition, destination : BoardPosition) : Option[Color#ChessPiece] =
     if (Math.abs(destination.rankBoardIndex - source.rankBoardIndex) == 2) { //can abstract as Pawn!!
-      if (pieceToMove == Pawn(true, Black)) Option(Pawn(false, Black))
-      else if (pieceToMove == Pawn(true, White)) Option(Pawn(false, White))
+      if (pieceToMove == Black.Pawn(true)) Option(Black.Pawn(false))
+      else if (pieceToMove == White.Pawn(true)) Option(White.Pawn(false))
       else Option(pieceToMove)
     } else Option(pieceToMove)
 }

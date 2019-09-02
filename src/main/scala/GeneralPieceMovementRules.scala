@@ -1,17 +1,19 @@
 package ChessGame
 
-import ChessGame.AllPieces.Knight
 
 object GeneralPieceMovementRules {
 
 	val isNotCapturingPiece = (board: Board, legalMove: LegalMove) => board.get(legalMove.destinationPosition).isEmpty
 	val isLegalVerticalMoveOneSpace = (board: Board, legalMove: LegalMove) => isLegalVerticalMove(board, legalMove)(1)
 	val isLegalVerticalMoveTwoSpaces = (board: Board, legalMove: LegalMove) => isLegalVerticalMove(board, legalMove)(2)
-	val correctColorDirection = (board: Board, legalMove: LegalMove) => {
-		val color = board.get(legalMove.sourcePosition).get
+	val correctColorDirection = (pawn : Color#ChessPiece, legalMove: LegalMove) => {
 		val diff = legalMove.sourcePosition.rankBoardIndex - legalMove.destinationPosition.rankBoardIndex
-		(color.direction < 0 && diff < 0) || (color.direction > 0 && diff > 0)
+		pawn match {
+			case White.Pawn(_) => diff < 0
+			case Black.Pawn(_) => diff > 0
+		}
 	}
+
 	val destinationHasPiece = (board: Board, legalMove: LegalMove) => board.get(legalMove.destinationPosition).isDefined
 
 	val isValidPawnDiagnolCapture = (board: Board, legalMove: LegalMove) => {
@@ -37,7 +39,7 @@ object GeneralPieceMovementRules {
 	def noPiecesInBetween(board : Board, source : BoardPosition, destination: BoardPosition) : Boolean =
 		board.get(source).exists { piece: Color#ChessPiece =>
 			piece match {
-				case White.Knight || Black.Knight => PieceMovementValidation.arePiecesInBetween(board, source, destination)
+				case White.Knight | Black.Knight => PieceMovementValidation.arePiecesInBetween(board, source, destination)
 				case _ => true
 			}
 		}
@@ -55,7 +57,7 @@ object GeneralPieceMovementRules {
 		val areDifferent = for {
 			s <- src
 			d <- dest
-		} yield s.getColor != d.getColor
+		} yield s.colorInstance != d.colorInstance
 		areDifferent.getOrElse(true)
 	}
 
